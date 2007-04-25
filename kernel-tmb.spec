@@ -1970,7 +1970,7 @@ done
 %endif
 
 # other misc files
-rm -f %{target_source}/{.config.old,.config.cmd}
+rm -f %{target_source}/{.config.old,.config.cmd,.mailmap}
 
 #endif %build_source
 %endif
