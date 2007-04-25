@@ -3,15 +3,15 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	20
+%define sublevel	21
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		0
-%define kstable		7
+%define kpatch		rc7
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -31,6 +31,7 @@
 %if %kpatch
 %define kversion  	%{kernelversion}.%{patchlevel}.%{sublevel}
 %define tar_ver	  	%{kernelversion}.%{patchlevel}.%(expr %{sublevel} - 1)
+%define patch_ver 	%{kversion}-%{kpatch}-%{ktag}%{kbuild}
 %else
 %if %kstable
 %define kversion  	%{kernelversion}.%{patchlevel}.%{sublevel}.%{kstable}
@@ -39,8 +40,8 @@
 %define kversion  	%{kernelversion}.%{patchlevel}.%{sublevel}
 %define tar_ver   	%{kversion}
 %endif
-%endif
 %define patch_ver 	%{kversion}-%{ktag}%{kbuild}
+%endif
 %define kverrel   	%{kversion}-%{rpmrel}
 
 # used for not making too long names for rpms or search paths 
@@ -2403,6 +2404,44 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Apr 25 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21-0.rc7.1mdv
+- fix patches tarball -rc versioning
+- update to kernel.org 2.6.21-rc7
+- add patch AA00: 2.6.21-rc7-git6
+- rediff patch AS01: linux-phc support
+- drop patch AX02: nmi watchdog timeout fix, merged upstream
+- update patch CE02: acpi-dsdt-initrd v0.8.4
+- update patch CK00: to SD sceduler v0.46 for 2.6.21 series
+- update patches CK01-CK24: Con Kolivas 2.6.21-rc7-ck2 patchset
+- rediff patch CR01: badram support
+- drop patch DA01: acpi update, merged upstream
+- drop patch DB01: bluetooth update, merged upstream
+- drop patches DC01-DC05: agpgart 1.0.2, merged upstream
+- drop patch DC10: drm update, merged upstream
+- drop patch DM10: mmc update, merged upstream
+- drop patch DM20: tifm update, merged upstream
+- drop patch DN03: bcm43xx speed fix, fixed differently upstream
+- add patch DN41: fixes netfilter IFWLOG, PSD, SET builds
+- update patch DN50: mac80211 v.7.0.6 (dscape stack)
+- drop patch DS01: alsa update, merged upstream
+- drop patch DU01: usb-rndis-lite, merged upstream
+- rediff patch DV01: fbsplash support
+- update patch FS01: unionfs 2.0 to 2.6.21-rc7-u1
+- drop patches FS11-FS13: supermount support
+- update patch MB30: acerhk 0.5.35
+- update patch MB40: acer_acpi 0.4
+- update patch MC20: iwlwifi 0.0.13
+- add patch MC21: fix iwlwifi includes
+- drop patches SA01-SA06: Apparmor v288
+- add patches SA01-SA41: Apparmor v564
+- update defconfigs
+
+* Mon Apr 23 2007 Thomas Backlund <tmb@mandriva.org> 2.6.20.7-5mdv
+- update patch CK00: SD scheduler v 0.46
+
+* Sat Apr 21 2007 Thomas Backlund <tmb@mandriva.org> 2.6.20.7-4mdv
+- update patch CK00: SD scheduler v 0.44
+
 * Thu Apr 19 2007 Thomas Backlund <tmb@mandriva.org> 2.6.20.7-3mdv
 - update patch CK00: SD scheduler v 0.42 and re-enable it
 - disable patches CK01-CK11,CK21,CK30: old Staircase Scheduler,
