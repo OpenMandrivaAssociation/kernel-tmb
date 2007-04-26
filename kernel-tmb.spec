@@ -7,7 +7,7 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc7
+%define kpatch		0
 %define kstable		0
 
 # this is the releaseversion
@@ -1578,7 +1578,7 @@ BuildKernel() {
 
 	%kmake all
 
-	## Start installing stuff
+# Start installing stuff
 	install -d %{temp_boot}
 	install -m 644 System.map %{temp_boot}/System.map-$KernelVer
 	install -m 644 .config %{temp_boot}/config-$KernelVer
@@ -1617,8 +1617,8 @@ SaveDevel() {
 	%endif
 	cp -fR .config Module.symvers $TempDevelRoot
 	cp -fR 3rdparty/mkbuild.pl $TempDevelRoot/3rdparty
-
-	# Needed for truecrypt build (Danny)
+	
+# Needed for truecrypt build (Danny)
 	cp -fR drivers/md/dm.h $TempDevelRoot/drivers/md/
 	
 	for i in alpha arm arm26 avr32 cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
@@ -1639,14 +1639,19 @@ SaveDevel() {
 		rm -rf $TempDevelRoot/include/asm-sparc64
 	%endif
 
-	# fix permissions
-	chmod a+rX $TempDevelRoot
+### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
+        mkdir -p $TempDevelRoot/arch/s390/crypto/
+        cp -fR arch/s390/crypto/Kconfig $TempDevelRoot/arch/s390/crypto/
+
+# fix permissions
+	chmod -R a+rX $TempDevelRoot
 
 	kernel_devel_files=../kernel_devel_files.$devel_flavour$devel_cpu
 
 ### Cteate the kernel_devel_files.*
+# defattr sets the tree to readonly to try and work around broken dkms & co
 cat > $kernel_devel_files <<EOF
-%defattr(-,root,root)
+%defattr(0444,root,root,0555)
 %dir $DevelRoot
 %dir $DevelRoot/arch
 %dir $DevelRoot/include
@@ -1656,11 +1661,13 @@ $DevelRoot/Documentation
 $DevelRoot/arch/i386
 $DevelRoot/arch/x86_64
 %endif
-$DevelRoot/arch/um
+### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
+$DevelRoot/arch/s390
 %ifarch sparc sparc64
 $DevelRoot/arch/sparc
 $DevelRoot/arch/sparc64
 %endif
+$DevelRoot/arch/um
 $DevelRoot/block
 $DevelRoot/crypto
 $DevelRoot/drivers
@@ -1673,11 +1680,11 @@ $DevelRoot/include/asm-generic
 $DevelRoot/include/asm-i386
 $DevelRoot/include/asm-x86_64
 %endif
-$DevelRoot/include/asm-um
 %ifarch sparc sparc64
 $DevelRoot/include/asm-sparc
 $DevelRoot/include/asm-sparc64
 %endif
+$DevelRoot/include/asm-um
 $DevelRoot/include/config
 $DevelRoot/include/crypto
 $DevelRoot/include/keys
@@ -1969,6 +1976,10 @@ done
 	rm -rf %{target_source}/include/asm-sparc64
 %endif
 
+### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
+        mkdir -p %{target_source}/arch/s390/crypto/
+        cp -fR arch/s390/crypto/Kconfig %{target_source}/arch/s390/crypto/
+
 # other misc files
 rm -f %{target_source}/{.config.old,.config.cmd,.mailmap}
 
@@ -2207,6 +2218,8 @@ rm -rf %{buildroot}
 %{_kerneldir}/arch/i386
 %{_kerneldir}/arch/x86_64
 %endif
+### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
+%{_kerneldir}/arch/s390
 %ifarch sparc sparc64
 %{_kerneldir}/arch/sparc
 %{_kerneldir}/arch/sparc64
@@ -2404,6 +2417,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Apr 26 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21-1mdv
+- update to kernel.org 2.6.21 final
+- drop patch AA00: 2.6.21-rc7-git6, merged upstream
+- make devel trees read-only (like in kernel-multimedia series),
+  to try and work around broken dkms & co
+- add /arch/s390/crypto/Kconfig to -devel and -source trees, fixes 
+  MDV bugs #29744, #29074 (reported against kernel-linus, but affects 
+  all post 2.6.20-rc3 series kernels, will be removed if/when fixed upstream
+
 * Wed Apr 25 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21-0.rc7.1mdv
 - fix patches tarball -rc versioning
 - update to kernel.org 2.6.21-rc7
