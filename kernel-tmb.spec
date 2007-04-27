@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1651,7 +1651,8 @@ SaveDevel() {
 ### Cteate the kernel_devel_files.*
 # defattr sets the tree to readonly to try and work around broken dkms & co
 cat > $kernel_devel_files <<EOF
-%defattr(0444,root,root,0555)
+#defattr(0444,root,root,0555)
+%defattr(-,root,root)
 %dir $DevelRoot
 %dir $DevelRoot/arch
 %dir $DevelRoot/include
@@ -2417,6 +2418,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Apr 27 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21-2mdv
+- revert read-only -devel rpms until I find a better solution...
+
 * Thu Apr 26 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21-1mdv
 - update to kernel.org 2.6.21 final
 - drop patch AA00: 2.6.21-rc7-git6, merged upstream
