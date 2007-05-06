@@ -8,10 +8,10 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -2418,6 +2418,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun May  6 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21.1-1mdv
+- update to kernel.org 2.6.21.1:
+  * IPV6: Fix for RT0 header ipv6 change
+  * IPV4: Fix OOPS'er added to netlink fib
+- add patch AI03: picopower irq router fix, found when merged into
+  kernel.org -mm series (Andrew Morton)
+- drop patch CK00: standalone SD scheduler v. 0.46
+- update patches CK01-CK23: Cons CK patchset 2.6.21-ck1,
+  now built around with the new SD scheduler v. 0.48 as base
+- add patch CK30: add Kconfig option to switch between -ck (desktop),
+  and -cks (server) oriented optimizations of the CK patchset
+- add patch DA10: adds support for ATI IXP700 SATA & AHCI
+- update defconfigs
+- update README.urpmi regarding kernel-tmb-source
+
 * Fri Apr 27 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21-2mdv
 - revert read-only -devel rpms until I find a better solution...
 
