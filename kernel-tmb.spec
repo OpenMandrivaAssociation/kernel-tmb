@@ -1584,7 +1584,7 @@ BuildKernel() {
 	install -m 644 .config %{temp_boot}/config-$KernelVer
 
 	%ifarch sparc sparc64
-		cp -f vmlinux %{temp_boot}/vmlinux-$KernelVer
+		gzip -9c vmlinux > %{temp_boot}/vmlinuz-$KernelVer
 	%else
 		cp -f arch/%{target_arch}/boot/bzImage %{temp_boot}/vmlinuz-$KernelVer
 	%endif
@@ -1754,11 +1754,7 @@ cat > $kernel_files <<EOF
 %defattr(-,root,root)
 %{_bootdir}/System.map-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
 %{_bootdir}/config-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
-%ifarch sparc sparc64
-%{_bootdir}/vmlinux-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
-%else
 %{_bootdir}/vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
-%endif
 %dir %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/
 %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/kernel
 %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/modules.*
@@ -1780,17 +1776,10 @@ grep -q -s "pcspkr" /etc/modprobe.preload || \
 /bin/echo -e "\npcspkr" >> /etc/modprobe.preload
 %endif
 pushd /boot > /dev/null
-%ifarch sparc sparc64
-if [ -L vmlinux-%{ktag}-$kernel_flavour$kernel_cpu ]; then
-	rm -f vmlinux-%{ktag}-$kernel_flavour$kernel_cpu
-fi
-ln -sf vmlinux-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu vmlinux-%{ktag}-$kernel_flavour$kernel_cpu
-%else
 if [ -L vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu ]; then
 	rm -f vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu
 fi
 ln -sf vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu
-%endif
 if [ -L initrd-%{ktag}-$kernel_flavour$kernel_cpu.img ]; then
 	rm -f initrd-%{ktag}-$kernel_flavour$kernel_cpu.img
 fi
@@ -1809,19 +1798,11 @@ EOF
 cat > $kernel_files-preun <<EOF
 /sbin/installkernel -R %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
 pushd /boot > /dev/null
-%ifarch sparc sparc64
-if [ -L vmlinux-%{ktag}-$kernel_flavour$kernel_cpu ]; then
-	if [ "ls -l vmlinux-%{ktag}-$kernel_flavour$kernel_cpu 2>/dev/null| awk '{ print $11 }'" = "vmlinux-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu" ]; then
-		rm -f vmlinux-%{ktag}-$kernel_flavour$kernel_cpu
-	fi
-fi
-%else
 if [ -L vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu ]; then
 	if [ "ls -l vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu 2>/dev/null| awk '{ print $11 }'" = "vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu" ]; then
 		rm -f vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu
 	fi
 fi
-%endif
 if [ -L initrd-%{ktag}-$kernel_flavour$kernel_cpu.img ]; then
 	if [ "ls -l initrd-%{ktag}-$kernel_flavour$kernel_cpu.img 2>/dev/null| awk '{ print $11 }'" = "initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu.img" ]; then
 		rm -f initrd-%{ktag}-$kernel_flavour$kernel_cpu.img
