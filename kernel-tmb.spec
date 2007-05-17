@@ -11,7 +11,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -687,12 +687,12 @@ Provides: 	kernel-source kernel-source-fbsplash
 Conflicts: 	%{kname}-source-stripped-%{buildrel}
 
 %description -n %{kname}-source-%{buildrel}
-The kernel-source package contains the source code files for the %{ktag} 
-Linux kernel. These source files are needed to build most C programs, since
-they depend on the constants defined in the source code. The source
-files can also be used to build a custom kernel that is better tuned to
-your particular hardware, if you are so inclined (and you know what you're
-doing).
+The %{kname}-source package contains the source code files for the %{ktag} 
+series Linux kernel. Theese source files are only needed if you want to
+build your own custom kernel that is better tuned to your particular hardware.
+
+If you only want the files needed to build 3rdparty (nVidia, Ati, dkms-*,...)
+drivers against, install the *-devel-* rpm that is matching your kernel.
 
 %{upinfo1}
 %{upinfo2}
@@ -2399,6 +2399,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu May 17 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21.1-2mdv
+- gzip kernel (and thereby rename it consistently to vmlinuz) 
+  on sparc too (peroyvind)
+- add patch CK24: Swap Prefetch bugfixes and optimizations,
+  brings the code to 2.6.21-ck2 level (Con Kolivas)
+- redo patch DA10: change it to full ATI IXP700 support:
+  * IDE, PATA, SATA, AHCI, I2C, SMBUS
+- add patch SA50: fix include/linux/security.h missing parameter,
+  needed on sparc builds (peroyvind, #30700)
+- enable CONFIG_TIMER_STATS (request by Michael Braun)
+- update kernel-tmb-source description to point out:
+  * only needed when building own kernels
+  * othervise install a mztching -devel- rpm
+  
 * Sun May  6 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21.1-1mdv
 - update to kernel.org 2.6.21.1:
   * IPV6: Fix for RT0 header ipv6 change
