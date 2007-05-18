@@ -1987,7 +1987,7 @@ done
 # we really need the depmod -ae here
 pushd %{target_modules}
 for i in *; do
-	/sbin/depmod-25 -u -ae -b %{buildroot} -r -F %{target_boot}/System.map-$i $i
+	/sbin/depmod -u -ae -b %{buildroot} -r -F %{target_boot}/System.map-$i $i
 	echo $?
 done
 
@@ -2399,7 +2399,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Thu May 17 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21.1-2mdv
+* Fri May 18 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21.1-2mdv
 - gzip kernel (and thereby rename it consistently to vmlinuz) 
   on sparc too (peroyvind)
 - add patch CK24: Swap Prefetch bugfixes and optimizations,
@@ -2412,6 +2412,7 @@ rm -rf %{buildroot}
 - update kernel-tmb-source description to point out:
   * only needed when building own kernels
   * othervise install a mztching -devel- rpm
+- /sbin/depmod-25 is now renamed to /sbin/depmod
   
 * Sun May  6 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21.1-1mdv
 - update to kernel.org 2.6.21.1:
