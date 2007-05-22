@@ -3,15 +3,15 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	21
+%define sublevel	22
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		0
-%define kstable		1
+%define kpatch		rc2
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1621,7 +1621,7 @@ SaveDevel() {
 # Needed for truecrypt build (Danny)
 	cp -fR drivers/md/dm.h $TempDevelRoot/drivers/md/
 	
-	for i in alpha arm arm26 avr32 cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
+	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
 	done
@@ -1940,7 +1940,7 @@ chmod -R a+rX %{target_source}
 
 # we remove all the source files that we don't ship
 # first architecture files
-for i in alpha arm arm26 avr32 cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
+for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 	rm -rf %{target_source}/arch/$i
 	rm -rf %{target_source}/include/asm-$i
 done
@@ -1963,7 +1963,7 @@ done
         cp -fR arch/s390/crypto/Kconfig %{target_source}/arch/s390/crypto/
 
 # other misc files
-rm -f %{target_source}/{.config.old,.config.cmd,.mailmap}
+rm -f %{target_source}/{.config.old,.config.cmd,.mailmap,.missing-syscalls.d}
 
 #endif %build_source
 %endif
@@ -2399,6 +2399,34 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May 22 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc2.1mdv
+- update to kernel.org 2.6.22-rc2
+- add patch AX10: High Resolution Timer Support & Tickless System
+  Support to x86_64 & Sparc64 (request by Thierry Vignaud)
+- update patches CK01-CK30: Con Kolivas -ck patchset 2.6.22-rc2-ck1
+- drop patch DA10: ati ixp700 support, merged upstream
+- drop patches DI10, DI11: eth1394 autoload blocking, merged upstream
+- add patch DN42: fix ipt_psd build
+- add patch DN43: fix ipt_IFWLOG build
+- drop patch DN50: dscape wireless stack, merged upstream
+- rediff patch DV01: fbsplash support
+- update patch FS01: unionfs 2.0: 2.6.22-rc2-u2
+- update patch MB10: ndiswrapper 1.45-rc1
+- add patch MB11: fix ndiswrapper srctree location
+- add patch MB21: fix squashfs inode build
+- update patches MC20, MC21: iwlwifi 0.0.18
+- rediff patch NB01: bluetooth-alsa support
+- update patches SA01-SA45: AppArmor 2.0.2-662
+- drop patch SA50: missing security.h parameter, merged upstream
+- remove blackfin arch files
+- disable CONFIG_IRQBALANCE on i386-smp, in favour of the better
+  working userspace irqbalance daemon from contribs (Requested by Austin)
+- disable a few options:
+  * IP_NF_SET: needs more fixes to work with 2.6.22-rc2+ kernels
+  * UNION_FS: needs to be adapted for AppArmor
+  * IWLWIFI: need to be adapted for 2.6.22-rc2+ kernels
+- update defconfigs
+
 * Fri May 18 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21.1-2mdv
 - gzip kernel (and thereby rename it consistently to vmlinuz) 
   on sparc too (peroyvind)
