@@ -7,7 +7,7 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc2
+%define kpatch		rc3
 %define kstable		0
 
 # this is the releaseversion
@@ -683,12 +683,12 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The Linux source code for %{kname}-%{buildrel}  
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash
 Conflicts: 	%{kname}-source-stripped-%{buildrel}
 
 %description -n %{kname}-source-%{buildrel}
-The %{kname}-source package contains the source code files for the %{ktag} 
-series Linux kernel. Theese source files are only needed if you want to
+The %{kname}-source package contains the source code files for the %{ktag}
+series Linux kernel. Theese source files are only needed if you want to 
 build your own custom kernel that is better tuned to your particular hardware.
 
 If you only want the files needed to build 3rdparty (nVidia, Ati, dkms-*,...)
@@ -718,7 +718,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The kernel-devel files for %{kname}-desktop586-%{buildrel} 
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash kernel-devel
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-desktop586-devel-%{buildrel}
 This package contains the kernel-devel files that should be enough to build
@@ -751,7 +751,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The kernel-devel files for %{kname}-desktop586-smp-%{buildrel} 
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash kernel-devel
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-desktop586-smp-devel-%{buildrel}
 This package contains the kernel-devel files that should be enough to build
@@ -784,7 +784,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The kernel-devel files for %{kname}-desktop-%{buildrel} 
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash kernel-devel
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-desktop-devel-%{buildrel}
 This package contains the kernel-devel files that should be enough to build
@@ -817,7 +817,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The kernel-devel files for %{kname}-desktop-smp-%{buildrel} 
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash kernel-devel
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-desktop-smp-devel-%{buildrel}
 This package contains the kernel-devel files that should be enough to build
@@ -850,7 +850,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The kernel-devel files for %{kname}-laptop-%{buildrel} 
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash kernel-devel
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-laptop-devel-%{buildrel}
 This package contains the kernel-devel files that should be enough to build
@@ -883,7 +883,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The kernel-devel files for %{kname}-laptop-smp-%{buildrel} 
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash kernel-devel
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-laptop-smp-devel-%{buildrel}
 This package contains the kernel-devel files that should be enough to build
@@ -916,7 +916,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The kernel-devel files for %{kname}-server-%{buildrel} 
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash kernel-devel
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-server-devel-%{buildrel}
 This package contains the kernel-devel files that should be enough to build
@@ -949,7 +949,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The kernel-devel files for %{kname}-server-smp-%{buildrel} 
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source kernel-source-fbsplash kernel-devel
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-server-smp-devel-%{buildrel}
 This package contains the kernel-devel files that should be enough to build
@@ -2399,6 +2399,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed May 30 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc3.1mdv
+- update to kernel.org 2.6.22-rc3
+- update patch AX10: High Resolution Timer Support & Tickless System
+- update patches CK01-CK30: 2.6.22-rc3-ck1 patchset
+- update patch MB60: ipw3945 1.2.1
+- add patch MB61: fix ipw3945 Kconfig to work with 2.6.22+ series kernels
+- drop patch CP01: cpu hotplug Kconfig depencies fix, shouldnt be needed anymore
+- provide versioned kernel-devel and kernel-source (MDV #31006)
+
 * Tue May 22 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc2.1mdv
 - update to kernel.org 2.6.22-rc2
 - add patch AX10: High Resolution Timer Support & Tickless System
