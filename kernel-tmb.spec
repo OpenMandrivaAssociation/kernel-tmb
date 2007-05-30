@@ -2403,6 +2403,7 @@ rm -rf %{buildroot}
 - update to kernel.org 2.6.22-rc3
 - update patch AX10: High Resolution Timer Support & Tickless System
 - update patches CK01-CK30: 2.6.22-rc3-ck1 patchset
+- add patch MB22: add missng include linux/sched.h to fix squashfs build
 - update patch MB60: ipw3945 1.2.1
 - add patch MB61: fix ipw3945 Kconfig to work with 2.6.22+ series kernels
 - drop patch CP01: cpu hotplug Kconfig depencies fix, shouldnt be needed anymore
