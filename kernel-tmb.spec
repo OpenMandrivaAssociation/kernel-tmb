@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -2399,6 +2399,22 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jun  4 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc3.2mdv
+- update patch AX10: High Resolution Timer Support & Tickless System
+  2.6.22-rc3-hrt2
+- disable patches CK01-CK30: Con Kolivas 2.6.22-rc3-ck1 patchset
+- add patch CF01: Ingo Molnar's CFS-v15 Scheduler (Request by Thierry)
+- update patch MB40: acer_acpi 0.5 (requested by Zé)
+- redo patch MB61: really fix ipw3945 Kconfig for 2.6.22-rc2+
+- add patch MB72: fix rt2400 Kconfig for 2.6.22-rc2+
+- add patch MB83: fix rt2500 Kconfig for 2.6.22-rc2+
+- add patch MB91: fix rt2570 Kconfig for 2.6.22-rc2+
+- add patch MC03: fix rt61 Kconfig for 2.6.22-rc2+
+- add patch rt73: fix rt73 Kconfig for 2.6.22-rc2+
+- enable CONFIG_SND_AC97_POWER_SAVE (requested by Austin)
+- change from X86_BIGSMP to X86_GENERICARCH for ix86 smp configs
+- update defconfigs
+
 * Wed May 30 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc3.1mdv
 - update to kernel.org 2.6.22-rc3
 - update patch AX10: High Resolution Timer Support & Tickless System
