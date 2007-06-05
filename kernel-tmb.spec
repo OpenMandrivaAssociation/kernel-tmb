@@ -7,11 +7,11 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc3
+%define kpatch		rc4
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -2399,12 +2399,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jun  5 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc4.1mdv
+- update to kernel.org 2.6.22-rc4
+- rediff patch AX10: High Resolution Timer Support & Tickless System
+- rediff patch CF01: Ingo Molnar's CFS-v15 Scheduler
+
 * Mon Jun  4 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc3.2mdv
 - update patch AX10: High Resolution Timer Support & Tickless System
   2.6.22-rc3-hrt2
 - disable patches CK01-CK30: Con Kolivas 2.6.22-rc3-ck1 patchset
 - add patch CF01: Ingo Molnar's CFS-v15 Scheduler (Request by Thierry)
-- update patch MB40: acer_acpi 0.5 (requested by Zé)
+- update patch MB40: acer_acpi 0.5 (requested by Ze)
 - redo patch MB61: really fix ipw3945 Kconfig for 2.6.22-rc2+
 - add patch MB72: fix rt2400 Kconfig for 2.6.22-rc2+
 - add patch MB83: fix rt2500 Kconfig for 2.6.22-rc2+
