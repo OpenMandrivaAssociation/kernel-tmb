@@ -2403,6 +2403,7 @@ rm -rf %{buildroot}
 - update to kernel.org 2.6.22-rc4
 - rediff patch AX10: High Resolution Timer Support & Tickless System
 - rediff patch CF01: Ingo Molnar's CFS-v15 Scheduler
+- add patch CF02: fix CFS smpboot mismerge on i386
 
 * Mon Jun  4 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc3.2mdv
 - update patch AX10: High Resolution Timer Support & Tickless System
