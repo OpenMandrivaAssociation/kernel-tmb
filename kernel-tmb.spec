@@ -978,7 +978,7 @@ for i in *; do
 	pushd $i
 	echo "Creating module.description for $i"
 	modules=`find . -name "*.ko.gz"`
-	echo $modules | xargs /sbin/modinfo-25 \
+	echo $modules | xargs /sbin/modinfo \
 	| perl -lne 'print "$name\t$1" if $name && /^description:\s*(.*)/; $name = $1 if m!^filename:\s*(.*)\.k?o!; $name =~ s!.*/!!' > modules.description
 	popd
 done
@@ -1098,6 +1098,7 @@ rm -rf %{buildroot}
 - update patch CF01: Ingo Molnar's CFS-v16 Scheduler
 - drop patch CF02: CFS smpboot mismerge fix, not needed anymore
 - add new patch CF02: fix SCED_IDLEPRIO to actually be usable
+- /sbin/modinfo-25 is now renamed to /sbin/modinfo
 - update defconfigs
 
 * Tue Jun  5 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc4.1mdv
