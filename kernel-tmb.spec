@@ -184,23 +184,22 @@ Source10: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}
 
 # Defines for the things that are needed for all the kernels
 #
-%define common_description_kernel The kernel package contains the Linux kernel (vmlinuz), the core of your \
-Mandriva Linux operating system.  The kernel handles the basic functions \
-of the operating system:  memory allocation, process allocation, device \
-input and output, etc.
+%define kinfo1 	The kernel package contains the Linux kernel (vmlinuz), the core of your
+%define kinfo2 	Mandriva Linux operating system.  The kernel handles the basic functions
+%define kinfo3 	of the operating system:  memory allocation, process allocation, device
 
-%define common_description_info For instructions for update, see:	\
-http://www.mandriva.com/security/kernelupdate				\
-									\
-The %{ktag} kernels is an experimental kernel based on the kernel.org	\
-kernels with added patches. Some of them may/will never end up in	\
-the main kernels due to their experimental nature. Some refer to	\
-this kernel as a 'hackkernel' ...					\
-Use these kernels at your own risk !!					\
-									\
-If you want more info on the various %{kname} flavours, please visit:	\
-http://www.iki.fi/tmb/Kernels/
+%define upinfo1	For instructions for update, see:
+%define upinfo2	http://www.mandriva.com/security/kernelupdate
 
+%define info1 	The %{ktag} kernels is an experimental kernel based on the kernel.org 
+%define info2 	kernels with added patches. Some of them may/will never end up in
+%define info3 	the main kernels due to their experimental nature. Some refer to
+%define info4 	this kernel as a 'hackkernel' ...
+%define info5 	Use these kernels at your own risk !!
+
+%define info10 	If you want more info on the various %{kname} flavours, please visit:
+%define info11 	http://www.iki.fi/tmb/Kernels/
+ 
 ### Global Requires/Provides
 %define requires1 	mkinitrd >= 4.2.17-%mkrel 20
 %define requires2 	bootloader-utils >= 1.12-%mkrel 1
@@ -210,235 +209,472 @@ http://www.iki.fi/tmb/Kernels/
 
 BuildRoot: 		%{_tmppath}/%{kname}-%{kversion}-build
 Autoreqprov: 		no
+Requires(pre): 		%requires1
+Requires(pre): 		%requires2
+Requires(pre): 		%requires3
 BuildRequires: 		gcc >= 4.0.1-%mkrel 5 module-init-tools >= 3.2-0.pre8.%mkrel 2
 
 %description
-%common_description_kernel
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc.
 
-%common_description_info
+%{upinfo1}
+%{upinfo2}
 
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
 
-# mkflavour() name flavour processor
-# name: the flavour name in the package name
-# flavour: first parameter of CreateKernel()
-# processor: second parameter of CreateKernel()
-
-%define mkflavour()					\
-%package -n %{kname}-%{1}-%{buildrel}			\
-Version:	%{fakever}				\
-Release:	%{fakerel}				\
-Provides:	%kprovides				\
-Requires(pre):	%requires1 %requires2 %requires3	\
-Summary:	%{expand:%{summary_%(echo %{1} | sed -e "s/-/_/")}}	\
-Group:		System/Kernel and hardware		\
-%description -n %{kname}-%{1}-%{buildrel}		\
-%common_description_kernel %{expand:%{info_%(echo %{1} | sed -e "s/-/_/")}}	\
-							\
-%common_description_info				\
-							\
-%package -n	%{kname}-%{1}-devel-%{buildrel}		\
-Version:	%{fakever}				\
-Release:	%{fakerel}				\
-Requires:	glibc-devel ncurses-devel make gcc perl	\
-Summary:	The kernel-devel files for %{kname}-%{1}-%{buildrel} \
-Group:		Development/Kernel			\
-Provides:	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel} \
-%description -n %{kname}-%{1}-devel-%{buildrel}		\
-This package contains the kernel-devel files that should be enough to build \
-3rdparty drivers against for use with %{kname}-%{1}-%{buildrel}. \
-							\
-If you want to build your own kernel, you need to install the full \
-%{kname}-source-%{buildrel} rpm.			\
-							\
-%common_description_info				\
-							\
-%package -n %{kname}-%{1}-latest			\
-Version:	%{kversion}				\
-Release:	%{rpmrel}				\
-Summary:	Virtual rpm for latest %{kname}-%{1}	\
-Group:		System/Kernel and hardware		\
-Requires:	%{kname}-%{1}-%{buildrel}		\
-%description -n %{kname}-%{1}-latest			\
-This package is a virtual rpm that aims to make sure you always have the \
-latest %{kname}-%{1} installed...			\
-							\
-%common_description_info				\
-							\
-%package -n %{kname}-%{1}-devel-latest			\
-Version:	%{kversion}				\
-Release:	%{rpmrel}				\
-Summary:	Virtual rpm for latest %{kname}-%{1}-devel \
-Group:		Development/Kernel			\
-Requires:	%{kname}-%{1}-devel-%{buildrel}		\
-Obsoletes:	%{kname}-%{1}-headers-latest		\
-%description -n %{kname}-%{1}-devel-latest		\
-This package is a virtual rpm that aims to make sure you always have the \
-latest %{kname}-%{1}-devel installed...			\
-							\
-%common_description_info				\
-							\
-%post -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{2}%{?3}-post \
-%preun -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{2}%{?3}-preun \
-%postun -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{2}%{?3}-postun \
-							\
-%post -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{2}%{?3}-post \
-%preun -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{2}%{?3}-preun \
-							\
-%files -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{2}%{?3} \
-%files -n %{kname}-%{1}-latest				\
-%defattr(-,root,root)					\
-							\
-%if %build_devel					\
-%files -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{2}%{?3} \
-%files -n %{kname}-%{1}-devel-latest			\
-%defattr(-,root,root)					\
-%endif
+%{info10}
+%{info11}
 
 
-%ifarch %{ix86}
+
 #
 # kernel-tmb-desktop586: i586, up, 1GB
 #
 
-%if %build_desktop586_up
-%define summary_desktop586 Linux kernel for desktop use with i586-up-1GB
-%define info_desktop586 This kernel is compiled for desktop use, single \
-i586 processor/core and less than 1GB RAM (usually 870-900MB detected), \
+%package -n %{kname}-desktop586-%{buildrel}
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Provides: 	%kprovides
+Requires(pre): 	%requires1
+Requires(pre): 	%requires2
+Requires(pre): 	%requires3
+Summary: 	Linux kernel for desktop use with i586-up-1GB 
+Group: 		System/Kernel and hardware
+
+%description -n %{kname}-desktop586-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for desktop use, single
+i586 processor/core and less than 1GB RAM (usually 870-900MB detected),
 using voluntary preempt and cfq scheduler.
-%mkflavour desktop586 desktop smp-i586
-%endif
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
 
 #
 # kernel-desktop586-smp: i586, smp, 1GB
 #
 
-%if %build_desktop586_smp
-%define summary_desktop586_smp Linux kernel for desktop use with i586-smp-1GB
-%define info_desktop586_smp This kernel is compiled for desktop use, multiple \
-i586 processors/cores and less than 1GB RAM (usually 870-900MB detected), \
-using voluntary preempt and cfq scheduler.
-%mkflavour desktop586-smp desktop -i586
-%endif
+%package -n %{kname}-desktop586-smp-%{buildrel}
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Provides: 	%kprovides
+Requires(pre): 	%requires1
+Requires(pre): 	%requires2
+Requires(pre): 	%requires3
+Summary: 	Linux kernel for desktop use with i586-smp-1GB 
+Group: 		System/Kernel and hardware
 
-%endif
+%description -n %{kname}-desktop586-smp-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for desktop use, multiple
+i586 processors/cores and less than 1GB RAM (usually 870-900MB detected),
+using voluntary preempt and cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
 
 #
 # kernel-tmb-desktop: i686, up, 4 GB / x86_64
 #
-
-%if %build_desktop_up
+%package -n %{kname}-desktop-%{buildrel}
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Provides: 	%kprovides
+Requires(pre): 	%requires1
+Requires(pre): 	%requires2
+Requires(pre): 	%requires3
 %ifarch %{ix86}
-%define summary_desktop Linux Kernel for desktop use with i686-up-4GB
-%define info_desktop This kernel is compiled for desktop use, single \
-i686 processor/core and less than 4GB RAM, using voluntary preempt and \
-cfq scheduler.
+Summary: 	Linux Kernel for desktop use with i686-up-4GB
 %else
-%define summary_desktop Linux Kernel for desktop use with %{_arch}-up
-%define info_desktop This kernel is compiled for desktop use, single \
-%{_arch} processor/core, using voluntary preempt and cfq scheduler.
+Summary: 	Linux Kernel for desktop use with x86_64-up
 %endif
-%mkflavour desktop desktop
+Group: 		System/Kernel and hardware
+
+%ifarch %{ix86}
+%description -n %{kname}-desktop-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for desktop use, single
+i686 processor/core and less than 4GB RAM, using voluntary preempt and 
+cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+%else
+%description -n %{kname}-desktop-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for desktop use, single
+x86_64 processor/core, using voluntary preempt and cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
 %endif
+
+
 
 #
 # kernel-tmb-desktop-smp: i686, smp, 4 GB / x86_64
 #
-
-%if %build_desktop_smp
+%package -n %{kname}-desktop-smp-%{buildrel}
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Provides: 	%kprovides
+Requires(pre): 	%requires1
+Requires(pre): 	%requires2
+Requires(pre): 	%requires3
 %ifarch %{ix86}
-%define summary_desktop_smp Linux Kernel for desktop use with i686-smp-4GB
-%define info_desktop_smp This kernel is compiled for desktop use, multiple \
-i686 processors/cores and less than 4GB RAM, using voluntary preempt and \
-cfq scheduler.
+Summary: 	Linux Kernel for desktop use with i686-smp-4GB
 %else
-%define summary_desktop_smp Linux Kernel for desktop use with %{_arch}-smp
-%define info_desktop_smp This kernel is compiled for desktop use, multiple \
-%{_arch} processors/cores, using voluntary preempt and cfq scheduler.
+Summary: 	Linux Kernel for desktop use with x86_64-smp
 %endif
-%mkflavour desktop-smp desktop smp
+Group: 		System/Kernel and hardware
+
+%ifarch %{ix86}
+%description -n %{kname}-desktop-smp-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for desktop use, multiple
+i686 processors/cores and less than 4GB RAM, using voluntary preempt and 
+cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+%else
+%description -n %{kname}-desktop-smp-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for desktop use, multiple
+x86_64 processors/cores, using voluntary preempt and cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
 %endif
+
+
 
 #
 # kernel-tmb-laptop: i686, up, 4GB / x86_64
 #
-
-%if %build_laptop_up
+%package -n %{kname}-laptop-%{buildrel}
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Provides: 	%kprovides
+Requires(pre): 	%requires1
+Requires(pre): 	%requires2
+Requires(pre): 	%requires3
 %ifarch %{ix86}
-%define summary_laptop Linux kernel for laptop use with i686-up-4GB
-%define info_laptop This kernel is compiled for laptop use, single \
-i686 processor/core and less than 4GB RAM, using HZ_100 to save battery, \
-voluntary preempt and cfq scheduler, and some other laptop-specific \
-optimizations. If you want to sacrifice battery life for performance, \
-you better use the %{kname}-desktop686.
+Summary: 	Linux kernel for laptop use with i686-up-4GB 
 %else
-%define summary_laptop Linux kernel for laptop use with %{_arch}
-%define info_laptop This kernel is compiled for laptop use, single \
-%{_arch} processor/core, using HZ_100 to save battery, voluntary preempt \
-and cfq scheduler, and some other laptop-specific optimizations. If you \
-want to sacrifice battery life for performance, you better use the \
+Summary: 	Linux kernel for laptop use with x86_64
+%endif
+Group: 		System/Kernel and hardware
+
+%ifarch %{ix86}
+%description -n %{kname}-laptop-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for laptop use, single
+i686 processor/core and less than 4GB RAM, using HZ_100 to save battery,
+voluntary preempt and cfq scheduler, and some other laptop-specific
+optimizations. If you want to sacrifice battery life for performance,
+you better use the %{kname}-desktop686.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+%else
+%description -n %{kname}-laptop-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for laptop use, single
+x86_64 processor/core, using HZ_100 to save battery, voluntary preempt 
+and cfq scheduler, and some other laptop-specific optimizations. If you 
+want to sacrifice battery life for performance, you better use the 
 %{kname}-desktop.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
 %endif
-%mkflavour laptop laptop
-%endif
+
+
 
 #
 # kernel-laptop-smp: i686, smp, 4GB / x86_64
 #
-
-%if %build_laptop_smp
-%ifarch %{ix86}
-%define summary_laptop_smp Linux kernel for laptop use with i686-smp-4GB
-%define info_laptop_smp This kernel is compiled for laptop use, multiple \
-i686 processors/cores and less than 4GB RAM, using HZ_100 to save battery, \
-voluntary preempt and cfq scheduler, and some other laptop-specific \
-optimizations. If you want to sacrifice battery life for performance, \
-you better use the %{kname}-desktop686-smp.
+%package -n %{kname}-laptop-smp-%{buildrel}
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Provides: 	%kprovides
+Requires(pre): 	%requires1
+Requires(pre): 	%requires2
+Requires(pre): 	%requires3
+%ifarch{ix86}
+Summary: 	Linux kernel for laptop use with i686-smp-4GB 
 %else
-%define summary_laptop_smp Linux kernel for laptop use with %{_arch}
-%define info_laptop_smp This kernel is compiled for laptop use, multiple \
-%{_arch} processors/cores, using HZ_100 to save battery, voluntary preempt \
-and cfq scheduler, and some other laptop-specific optimizations. If you \
-want to sacrifice battery life for performance, you better use the \
+Summary: 	Linux kernel for laptop use with x86_64-smp
+%endif 
+Group: 		System/Kernel and hardware
+
+%ifarch{ix86}
+%description -n %{kname}-laptop-smp-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for laptop use, multiple
+i686 processors/cores and less than 4GB RAM, using HZ_100 to save battery,
+voluntary preempt and cfq scheduler, and some other laptop-specific
+optimizations. If you want to sacrifice battery life for performance,
+you better use the %{kname}-desktop686-smp.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+%else
+%description -n %{kname}-laptop-smp-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for desktop use, multiple
+x86_64 processors/cores, using HZ_100 to save battery, voluntary preempt 
+and cfq scheduler, and some other laptop-specific optimizations. If you 
+want to sacrifice battery life for performance, you better use the 
 %{kname}-desktop-smp.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
 %endif
-%mkflavour laptop-smp laptop smp
-%endif
+
+
 
 #
 # kernel-tmb-server: i686, up, 64 GB /x86_64
 #
-
-%if %build_server_up
+%package -n %{kname}-server-%{buildrel}
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Provides: 	%kprovides
+Requires(pre): 	%requires1
+Requires(pre): 	%requires2
+Requires(pre): 	%requires3
 %ifarch %{ix86}
-%define summary_server Linux Kernel for server use with i686-up-64GB
-%define info_server This kernel is compiled for server use, single \
-i686 processor/core and less than 64GB RAM, using no preempt and \
-cfq scheduler.
+Summary: 	Linux Kernel for server use with i686-up-64GB
 %else
-%define summary_server Linux Kernel for server use with %{_arch}
-%define info_server This kernel is compiled for server use, single \
-%{_arch} processor/core, using no preempt and cfq scheduler.
+Summary: 	Linux Kernel for server use with x86_64
 %endif
-%mkflavour server server
+Group: 		System/Kernel and hardware
+
+%ifarch{ix86}
+%description -n %{kname}-server-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for server use, single
+i686 processor/core and less than 64GB RAM, using no preempt and 
+cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+%else
+%description -n %{kname}-server-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for server use, single
+x86_64 processor/core, using no preempt and cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
 %endif
+
+
 
 #
 # kernel-tmb-server-smp: i686, smp, 64 GB /x86_64
 #
-
-%if %build_server_smp
-%ifarch %{ix86}
-%define summary_server_smp Linux Kernel for server use with i686-smp-64GB
-%define info_server_smp This kernel is compiled for server use, multiple \
-i686 processors/cores and less than 64GB RAM, using no preempt and \
-cfq scheduler.
+%package -n %{kname}-server-smp-%{buildrel}
+Version: 	%{fakever}
+Release:	%{fakerel}
+Provides: 	%kprovides
+Requires(pre): 	%requires1
+Requires(pre): 	%requires2
+Requires(pre): 	%requires3
+%ifarch{ix86}
+Summary: 	Linux Kernel for server use with i686-smp-64GB
 %else
-%define summary_server_smp Linux Kernel for server use with %{_arch}-smp
-%define info_server_smp This kernel is compiled for server use, multiple \
-%{_arch} processors/cores, using no preempt and cfq scheduler.
+Summary: 	Linux Kernel for server use with x86_64-smp
 %endif
-%mkflavour server-smp server smp
+Group: 		System/Kernel and hardware
+
+%ifarch{ix86}
+%description -n %{kname}-server-smp-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for server use, multiple
+i686 processors/cores and less than 4GB RAM, using no preempt and 
+cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+%else
+%description -n %{kname}-server-smp-%{buildrel}
+%{kinfo1}
+%{kinfo2}
+%{kinfo3}
+input and output, etc. This kernel is compiled for server use, multiple
+x86_64 processors/cores, using no preempt and cfq scheduler.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
 %endif
+
+
 
 #
 # kernel-tmb-source
@@ -461,7 +697,283 @@ build your own custom kernel that is better tuned to your particular hardware.
 If you only want the files needed to build 3rdparty (nVidia, Ati, dkms-*,...)
 drivers against, install the *-devel-* rpm that is matching your kernel.
 
-%common_description_info
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop586-devel
+#
+%package -n	%{kname}-desktop586-devel-%{buildrel} 
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Summary: 	The kernel-devel files for %{kname}-desktop586-%{buildrel} 
+Group: 		Development/Kernel
+Autoreqprov: 	no
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+
+%description -n %{kname}-desktop586-devel-%{buildrel}
+This package contains the kernel-devel files that should be enough to build
+3rdparty drivers against for use with %{kname}-desktop586-%{buildrel}.
+
+If you want to build your own kernel, you need to install the full
+%{kname}-source-%{buildrel} rpm.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop586-smp-devel
+#
+%package -n	%{kname}-desktop586-smp-devel-%{buildrel} 
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Summary: 	The kernel-devel files for %{kname}-desktop586-smp-%{buildrel} 
+Group: 		Development/Kernel
+Autoreqprov: 	no
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+
+%description -n %{kname}-desktop586-smp-devel-%{buildrel}
+This package contains the kernel-devel files that should be enough to build
+3rdparty drivers against for use with %{kname}-desktop586-smp-%{buildrel}.
+
+If you want to build your own kernel, you need to install the full
+%{kname}-source-%{buildrel} rpm.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop-devel
+#
+%package -n	%{kname}-desktop-devel-%{buildrel} 
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Summary: 	The kernel-devel files for %{kname}-desktop-%{buildrel} 
+Group: 		Development/Kernel
+Autoreqprov: 	no
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+
+%description -n %{kname}-desktop-devel-%{buildrel}
+This package contains the kernel-devel files that should be enough to build
+3rdparty drivers against for use with %{kname}-desktop-%{buildrel}.
+
+If you want to build your own kernel, you need to install the full
+%{kname}-source-%{buildrel} rpm.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop-smp-devel
+#
+%package -n	%{kname}-desktop-smp-devel-%{buildrel} 
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Summary: 	The kernel-devel files for %{kname}-desktop-smp-%{buildrel} 
+Group: 		Development/Kernel
+Autoreqprov: 	no
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+
+%description -n %{kname}-desktop-smp-devel-%{buildrel}
+This package contains the kernel-devel files that should be enough to build
+3rdparty drivers against for use with %{kname}-desktop-smp-%{buildrel}.
+
+If you want to build your own kernel, you need to install the full
+%{kname}-source-%{buildrel} rpm.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-laptop-devel
+#
+%package -n	%{kname}-laptop-devel-%{buildrel} 
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Summary: 	The kernel-devel files for %{kname}-laptop-%{buildrel} 
+Group: 		Development/Kernel
+Autoreqprov: 	no
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+
+%description -n %{kname}-laptop-devel-%{buildrel}
+This package contains the kernel-devel files that should be enough to build
+3rdparty drivers against for use with %{kname}-laptop-%{buildrel}.
+
+If you want to build your own kernel, you need to install the full
+%{kname}-source-%{buildrel} rpm.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-laptop-smp-devel
+#
+%package -n	%{kname}-laptop-smp-devel-%{buildrel} 
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Summary: 	The kernel-devel files for %{kname}-laptop-smp-%{buildrel} 
+Group: 		Development/Kernel
+Autoreqprov: 	no
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+
+%description -n %{kname}-laptop-smp-devel-%{buildrel}
+This package contains the kernel-devel files that should be enough to build
+3rdparty drivers against for use with %{kname}-laptop-smp-%{buildrel}.
+
+If you want to build your own kernel, you need to install the full
+%{kname}-source-%{buildrel} rpm.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-server-devel
+#
+%package -n	%{kname}-server-devel-%{buildrel} 
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Summary: 	The kernel-devel files for %{kname}-server-%{buildrel} 
+Group: 		Development/Kernel
+Autoreqprov: 	no
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+
+%description -n %{kname}-server-devel-%{buildrel}
+This package contains the kernel-devel files that should be enough to build
+3rdparty drivers against for use with %{kname}-server-%{buildrel}.
+
+If you want to build your own kernel, you need to install the full
+%{kname}-source-%{buildrel} rpm.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-server-smp-devel
+#
+%package -n	%{kname}-server-smp-devel-%{buildrel} 
+Version: 	%{fakever}
+Release: 	%{fakerel}
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Summary: 	The kernel-devel files for %{kname}-server-smp-%{buildrel} 
+Group: 		Development/Kernel
+Autoreqprov: 	no
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+
+%description -n %{kname}-server-smp-devel-%{buildrel}
+This package contains the kernel-devel files that should be enough to build
+3rdparty drivers against for use with %{kname}-server-smp-%{buildrel}.
+
+If you want to build your own kernel, you need to install the full
+%{kname}-source-%{buildrel} rpm.
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
 
 #
 # kernel-tmb-doc: documentation for the Linux kernel
@@ -479,7 +991,243 @@ shipped with it are documented in these files. You also might want install
 this package if you need a reference to the options that can be passed to 
 Linux kernel modules at load time.
 
-%common_description_info
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop586-latest: virtual rpm
+#
+%package -n %{kname}-desktop586-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-desktop586
+Group:   	System/Kernel and hardware
+Requires: 	%{kname}-desktop586-%{buildrel}
+
+%description -n %{kname}-desktop586-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-desktop586 installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop586-smp-latest: virtual rpm
+#
+%package -n %{kname}-desktop586-smp-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-desktop586-smp
+Group:   	System/Kernel and hardware
+Requires: 	%{kname}-desktop586-smp-%{buildrel}
+
+%description -n %{kname}-desktop586-smp-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-desktop586-smp installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop-latest: virtual rpm
+#
+%package -n %{kname}-desktop-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-desktop
+Group:   	System/Kernel and hardware
+Requires: 	%{kname}-desktop-%{buildrel}
+
+%description -n %{kname}-desktop-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-desktop installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop-smp-latest: virtual rpm
+#
+%package -n %{kname}-desktop-smp-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-desktop-smp
+Group:   	System/Kernel and hardware
+Requires: 	%{kname}-desktop-smp-%{buildrel}
+
+%description -n %{kname}-desktop-smp-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-desktop-smp installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-laptop-latest: virtual rpm
+#
+%package -n %{kname}-laptop-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-laptop
+Group:   	System/Kernel and hardware
+Requires: 	%{kname}-laptop-%{buildrel}
+
+%description -n %{kname}-laptop-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-laptop installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-laptop-smp-latest: virtual rpm
+#
+%package -n %{kname}-laptop-smp-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-laptop-smp
+Group:   	System/Kernel and hardware
+Requires: 	%{kname}-laptop-smp-%{buildrel}
+
+%description -n %{kname}-laptop-smp-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-laptop-smp installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-server-latest: virtual rpm
+#
+%package -n %{kname}-server-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-server
+Group:   	System/Kernel and hardware
+Requires: 	%{kname}-server-%{buildrel}
+
+%description -n %{kname}-server-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-server installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-server-smp-latest: virtual rpm
+#
+%package -n %{kname}-server-smp-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-server-smp
+Group:   	System/Kernel and hardware
+Requires: 	%{kname}-server-smp-%{buildrel}
+
+%description -n %{kname}-server-smp-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-server-smp installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
 
 #
 # kernel-tmb-source-latest: virtual rpm
@@ -496,7 +1244,251 @@ Conflicts: 	%{kname}-source-stripped-latest
 This package is a virtual rpm that aims to make sure you always have the
 latest %{kname}-source installed...
 
-%common_description_info
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop586-devel-latest: virtual rpm
+#
+%package -n %{kname}-desktop586-devel-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-desktop586-devel
+Group:   	Development/Kernel
+Requires: 	%{kname}-desktop586-devel-%{buildrel}
+Obsoletes:	%{kname}-desktop586-headers-latest
+
+%description -n %{kname}-desktop586-devel-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-desktop586-devel installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop586-smp-devel-latest: virtual rpm
+#
+%package -n %{kname}-desktop586-smp-devel-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-desktop586-smp-devel
+Group:   	Development/Kernel
+Requires: 	%{kname}-desktop586-smp-devel-%{buildrel}
+Obsoletes:	%{kname}-desktop586-smp-headers-latest
+
+%description -n %{kname}-desktop586-smp-devel-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-desktop586-smp-devel installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop-devel-latest: virtual rpm
+#
+%package -n %{kname}-desktop-devel-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-desktop-devel
+Group:   	Development/Kernel
+Requires: 	%{kname}-desktop-devel-%{buildrel}
+Obsoletes:	%{kname}-desktop-headers-latest
+
+%description -n %{kname}-desktop-devel-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-desktop-devel installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-desktop-smp-devel-latest: virtual rpm
+#
+%package -n %{kname}-desktop-smp-devel-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-desktop-smp-devel
+Group:   	Development/Kernel
+Requires: 	%{kname}-desktop-smp-devel-%{buildrel}
+Obsoletes:	%{kname}-desktop-smp-headers-latest
+
+%description -n %{kname}-desktop-smp-devel-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-desktop-smp-devel installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-laptop-devel-latest: virtual rpm
+#
+%package -n %{kname}-laptop-devel-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-laptop-devel
+Group:   	Development/Kernel
+Requires: 	%{kname}-laptop-devel-%{buildrel}
+Obsoletes:	%{kname}-laptop-headers-latest
+
+%description -n %{kname}-laptop-devel-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-laptop-devel installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-laptop-smp-devel-latest: virtual rpm
+#
+%package -n %{kname}-laptop-smp-devel-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-laptop-smp-devel
+Group:   	Development/Kernel
+Requires: 	%{kname}-laptop-smp-devel-%{buildrel}
+Obsoletes:	%{kname}-laptop-smp-headers-latest
+
+%description -n %{kname}-laptop-smp-devel-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-laptop-smp-devel installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-server-devel-latest: virtual rpm
+#
+%package -n %{kname}-server-devel-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-server-devel
+Group:   	Development/Kernel
+Requires: 	%{kname}-server-devel-%{buildrel}
+Obsoletes:	%{kname}-server-headers-latest
+
+%description -n %{kname}-server-devel-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-server-devel installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
+
+#
+# kernel-tmb-server-smp-devel-latest: virtual rpm
+#
+%package -n %{kname}-server-smp-devel-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-server-smp-devel
+Group:   	Development/Kernel
+Requires: 	%{kname}-server-smp-devel-%{buildrel}
+Obsoletes:	%{kname}-server-smp-headers-latest
+
+%description -n %{kname}-server-smp-devel-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-server-smp-devel installed...
+
+%{upinfo1}
+%{upinfo2}
+
+%{info1}
+%{info2}
+%{info3}
+%{info4}
+%{info5}
+
+%{info10}
+%{info11}
+
+
 
 #
 # End packages - here begins build stage
@@ -521,6 +1513,7 @@ cd %src_dir
 # PATCH END
 
 
+
 #
 # Setup Begin
 #
@@ -542,6 +1535,7 @@ LC_ALL=C perl -p -i -e "s/^SUBLEVEL.*/SUBLEVEL = %{sublevel}/" Makefile
 find . -name '*~' -o -name '*.orig' -o -name '*.append' |xargs rm -f
 
 
+
 %build
 # Common target directories
 %define _kerneldir /usr/src/%{kversion}-%{ktag}-%{buildrpmrel}
@@ -555,12 +1549,15 @@ find . -name '*~' -o -name '*.orig' -o -name '*.append' |xargs rm -f
 %define temp_modules %{temp_root}%{_modulesdir}
 
 
+
 PrepareKernel() {
 	name=$1
 	extension=$2
 	echo "Make dep for kernel $extension"
 	%smake -s mrproper
 
+	# We can't use only defconfig anymore because we have the autoconf patch,
+	
 	if [ $name = ""]; then
 	    cp arch/%{target_arch}/defconfig-maximum .config
 	else
@@ -575,6 +1572,7 @@ PrepareKernel() {
 %endif
 	%smake oldconfig
 }
+
 
 
 BuildKernel() {
@@ -598,6 +1596,7 @@ BuildKernel() {
 	install -d %{temp_modules}/$KernelVer
 	%smake INSTALL_MOD_PATH=%{temp_root} KERNELRELEASE=$KernelVer modules_install 
 }
+
 
 
 SaveDevel() {
@@ -746,6 +1745,7 @@ EOF
 }
 
 
+
 CreateFiles() {
 	kernel_flavour=$1
 	kernel_cpu=$2
@@ -831,6 +1831,7 @@ EOF
 }
 
 
+
 CreateKernel() {
 	flavour=$1
 	processor=$2
@@ -845,14 +1846,17 @@ CreateKernel() {
 }
 
 
+
 ###
 # DO it...
 ###
 
 
+
 # Create a simulacro of buildroot
 rm -rf %{temp_root}
 install -d %{temp_root}
+
 
 
 #make sure we are in the directory
@@ -893,12 +1897,14 @@ CreateKernel server ""
 %endif
 
 
+
 # We don't make to repeat the depend code at the install phase
 %if %build_source
     PrepareKernel "" %{buildrpmrel}%{ktag}custom
 %smake -s prepare
 %smake -s scripts
 %endif
+
 
 
 ###
@@ -911,14 +1917,20 @@ install -m 644 %{SOURCE6}  README.urpmi
 
 cd %src_dir
 
+
+
 # Directories definition needed for installing
 %define target_source %{buildroot}%{_kerneldir}
 %define target_boot %{buildroot}%{_bootdir}
 %define target_modules %{buildroot}%{_modulesdir}
 
+
+
 # We want to be able to test several times the install part
 rm -rf %{buildroot}
 cp -a %{temp_root} %{buildroot}
+
+
 
 # Create directories infastructure
 %if %build_source
@@ -926,6 +1938,8 @@ install -d %{target_source}
 
 tar cf - . | tar xf - -C %{target_source}
 chmod -R a+rX %{target_source}
+
+
 
 # we remove all the source files that we don't ship
 # first architecture files
@@ -957,14 +1971,20 @@ rm -f %{target_source}/{.config.old,.config.cmd,.mailmap,.missing-syscalls.d}
 #endif %build_source
 %endif
 
+
+
 # gzipping modules
 find %{target_modules} -name "*.ko" | xargs gzip -9
+
+
 
 # We used to have a copy of PrepareKernel here
 # Now, we make sure that the thing in the linux dir is what we want it to be
 for i in %{target_modules}/*; do
   rm -f $i/build $i/source $i/modules.*
 done
+
+
 
 # sniff, if we gzipped all the modules, we change the stamp :(
 # we really need the depmod -ae here
@@ -992,14 +2012,183 @@ popd
 rm -rf %{buildroot}
 
 
+
 # We don't want to remove this, the whole reason of its existence is to be 
 # able to do several rpm --short-circuit -bi for testing install 
 # phase without repeating compilation phase
 #rm -rf %{temp_root} 
 
+
+
 ###
-### source and doc file lists
+### scripts
 ###
+
+# desktop586 scripts
+%post -n %{kname}-desktop586-%{buildrel} -f kernel_files.desktop-i586-post
+
+%preun -n %{kname}-desktop586-%{buildrel} -f kernel_files.desktop-i586-preun
+
+%postun -n %{kname}-desktop586-%{buildrel} -f kernel_files.desktop-i586-postun
+
+
+
+# desktop586-smp scripts
+%post -n %{kname}-desktop586-smp-%{buildrel} -f kernel_files.desktopsmp-i586-post
+
+%preun -n %{kname}-desktop586-smp-%{buildrel} -f kernel_files.desktopsmp-i586-preun
+
+%postun -n %{kname}-desktop586-smp-%{buildrel} -f kernel_files.desktopsmp-i586-postun
+
+
+
+# desktop scripts
+%post -n %{kname}-desktop-%{buildrel} -f kernel_files.desktop-post
+
+%preun -n %{kname}-desktop-%{buildrel} -f kernel_files.desktop-preun
+
+%postun -n %{kname}-desktop-%{buildrel} -f kernel_files.desktop-postun
+
+
+
+# desktop-smp scripts
+%post -n %{kname}-desktop-smp-%{buildrel} -f kernel_files.desktopsmp-post
+
+%preun -n %{kname}-desktop-smp-%{buildrel} -f kernel_files.desktopsmp-preun
+
+%postun -n %{kname}-desktop-smp-%{buildrel} -f kernel_files.desktopsmp-postun
+
+
+
+# laptop scripts
+%post -n %{kname}-laptop-%{buildrel} -f kernel_files.laptop-post
+
+%preun -n %{kname}-laptop-%{buildrel} -f kernel_files.laptop-preun
+
+%postun -n %{kname}-laptop-%{buildrel} -f kernel_files.laptop-postun
+
+
+
+# laptop-smp scripts
+%post -n %{kname}-laptop-smp-%{buildrel} -f kernel_files.laptopsmp-post
+
+%preun -n %{kname}-laptop-smp-%{buildrel} -f kernel_files.laptopsmp-preun
+
+%postun -n %{kname}-laptop-smp-%{buildrel} -f kernel_files.laptopsmp-postun
+
+
+
+# server scripts
+%post -n %{kname}-server-%{buildrel} -f kernel_files.server-post
+
+%preun -n %{kname}-server-%{buildrel} -f kernel_files.server-preun
+
+%postun -n %{kname}-server-%{buildrel} -f kernel_files.server-postun
+
+
+
+# server-smp scripts
+%post -n %{kname}-server-smp-%{buildrel} -f kernel_files.serversmp-post
+
+%preun -n %{kname}-server-smp-%{buildrel} -f kernel_files.serversmp-preun
+
+%postun -n %{kname}-server-smp-%{buildrel} -f kernel_files.serversmp-postun
+
+
+
+### kernel-desktop586-devel
+%post -n %{kname}-desktop586-devel-%{buildrel} -f kernel_devel_files.desktop-i586-post
+
+%preun -n %{kname}-desktop586-devel-%{buildrel} -f kernel_devel_files.desktop-i586-preun
+
+
+
+### kernel-desktop586-smp-devel
+%post -n %{kname}-desktop586-smp-devel-%{buildrel} -f kernel_devel_files.desktopsmp-i586-post
+
+%preun -n %{kname}-desktop586-smp-devel-%{buildrel} -f kernel_devel_files.desktopsmp-i586-preun
+
+
+
+### kernel-desktop-devel
+%post -n %{kname}-desktop-devel-%{buildrel} -f kernel_devel_files.desktop-post
+
+%preun -n %{kname}-desktop-devel-%{buildrel} -f kernel_devel_files.desktop-preun
+
+
+
+### kernel-desktop-smp-devel
+%post -n %{kname}-desktop-smp-devel-%{buildrel} -f kernel_devel_files.desktopsmp-post
+
+%preun -n %{kname}-desktop-smp-devel-%{buildrel} -f kernel_devel_files.desktopsmp-preun
+
+
+
+### kernel-laptop-devel
+%post -n %{kname}-laptop-devel-%{buildrel} -f kernel_devel_files.laptop-post
+
+%preun -n %{kname}-laptop-devel-%{buildrel} -f kernel_devel_files.laptop-preun
+
+
+
+### kernel-laptop-smp-devel
+%post -n %{kname}-laptop-smp-devel-%{buildrel} -f kernel_devel_files.laptopsmp-post
+
+%preun -n %{kname}-laptop-smp-devel-%{buildrel} -f kernel_devel_files.laptopsmp-preun
+
+
+
+### kernel-server-devel
+%post -n %{kname}-server-devel-%{buildrel} -f kernel_devel_files.server-post
+
+%preun -n %{kname}-server-devel-%{buildrel} -f kernel_devel_files.server-preun
+
+
+
+### kernel-server-smp-devel
+%post -n %{kname}-server-smp-devel-%{buildrel} -f kernel_devel_files.serversmp-post
+
+%preun -n %{kname}-server-smp-devel-%{buildrel} -f kernel_devel_files.serversmp-preun
+
+
+
+###
+### file lists
+###
+
+%ifarch %{ix86}
+%if %build_desktop586_up
+%files -n %{kname}-desktop586-%{buildrel} -f kernel_files.desktop-i586
+%endif
+
+%if %build_desktop586_smp
+%files -n %{kname}-desktop586-smp-%{buildrel} -f kernel_files.desktopsmp-i586
+%endif
+%endif
+
+%if %build_desktop_up
+%files -n %{kname}-desktop-%{buildrel} -f kernel_files.desktop
+%endif
+
+%if %build_desktop_smp
+%files -n %{kname}-desktop-smp-%{buildrel} -f kernel_files.desktopsmp
+%endif
+
+%if %build_laptop_up
+%files -n %{kname}-laptop-%{buildrel} -f kernel_files.laptop
+%endif
+
+%if %build_laptop_smp
+%files -n %{kname}-laptop-smp-%{buildrel} -f kernel_files.laptopsmp
+%endif
+
+%if %build_server_up
+%files -n %{kname}-server-%{buildrel} -f kernel_files.server
+%endif
+
+%if %build_server_smp
+%files -n %{kname}-server-smp-%{buildrel} -f kernel_files.serversmp
+%endif
 
 %if %build_source
 %files -n %{kname}-source-%{buildrel}
@@ -1074,10 +2263,43 @@ rm -rf %{buildroot}
 %doc README.kernel-%{ktag}-sources
 %doc README.urpmi
 #endif build_source
+%endif
 
-%files -n %{kname}-source-latest
-%defattr(-,root,root)
+%if %build_devel
+%ifarch %{ix86}
+%if %build_desktop586_up
+%files -n %{kname}-desktop586-devel-%{buildrel} -f kernel_devel_files.desktop-i586
+%endif
 
+%if %build_desktop586_smp
+%files -n %{kname}-desktop586-smp-devel-%{buildrel} -f kernel_devel_files.desktopsmp-i586
+%endif
+%endif
+
+%if %build_desktop_up
+%files -n %{kname}-desktop-devel-%{buildrel} -f kernel_devel_files.desktop
+%endif
+
+%if %build_desktop_smp
+%files -n %{kname}-desktop-smp-devel-%{buildrel} -f kernel_devel_files.desktopsmp
+%endif
+
+%if %build_laptop_up
+%files -n %{kname}-laptop-devel-%{buildrel} -f kernel_devel_files.laptop
+%endif
+
+%if %build_laptop_smp
+%files -n %{kname}-laptop-smp-devel-%{buildrel} -f kernel_devel_files.laptopsmp
+%endif
+
+%if %build_server_up
+%files -n %{kname}-server-devel-%{buildrel} -f kernel_devel_files.server
+%endif
+
+%if %build_server_smp
+%files -n %{kname}-server-smp-devel-%{buildrel} -f kernel_devel_files.serversmp
+%endif
+#endif build_devel
 %endif
 
 %if %build_doc
@@ -1086,12 +2308,104 @@ rm -rf %{buildroot}
 %doc linux-%{tar_ver}/Documentation/*
 %endif
 
+%ifarch %{ix86}
+%if %build_desktop586_up
+%files -n %{kname}-desktop586-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_desktop586_smp
+%files -n %{kname}-desktop586-smp-latest
+%defattr(-,root,root)
+%endif
+%endif
+
+%if %build_desktop_up
+%files -n %{kname}-desktop-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_desktop_smp
+%files -n %{kname}-desktop-smp-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_laptop_up
+%files -n %{kname}-laptop-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_laptop_smp
+%files -n %{kname}-laptop-smp-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_server_up
+%files -n %{kname}-server-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_server_smp
+%files -n %{kname}-server-smp-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_source
+%files -n %{kname}-source-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_devel
+%ifarch %{ix86}
+%if %build_desktop586_up
+%files -n %{kname}-desktop586-devel-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_desktop586_smp
+%files -n %{kname}-desktop586-smp-devel-latest
+%defattr(-,root,root)
+%endif
+%endif
+
+%if %build_desktop_up
+%files -n %{kname}-desktop-devel-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_desktop_smp
+%files -n %{kname}-desktop-smp-devel-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_laptop_up
+%files -n %{kname}-laptop-devel-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_laptop_smp
+%files -n %{kname}-laptop-smp-devel-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_server_up
+%files -n %{kname}-server-devel-latest
+%defattr(-,root,root)
+%endif
+
+%if %build_server_smp
+%files -n %{kname}-server-smp-devel-latest
+%defattr(-,root,root)
+%endif
+#endif build_devel
+%endif
+
 %changelog
 * Sun Jun 10 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc4.2mdv
 - macroizing spec file, shortens it by ~1300 lines (BIG thanks goes
   to Anssi for providing the patch)
 - fix macroizing to work with -smp flavour descriptions and summarys
-- enable building of laptop(-smp) flavours for ix86 & x86_64 to start 
+- enable building of laptop(-smp) flavours for ix86 & x86_64 to start
   streamlining the defconfigs & optimizations
 - update patch AX10: High Resolution Timer Support & Tickless System
   2.6.22-rc4-hrt6
@@ -1100,6 +2414,8 @@ rm -rf %{buildroot}
 - add new patch CF02: fix SCED_IDLEPRIO to actually be usable
 - /sbin/modinfo-25 is now renamed to /sbin/modinfo
 - update defconfigs
+- SIGH... Revert macroizing spec file for now as the new rpm does
+  not work with it, so it needs to be reworked :-(
 
 * Tue Jun  5 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc4.1mdv
 - update to kernel.org 2.6.22-rc4
