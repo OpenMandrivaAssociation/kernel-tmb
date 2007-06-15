@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1087,6 +1087,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jun 16 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc4.4mdv
+- update patch AX10:  High Resolution Timer Support & Tickless System
+  2.6.22-rc4-hrt10
+- update patch CF01:  Ingo Molnar's CFS-v17 Scheduler
+- drop patch CF02: merged upstream
+
 * Wed Jun 13 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc4.3mdv
 - macroized spec file is back (Thanks again Anssi)
 - update patch AX10: High Resolution Timer Support & Tickless System
