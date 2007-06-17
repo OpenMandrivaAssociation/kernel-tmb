@@ -7,11 +7,11 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc4
+%define kpatch		rc5
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1087,10 +1087,19 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jun 17 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc5.1mdv
+- update to kernel.org 2.6.22-rc5
+- update patch AX10: High Resolution Timer Support & Tickless System 
+  2.6.22-rc5-hrt1
+- add patches DS01,DS02: Alsa pcspeaker support on ix86 (pkarlsen, #31058)
+- update patch FS01: unionfs 2.0 2.6.22-rc4-u1
+- add patch FS02: fix unionfs build to work with AppArmor patchset
+- update defconfigs
+
 * Sat Jun 16 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc4.4mdv
-- update patch AX10:  High Resolution Timer Support & Tickless System
+- update patch AX10: High Resolution Timer Support & Tickless System
   2.6.22-rc4-hrt10
-- update patch CF01:  Ingo Molnar's CFS-v17 Scheduler
+- update patch CF01: Ingo Molnar's CFS-v17 Scheduler
 - drop patch CF02: merged upstream
 
 * Wed Jun 13 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc4.3mdv
