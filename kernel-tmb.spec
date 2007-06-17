@@ -1092,6 +1092,7 @@ rm -rf %{buildroot}
 - update patch AX10: High Resolution Timer Support & Tickless System 
   2.6.22-rc5-hrt1
 - add patches DS01,DS02: Alsa pcspeaker support on ix86 (pkarlsen, #31058)
+- disable CONFIG_SND_PCSP, still broken
 - update patch FS01: unionfs 2.0 2.6.22-rc4-u1
 - add patch FS02: fix unionfs build to work with AppArmor patchset
 - update defconfigs
