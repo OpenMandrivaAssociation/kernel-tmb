@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -70,46 +70,34 @@
 
 # Build desktop i586 / 1GB
 %ifarch %{ix86}
-%define build_desktop586_up  	1
-%define build_desktop586_smp 	1
+%define build_desktop586	1
 %endif
 
 # Build mm (i686 / 4GB) / x86_64 / sparc64 sets
-%define build_desktop_up  	1
-%define build_desktop_smp 	1
+%define build_desktop		1
 
 # Build laptop (i686 / 4GB)/ x86_64
 %ifarch %{ix86} x86_64
-%define build_laptop_up  	1
-%define build_laptop_smp 	1
+%define build_laptop		1
 %endif
 
 # Build server (i686 / 64GB)/x86_64 / sparc64 sets
-%define build_server_up  	1
-%define build_server_smp 	1
+%define build_server		1
 
 # End of user definitions
-%{?_without_desktop586_up: %global build_desktop586_up 0}
-%{?_without_desktop586_smp: %global build_desktop586_smp 0}
-%{?_without_desktop_up: %global build_desktop_up 0}
-%{?_without_desktop_smp: %global build_desktop_smp 0}
-%{?_without_laptop_up: %global build_laptop_up 0}
-%{?_without_laptop_smp: %global build_laptop_smp 0}
-%{?_without_server_up: %global build_server_up 0}
-%{?_without_server_smp: %global build_server_smp 0}
+%{?_without_desktop586: %global build_desktop586 0}
+%{?_without_desktop: %global build_desktop 0}
+%{?_without_laptop: %global build_laptop 0}
+%{?_without_server: %global build_server 0}
 %{?_without_doc: %global build_doc 0}
 %{?_without_source: %global build_source 0}
 %{?_without_devel: %global build_devel 0}
 %{?_without_debug: %global build_debug 0}
 
-%{?_with_desktop586_up: %global build_desktop586_up 1}
-%{?_with_desktop586_smp: %global build_desktop586_smp 1}
-%{?_with_desktop_up: %global build_desktop_up 1}
-%{?_with_desktop_smp: %global build_desktop_smp 1}
-%{?_with_laptop_up: %global build_laptop_up 1}
-%{?_with_laptop_smp: %global build_laptop_smp 1}
-%{?_with_server_up: %global build_server_up 1}
-%{?_with_server_smp: %global build_server_smp 1}
+%{?_with_desktop586: %global build_desktop586 1}
+%{?_with_desktop: %global build_desktop 1}
+%{?_with_laptop: %global build_laptop 1}
+%{?_with_server: %global build_server 1}
 %{?_with_doc: %global build_doc 1}
 %{?_with_source: %global build_source 1}
 %{?_with_devel: %global build_devel 1}
@@ -221,18 +209,16 @@ BuildRequires: 		gcc >= 4.0.1-%mkrel 5 module-init-tools >= 3.2-0.pre8.%mkrel 2
 # mkflavour() name flavour processor
 # name: the flavour name in the package name
 # flavour: first parameter of CreateKernel()
-# processor: second parameter of CreateKernel()
-
 %define mkflavour()					\
 %package -n %{kname}-%{1}-%{buildrel}			\
 Version:	%{fakever}				\
 Release:	%{fakerel}				\
 Provides:	%kprovides				\
 Requires(pre):	%requires1 %requires2 %requires3	\
-Summary:	%{expand:%{summary_%(echo %{1} | sed -e "s/-/_/")}}	\
+Summary:	%{expand:%{summary_%(echo %{1})}}	\
 Group:		System/Kernel and hardware		\
 %description -n %{kname}-%{1}-%{buildrel}		\
-%common_description_kernel %{expand:%{info_%(echo %{1} | sed -e "s/-/_/")}}	\
+%common_description_kernel %{expand:%{info_%(echo %{1})}} \
 							\
 %common_description_info				\
 							\
@@ -242,7 +228,7 @@ Release:	%{fakerel}				\
 Requires:	glibc-devel ncurses-devel make gcc perl	\
 Summary:	The kernel-devel files for %{kname}-%{1}-%{buildrel} \
 Group:		Development/Kernel			\
-Provides:	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel} \
+Provides:	kernel-devel = %{kverrel} 		\
 %description -n %{kname}-%{1}-devel-%{buildrel}		\
 This package contains the kernel-devel files that should be enough to build \
 3rdparty drivers against for use with %{kname}-%{1}-%{buildrel}. \
@@ -258,6 +244,7 @@ Release:	%{rpmrel}				\
 Summary:	Virtual rpm for latest %{kname}-%{1}	\
 Group:		System/Kernel and hardware		\
 Requires:	%{kname}-%{1}-%{buildrel}		\
+Obsoletes:	%{kname}-%{1}-smp-latest <= 2.6.22-0.rc5.%{expand:%mkrel 1} \
 %description -n %{kname}-%{1}-latest			\
 This package is a virtual rpm that aims to make sure you always have the \
 latest %{kname}-%{1} installed...			\
@@ -270,26 +257,26 @@ Release:	%{rpmrel}				\
 Summary:	Virtual rpm for latest %{kname}-%{1}-devel \
 Group:		Development/Kernel			\
 Requires:	%{kname}-%{1}-devel-%{buildrel}		\
-Obsoletes:	%{kname}-%{1}-headers-latest		\
+Obsoletes:	%{kname}-%{1}-smp-devel-latest <= 2.6.22-0.rc5.%{expand:%mkrel 1} \
 %description -n %{kname}-%{1}-devel-latest		\
 This package is a virtual rpm that aims to make sure you always have the \
 latest %{kname}-%{1}-devel installed...			\
 							\
 %common_description_info				\
 							\
-%post -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{2}-post \
-%preun -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{2}-preun \
-%postun -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{2}-postun \
+%post -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1}-post \
+%preun -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1}-preun \
+%postun -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1}-postun \
 							\
-%post -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{2}-post \
-%preun -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{2}-preun \
+%post -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{1}-post \
+%preun -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{1}-preun \
 							\
-%files -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{2} \
+%files -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1} \
 %files -n %{kname}-%{1}-latest				\
 %defattr(-,root,root)					\
 							\
 %if %build_devel					\
-%files -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{2} \
+%files -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{1} \
 %files -n %{kname}-%{1}-devel-latest			\
 %defattr(-,root,root)					\
 %endif
@@ -297,151 +284,102 @@ latest %{kname}-%{1}-devel installed...			\
 
 %ifarch %{ix86}
 #
-# kernel-tmb-desktop586: i586, up, 1GB
+# kernel-desktop586: i586, smp-alternatives, 1GB
 #
 
-%if %build_desktop586_up
-%define summary_desktop586 Linux kernel for desktop use with i586-up-1GB
-%define info_desktop586 This kernel is compiled for desktop use, single \
-i586 processor/core and less than 1GB RAM (usually 870-900MB detected), \
-using voluntary preempt and cfq scheduler.
-%mkflavour desktop586 desktop-i586
+%if %build_desktop586
+%define summary_desktop586 Linux kernel for desktop use with i586 & 1GB RAM
+%define info_desktop586 This kernel is compiled for desktop use, single or \
+multiple i586 processor(s)/core(s) and less than 1GB RAM (usually 870-900MB \
+detected), using voluntary preempt, CFS cpu scheduler and cfq i/o scheduler. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
+%mkflavour desktop586
+%endif
 %endif
 
 #
-# kernel-desktop586-smp: i586, smp, 1GB
+# kernel-desktop: i686, smp-alternatives, 4 GB / x86_64
 #
 
-%if %build_desktop586_smp
-%define summary_desktop586_smp Linux kernel for desktop use with i586-smp-1GB
-%define info_desktop586_smp This kernel is compiled for desktop use, multiple \
-i586 processors/cores and less than 1GB RAM (usually 870-900MB detected), \
-using voluntary preempt and cfq scheduler.
-%mkflavour desktop586-smp desktopsmp-i586
-%endif
-
-%endif
-
-#
-# kernel-tmb-desktop: i686, up, 4 GB / x86_64
-#
-
-%if %build_desktop_up
+%if %build_desktop
 %ifarch %{ix86}
-%define summary_desktop Linux Kernel for desktop use with i686-up-4GB
-%define info_desktop This kernel is compiled for desktop use, single \
-i686 processor/core and less than 4GB RAM, using voluntary preempt and \
-cfq scheduler.
+%define summary_desktop Linux Kernel for desktop use with i686 & 4GB RAM
+%define info_desktop This kernel is compiled for desktop use, single or \
+multiple i686 processor(s)/core(s) and less than 4GB RAM, using voluntary \
+preempt, CFS cpu scheduler and cfq i/o scheduler. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
 %else
-%define summary_desktop Linux Kernel for desktop use with %{_arch}-up
-%define info_desktop This kernel is compiled for desktop use, single \
-%{_arch} processor/core, using voluntary preempt and cfq scheduler.
+%define summary_desktop Linux Kernel for desktop use with %{_arch}
+%define info_desktop This kernel is compiled for desktop use, single or \
+multiple %{_arch} processor(s)/core(s), using voluntary preempt, CFS cpu \
+scheduler and cfq i/o scheduler. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
 %endif
-%mkflavour desktop desktop
+%mkflavour desktop
 %endif
 
 #
-# kernel-tmb-desktop-smp: i686, smp, 4 GB / x86_64
+# kernel-laptop: i686, smp-alternatives, 4GB / x86_64
 #
 
-%if %build_desktop_smp
+%if %build_laptop
 %ifarch %{ix86}
-%define summary_desktop_smp Linux Kernel for desktop use with i686-smp-4GB
-%define info_desktop_smp This kernel is compiled for desktop use, multiple \
-i686 processors/cores and less than 4GB RAM, using voluntary preempt and \
-cfq scheduler.
-%else
-%define summary_desktop_smp Linux Kernel for desktop use with %{_arch}-smp
-%define info_desktop_smp This kernel is compiled for desktop use, multiple \
-%{_arch} processors/cores, using voluntary preempt and cfq scheduler.
-%endif
-%mkflavour desktop-smp desktopsmp
-%endif
-
-#
-# kernel-tmb-laptop: i686, up, 4GB / x86_64
-#
-
-%if %build_laptop_up
-%ifarch %{ix86}
-%define summary_laptop Linux kernel for laptop use with i686-up-4GB
-%define info_laptop This kernel is compiled for laptop use, single \
-i686 processor/core and less than 4GB RAM, using HZ_100 to save battery, \
-voluntary preempt and cfq scheduler, and some other laptop-specific \
-optimizations. If you want to sacrifice battery life for performance, \
-you better use the %{kname}-desktop.
+%define summary_laptop Linux kernel for laptop use with i686-up/smp-4GB
+%define info_laptop This kernel is compiled for laptop use, single or \
+multiple i686 processor(s)/core(s) and less than 4GB RAM, using HZ_100 \
+to save battery, voluntary preempt, CFS cpu scheduler, cfq i/o scheduler \
+and some other laptop-specific optimizations. If you want to sacrifice \
+battery life for performance, you better use the %{kname}-desktop. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
 %else
 %define summary_laptop Linux kernel for laptop use with %{_arch}
-%define info_laptop This kernel is compiled for laptop use, single \
-%{_arch} processor/core, using HZ_100 to save battery, voluntary preempt \
-and cfq scheduler, and some other laptop-specific optimizations. If you \
-want to sacrifice battery life for performance, you better use the \
-%{kname}-desktop.
+%define info_laptop This kernel is compiled for laptop use, single or \
+multiple %{_arch} processor(s)/core(s), using HZ_100 to save battery, \
+voluntary preempt, CFS cpu scheduler, cfq i/o scheduler and some other \
+laptop-specific optimizations. If you want to sacrifice battery life for \
+performance, you better use the %{kname}-desktop. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
 %endif
-%mkflavour laptop laptop
+%mkflavour laptop
 %endif
 
 #
-# kernel-laptop-smp: i686, smp, 4GB / x86_64
+# kernel-server: i686, smp-alternatives, 64 GB /x86_64
 #
 
-%if %build_laptop_smp
+%if %build_server
 %ifarch %{ix86}
-%define summary_laptop_smp Linux kernel for laptop use with i686-smp-4GB
-%define info_laptop_smp This kernel is compiled for laptop use, multiple \
-i686 processors/cores and less than 4GB RAM, using HZ_100 to save battery, \
-voluntary preempt and cfq scheduler, and some other laptop-specific \
-optimizations. If you want to sacrifice battery life for performance, \
-you better use the %{kname}-desktop-smp.
-%else
-%define summary_laptop_smp Linux kernel for laptop use with %{_arch}
-%define info_laptop_smp This kernel is compiled for laptop use, multiple \
-%{_arch} processors/cores, using HZ_100 to save battery, voluntary preempt \
-and cfq scheduler, and some other laptop-specific optimizations. If you \
-want to sacrifice battery life for performance, you better use the \
-%{kname}-desktop-smp.
-%endif
-%mkflavour laptop-smp laptopsmp
-%endif
-
-#
-# kernel-tmb-server: i686, up, 64 GB /x86_64
-#
-
-%if %build_server_up
-%ifarch %{ix86}
-%define summary_server Linux Kernel for server use with i686-up-64GB
-%define info_server This kernel is compiled for server use, single \
-i686 processor/core and less than 64GB RAM, using no preempt and \
-cfq scheduler.
+%define summary_server Linux Kernel for server use with i686  & 64GB RAM
+%define info_server This kernel is compiled for server use, single or \
+multiple i686 processor(s)/core(s) and up to 64GB RAM using PAE, using \
+no preempt, CFS cpu scheduler and cfq i/o scheduler. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
 %else
 %define summary_server Linux Kernel for server use with %{_arch}
-%define info_server This kernel is compiled for server use, single \
-%{_arch} processor/core, using no preempt and cfq scheduler.
+%define info_server This kernel is compiled for server use, single or \
+multiple %{_arch} processor(s)/core(s), using no preempt, CFS cpu scheduler \
+and cfq i/o scheduler. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
 %endif
-%mkflavour server server
-%endif
-
-#
-# kernel-tmb-server-smp: i686, smp, 64 GB /x86_64
-#
-
-%if %build_server_smp
-%ifarch %{ix86}
-%define summary_server_smp Linux Kernel for server use with i686-smp-64GB
-%define info_server_smp This kernel is compiled for server use, multiple \
-i686 processors/cores and less than 64GB RAM, using no preempt and \
-cfq scheduler.
-%else
-%define summary_server_smp Linux Kernel for server use with %{_arch}-smp
-%define info_server_smp This kernel is compiled for server use, multiple \
-%{_arch} processors/cores, using no preempt and cfq scheduler.
-%endif
-%mkflavour server-smp serversmp
+%mkflavour server
 %endif
 
 #
-# kernel-tmb-source
+# kernel-source
 #
 %package -n %{kname}-source-%{buildrel}
 Version: 	%{fakever}
@@ -450,8 +388,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The Linux source code for %{kname}-%{buildrel}  
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash
-Conflicts: 	%{kname}-source-stripped-%{buildrel}
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-source-%{buildrel}
 The %{kname}-source package contains the source code files for the %{ktag}
@@ -463,8 +400,41 @@ drivers against, install the *-devel-* rpm that is matching your kernel.
 
 %common_description_info
 
+%post -n %{kname}-source-%{buildrel}
+for i in /lib/modules/%{kversion}-%{ktag}-*-%{buildrpmrel}; do
+        if [ -d $i ]; then
+		rm -f $i/{build,source}
+                ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} $i/build
+                ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} $i/source
+        fi
+done
+
+%preun -n %{kname}-source-%{buildrel}
+for i in /lib/modules/%{kversion}-%{ktag}-*-%{buildrpmrel}/{build,source}; do
+	if [ -L $i ]; then
+		rm -f $i
+	fi
+done
+exit 0
+
 #
-# kernel-tmb-doc: documentation for the Linux kernel
+# kernel-source-latest: virtual rpm
+#
+%package -n %{kname}-source-latest
+Version: 	%{kversion}
+Release: 	%{rpmrel}
+Summary: 	Virtual rpm for latest %{kname}-source
+Group:   	Development/Kernel
+Requires: 	%{kname}-source-%{buildrel}
+
+%description -n %{kname}-source-latest
+This package is a virtual rpm that aims to make sure you always have the
+latest %{kname}-source installed...
+
+%common_description_info
+
+#
+# kernel-doc: documentation for the Linux kernel
 #
 %package -n %{kname}-doc-%{buildrel}
 Version: 	%{fakever}
@@ -478,23 +448,6 @@ Various bits of information about the Linux kernel and the device drivers
 shipped with it are documented in these files. You also might want install 
 this package if you need a reference to the options that can be passed to 
 Linux kernel modules at load time.
-
-%common_description_info
-
-#
-# kernel-tmb-source-latest: virtual rpm
-#
-%package -n %{kname}-source-latest
-Version: 	%{kversion}
-Release: 	%{rpmrel}
-Summary: 	Virtual rpm for latest %{kname}-source
-Group:   	Development/Kernel
-Requires: 	%{kname}-source-%{buildrel}
-Conflicts: 	%{kname}-source-stripped-latest
-
-%description -n %{kname}-source-latest
-This package is a virtual rpm that aims to make sure you always have the
-latest %{kname}-source installed...
 
 %common_description_info
 
@@ -602,14 +555,10 @@ BuildKernel() {
 
 SaveDevel() {
 	devel_flavour=$1
-	devel_cpu=$2
 
-	if [ "$devel_cpu" != "" ]; then
-		DevelRoot=/usr/src/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu
-	else
-		DevelRoot=/usr/src/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}
-	fi
+	DevelRoot=/usr/src/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}
 	TempDevelRoot=%{temp_root}$DevelRoot
+
 	mkdir -p $TempDevelRoot
 	for i in $(find . -name Makefile -o -name Makefile-* -o -name Makefile.*); do cp -R --parents $i $TempDevelRoot;done
 	for i in $(find . -name Kconfig -o -name Kconfig.* -o -name Kbuild -o -name Kbuild.*); do cp -R --parents $i $TempDevelRoot;done
@@ -650,7 +599,8 @@ SaveDevel() {
 # fix permissions
 	chmod -R a+rX $TempDevelRoot
 
-	kernel_devel_files=../kernel_devel_files.$devel_flavour$devel_cpu
+	kernel_devel_files=../kernel_devel_files.$devel_flavour
+	
 
 ### Cteate the kernel_devel_files.*
 # defattr sets the tree to readonly to try and work around broken dkms & co
@@ -726,20 +676,20 @@ EOF
 
 ### Create -devel Post script on the fly
 cat > $kernel_devel_files-post <<EOF
-if [ -d /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu ]; then
-	ln -sf $DevelRoot /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu/build
-	ln -sf $DevelRoot /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu/source
+if [ -d /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel} ]; then
+	ln -sf $DevelRoot /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}/build
+	ln -sf $DevelRoot /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}/source
 fi
 EOF
 
 
 ### Create -devel Preun script on the fly
 cat > $kernel_devel_files-preun <<EOF
-if [ -L /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu/build ]; then
-	rm -f /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu/build
+if [ -L /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}/build ]; then
+	rm -f /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}/build
 fi
 if [ -L /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu/source ]; then
-	rm -f /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu/source
+	rm -f /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}/source
 fi
 exit 0
 EOF
@@ -748,19 +698,18 @@ EOF
 
 CreateFiles() {
 	kernel_flavour=$1
-	kernel_cpu=$2
 	
-	kernel_files=../kernel_files.$kernel_flavour$kernel_cpu
+	kernel_files=../kernel_files.$kernel_flavour
 	
 ### Create the kernel_files.*
 cat > $kernel_files <<EOF
 %defattr(-,root,root)
-%{_bootdir}/System.map-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
-%{_bootdir}/config-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
-%{_bootdir}/vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
-%dir %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/
-%{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/kernel
-%{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/modules.*
+%{_bootdir}/System.map-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
+%{_bootdir}/config-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
+%{_bootdir}/vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
+%dir %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/
+%{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/kernel
+%{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/modules.*
 %doc README.Mandriva_Linux_%{ktag}
 %doc README.kernel-%{ktag}-sources
 %doc README.urpmi
@@ -769,7 +718,7 @@ EOF
 
 ### Create kernel Post script
 cat > $kernel_files-post <<EOF
-/sbin/installkernel -L %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
+/sbin/installkernel -L %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
 if [ -x /sys/devices/platform/i8042 ]; then
 	grep -q -s "psmouse" /etc/modprobe.preload || \
 	/bin/echo -e "\npsmouse" >> /etc/modprobe.preload
@@ -779,19 +728,19 @@ grep -q -s "pcspkr" /etc/modprobe.preload || \
 /bin/echo -e "\npcspkr" >> /etc/modprobe.preload
 %endif
 pushd /boot > /dev/null
-if [ -L vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu ]; then
-	rm -f vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu
+if [ -L vmlinuz-%{ktag}-$kernel_flavour ]; then
+	rm -f vmlinuz-%{ktag}-$kernel_flavour
 fi
-ln -sf vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu
-if [ -L initrd-%{ktag}-$kernel_flavour$kernel_cpu.img ]; then
-	rm -f initrd-%{ktag}-$kernel_flavour$kernel_cpu.img
+ln -sf vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} vmlinuz-%{ktag}-$kernel_flavour
+if [ -L initrd-%{ktag}-$kernel_flavour.img ]; then
+	rm -f initrd-%{ktag}-$kernel_flavour.img
 fi
-ln -sf initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu.img initrd-%{ktag}-$kernel_flavour$kernel_cpu.img
+ln -sf initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}.img initrd-%{ktag}-$kernel_flavour.img
 popd > /dev/null
 %if %build_devel
-if [ -d /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu ]; then
-	ln -sf /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu/build
-	ln -sf /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}$devel_cpu/source
+if [ -d /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} ]; then
+	ln -sf /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/build
+	ln -sf /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/source
 fi
 %endif
 EOF
@@ -799,25 +748,25 @@ EOF
 
 ### Create kernel Preun script on the fly
 cat > $kernel_files-preun <<EOF
-/sbin/installkernel -R %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
+/sbin/installkernel -R %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
 pushd /boot > /dev/null
-if [ -L vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu ]; then
-	if [ "ls -l vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu 2>/dev/null| awk '{ print $11 }'" = "vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu" ]; then
-		rm -f vmlinuz-%{ktag}-$kernel_flavour$kernel_cpu
+if [ -L vmlinuz-%{ktag}-$kernel_flavour ]; then
+	if [ "ls -l vmlinuz-%{ktag}-$kernel_flavour 2>/dev/null| awk '{ print $11 }'" = "vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}" ]; then
+		rm -f vmlinuz-%{ktag}-$kernel_flavour
 	fi
 fi
-if [ -L initrd-%{ktag}-$kernel_flavour$kernel_cpu.img ]; then
-	if [ "ls -l initrd-%{ktag}-$kernel_flavour$kernel_cpu.img 2>/dev/null| awk '{ print $11 }'" = "initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu.img" ]; then
-		rm -f initrd-%{ktag}-$kernel_flavour$kernel_cpu.img
+if [ -L initrd-%{ktag}-$kernel_flavour.img ]; then
+	if [ "ls -l initrd-%{ktag}-$kernel_flavour.img 2>/dev/null| awk '{ print $11 }'" = "initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}.img" ]; then
+		rm -f initrd-%{ktag}-$kernel_flavour.img
 	fi
 fi
 popd > /dev/null
 %if %build_devel
-if [ -L /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/build ]; then
-	rm -f /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/build
+if [ -L /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/build ]; then
+	rm -f /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/build
 fi
-if [ -L /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/source ]; then
-	rm -f /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu/source
+if [ -L /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/source ]; then
+	rm -f /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/source
 fi
 %endif
 exit 0
@@ -826,22 +775,21 @@ EOF
 
 ### Create kernel Postun script on the fly
 cat > $kernel_files-postun <<EOF
-/sbin/kernel_remove_initrd %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}$kernel_cpu
+/sbin/kernel_remove_initrd %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
 EOF
 }
 
 
 CreateKernel() {
 	flavour=$1
-	processor=$2
 
-	PrepareKernel $flavour$processor %{ktag}-$flavour-%{buildrpmrel}$processor
+	PrepareKernel $flavour %{ktag}-$flavour-%{buildrpmrel}
 
-	BuildKernel %{kversion}-%{ktag}-$flavour-%{buildrpmrel}$processor
+	BuildKernel %{kversion}-%{ktag}-$flavour-%{buildrpmrel}
 	%if %build_devel
-		SaveDevel $flavour $processor
+		SaveDevel $flavour
 	%endif
-	CreateFiles $flavour $processor
+	CreateFiles $flavour
 }
 
 
@@ -859,37 +807,21 @@ install -d %{temp_root}
 cd %src_dir
 
 %ifarch %{ix86}
-%if %build_desktop586_smp
-CreateKernel desktop smp-i586
-%endif
-
-%if %build_desktop586_up
-CreateKernel desktop -i586
+%if %build_desktop586
+CreateKernel desktop586
 %endif
 %endif
 
-%if %build_desktop_smp
-CreateKernel desktop smp
+%if %build_desktop
+CreateKernel desktop
 %endif
 
-%if %build_desktop_up
-CreateKernel desktop ""
+%if %build_laptop
+CreateKernel laptop
 %endif
 
-%if %build_laptop_smp
-CreateKernel laptop smp
-%endif
-
-%if %build_laptop_up
-CreateKernel laptop ""
-%endif
-
-%if %build_server_smp
-CreateKernel server smp
-%endif
-
-%if %build_server_up
-CreateKernel server ""
+%if %build_server
+CreateKernel server
 %endif
 
 
@@ -1087,6 +1019,28 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jun 24 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc5.2mdv
+- kernel-*-devel rpms does not provide kernel-source anymore
+- jump the gun on smp-enabled kernels (to help main kernel transition),
+  so every kernel is now smp enabled, and we rely on smp-alternatives
+  to get it right on single processor/core systems
+- drop "-smp" from kernel names, so now the only kernel flavours are:
+  desktop586, desktop, laptop, server
+- add obsoletes & provides to *-latest rpms to cope with the naming changes
+- simplify specfile to match naming changes
+- fix kernel descriptions & summarys to match the nanming changes
+- re-add build & source symlinking logic to kernel-source rpm so
+  it works with dkms
+- update README.urpmi regarding theese changes
+- update patch CF01: Ingo Molnar's CFS-v18 Scheduler
+- update patch FS01: unionfs 2.0 v. linux-2.6.22-rc5-u1
+- redo patch FS02: fix unionfs build with AppArmor
+- update patch MB10: ndiswrapper 1.47
+- update patch MB11: ndiswrapper Makefile fix
+- update patch MC20: iwlwifi 0.0.32 and enable it
+- drop patch MC21: iwlwifi include fix, merged upstream
+- update defconfigs
+
 * Sun Jun 17 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc5.1mdv
 - update to kernel.org 2.6.22-rc5
 - update patch AX10: High Resolution Timer Support & Tickless System 
