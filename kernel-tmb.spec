@@ -7,11 +7,11 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc5
+%define kpatch		rc6
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1019,6 +1019,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jun 25 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc6.1mdv
+- update to kernel.org 2.6.22-rc6
+- rediff patch AX10: High Resolution Timer Support & Tickless System 
+- update patch CF01: Ingo Molnar's CFS-v18 Scheduler for 2.6.22-rc6
+
 * Sun Jun 24 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc5.2mdv
 - kernel-*-devel rpms does not provide kernel-source anymore
 - jump the gun on smp-enabled kernels (to help main kernel transition),
