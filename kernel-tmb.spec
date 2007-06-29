@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -194,7 +194,7 @@ http://www.iki.fi/tmb/Kernels/
 %define requires2 	bootloader-utils >= 1.12-%mkrel 1
 %define requires3 	sysfsutils >= 1.3.0-%mkrel 1 module-init-tools >= 3.2-0.pre8.%mkrel 2
 
-%define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}
+%define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 86
 
 BuildRoot: 		%{_tmppath}/%{kname}-%{kversion}-%{_arch}-build
 Autoreqprov: 		no
@@ -388,7 +388,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The Linux source code for %{kname}-%{buildrel}  
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash
 
 %description -n %{kname}-source-%{buildrel}
 The %{kname}-source package contains the source code files for the %{ktag}
@@ -1019,6 +1019,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jun 30 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc6.2mdv
+- update patch AX10: High Resolution Timer Support & Tickless System
+  to 2.6.22-rc6-hrt1
+- add patches MC31, MC31: drbd 8.0.4
+- make kernels provide drbd-api 86 (AdamW request)
+- update patches SA01-SA44: AppArmor 2.0.2 build 755
+- kernel-source does not provide kernel-devel anymore
+- add patches DA10,DA11: add NCQ support to sata_nv for MCP51/55/61
+- add patch DA15: add ich8m ata support
+- update patches DN15,DN16: Nozomi 3G driver
+- add patches FR01-FR12: Reiser4 filesystem
+- add patch KP01: Suspend2 2.2.10.2 support
+- update patches SA01-SA45: AppArmor 2.0.2 build 755
+- update defconfigs
+
 * Mon Jun 25 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc6.1mdv
 - update to kernel.org 2.6.22-rc6
 - rediff patch AX10: High Resolution Timer Support & Tickless System 
