@@ -1019,7 +1019,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Sat Jun 30 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc6.2mdv
+* Sun Jul  1 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc6.2mdv
 - update patch AX10: High Resolution Timer Support & Tickless System
   to 2.6.22-rc6-hrt1
 - add patches MC31, MC31: drbd 8.0.4
@@ -1030,6 +1030,8 @@ rm -rf %{buildroot}
 - add patch DA15: add ich8m ata support
 - update patches DN15,DN16: Nozomi 3G driver
 - add patches FR01-FR12: Reiser4 filesystem
+  - rediff patch FR01: to actually male it work
+  - drop patches FR07, FR12: -mm specific code
 - add patch KP01: Suspend2 2.2.10.2 support
 - update patches SA01-SA45: AppArmor 2.0.2 build 755
 - update defconfigs
