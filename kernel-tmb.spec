@@ -7,11 +7,11 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc6
+%define kpatch		rc7
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1019,6 +1019,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jul  3 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc7.1mdv
+- update to kernel.org 2.6.22-rc7
+- add patch AA01: 2.6.22-rc7-git1
+- rediff patch SA03: AppArmor vfs-notify change
+
 * Sun Jul  1 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc6.2mdv
 - update patch AX10: High Resolution Timer Support & Tickless System
   to 2.6.22-rc6-hrt1
@@ -1030,7 +1035,7 @@ rm -rf %{buildroot}
 - add patch DA15: add ich8m ata support
 - update patches DN15,DN16: Nozomi 3G driver
 - add patches FR01-FR12: Reiser4 filesystem
-  - rediff patch FR01: to actually male it work
+  - rediff patch FR01: to actually make it work
   - drop patches FR07, FR12: -mm specific code
 - add patch KP01: Suspend2 2.2.10.2 support
 - update patches SA01-SA45: AppArmor 2.0.2 build 755
