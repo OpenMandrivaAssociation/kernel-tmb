@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -388,7 +388,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The Linux source code for %{kname}-%{buildrel}  
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash
+Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
 
 %description -n %{kname}-source-%{buildrel}
 The %{kname}-source package contains the source code files for the %{ktag}
@@ -1019,6 +1019,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jul  8 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc7.2mdv
+- update patch AA01: kernel.org 2.6.22-rc7-git6
+- update patch AX10: High Resolution Timer Support & Tickless System
+  to 2.6.22-rc7-hrt1
+- update patch CF01: Ingo Molnar's CFS-v19 Scheduler for 2.6.22-rc7
+- add patch CK01: Swap Prefetch
+- make kernel-source provide kernel-devel again until we figure out 
+  what to do with dkms & co
+- update defconfigs
+
 * Tue Jul  3 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc7.1mdv
 - update to kernel.org 2.6.22-rc7
 - add patch AA01: 2.6.22-rc7-git1
