@@ -1025,6 +1025,8 @@ rm -rf %{buildroot}
   to 2.6.22-rc7-hrt1
 - update patch CF01: Ingo Molnar's CFS-v19 Scheduler for 2.6.22-rc7
 - add patch CK01: Swap Prefetch
+- replace patch CK01 with patches CK01-CK07: Enhanced Swap Prefetch
+  from 2.6.22-rc6-mm1
 - make kernel-source provide kernel-devel again until we figure out 
   what to do with dkms & co
 - update defconfigs
