@@ -7,11 +7,11 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc7
+%define kpatch		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1019,6 +1019,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jul  9 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-1mdv
+- update to kernel.org 2.6.22 final
+- drop patch AA01: merged upstream
+
 * Sun Jul  8 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc7.2mdv
 - update patch AA01: kernel.org 2.6.22-rc7-git6
 - update patch AX10: High Resolution Timer Support & Tickless System
