@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1019,6 +1019,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jul 10 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-2mdv
+- update patch AX10: High Resolution Timer Support & Tickless System
+  to 2.6.22-hrt1
+- update patch CF01: Ingo Molnar's CFS-v19 Scheduler for 2.6.22
+- add patch DF01: dmi based module autoloading
+- add patch DI01: IDE updates from upcoming 2.6.23-rc1
+- add patch DI10: Add Wacom Bamboo Tablet support (#31831)
+- add patch DV21: add proper support for geforce 7600
+- add patch DV22: modify nvidiafb to use a faster scroll method
+- update defconfigs
+
 * Mon Jul  9 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-1mdv
 - update to kernel.org 2.6.22 final
 - drop patch AA01: merged upstream
