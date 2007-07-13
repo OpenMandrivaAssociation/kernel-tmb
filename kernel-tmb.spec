@@ -8,10 +8,10 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1019,6 +1019,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jul 13 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.1-1mdv
+- update to kernel.org 2.6.22.1:
+  * NETFILTER: {ip, nf}_conntrack_sctp: fix remotely triggerable
+    NULL ptr dereference (CVE-2007-2876)
+- update patch AX10: High Resolution Timer Support & Tickless System
+  to 2.6.22-hrt2
+- update patch CF01: Ingo Molnar's CFS-v19 Scheduler for 2.6.22.1
+- add patch DN50: mac80211 (dscape) wireless drivers
+  * ADMtek ADM8211
+  * Broadcom BCM43xx
+  * Iwlwifi
+  * Prism64 PCI, USB
+  * Ralink rt2400, rt2500, rt2500 usb, rt61, rt73
+  * Realtek 8187 USB
+  * ZyDAS ZD1211/ZD1211B USB
+- add patch DN51: update mac80211 iwlwifi to 0.1.1
+- add patch DN52: add missing parts to get dscape drivers to build
+- update patch MB40: acer_acpi v0.6
+- drop patch MC20: 3rdparty iwlwifi driver (replaced by DN50, DN51)
+- update defconfigs
+
 * Tue Jul 10 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-2mdv
 - update patch AX10: High Resolution Timer Support & Tickless System
   to 2.6.22-hrt1
