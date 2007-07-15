@@ -11,7 +11,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -751,12 +751,12 @@ cat > $kernel_files-preun <<EOF
 /sbin/installkernel -R %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
 pushd /boot > /dev/null
 if [ -L vmlinuz-%{ktag}-$kernel_flavour ]; then
-	if [ "ls -l vmlinuz-%{ktag}-$kernel_flavour 2>/dev/null| awk '{ print $11 }'" = "vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}" ]; then
+	if [ \$(readlink vmlinuz-%{ktag}-$kernel_flavour) = "vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}" ]; then
 		rm -f vmlinuz-%{ktag}-$kernel_flavour
 	fi
 fi
 if [ -L initrd-%{ktag}-$kernel_flavour.img ]; then
-	if [ "ls -l initrd-%{ktag}-$kernel_flavour.img 2>/dev/null| awk '{ print $11 }'" = "initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}.img" ]; then
+	if [ \$(readlink initrd-%{ktag}-$kernel_flavour.img) = "initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}.img" ]; then
 		rm -f initrd-%{ktag}-$kernel_flavour.img
 	fi
 fi
@@ -1019,6 +1019,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jul 15 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.1-2mdv
+- update patch AX10: High Resolution Timer Support & Tickless System
+  to 2.6.22-hrt6
+- add patch CF02: CFS scheduler updates (from -rt tree)
+- update patch FS01: unionfs 2.0 2.6.22.1-u2
+- refiff patch FS02: unionfs AppArmor buildfix
+- use readlink instead of ls and awk in scripts, as ls broken in
+  current coreutils (#31906), this also makes the scripts nicer
+
 * Fri Jul 13 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.1-1mdv
 - update to kernel.org 2.6.22.1:
   * NETFILTER: {ip, nf}_conntrack_sctp: fix remotely triggerable
