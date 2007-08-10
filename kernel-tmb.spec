@@ -8,10 +8,10 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		1
+%define kstable		2
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1019,6 +1019,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug 10 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.2-1mdv
+- update to kernel.org 2.6.22.2:
+  * fixes: CVE-2007-3851 and other bugs
+  * full log: http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.22.2
+- rediff patch AX10: High Resolution Timer Support & Tickless System
+- drop patch DA15: Intel Santa Rosa support, merged upstream
+- update patch DI10: wacom bamboo to add missing define
+- update patch MB11: add missing KSRC parameter to ndiswrapper Makefile
+- rediff patch SA03: AppArmor vfs-notify_change
+
 * Sun Jul 15 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.1-2mdv
 - update patch AX10: High Resolution Timer Support & Tickless System
   to 2.6.22-hrt6
