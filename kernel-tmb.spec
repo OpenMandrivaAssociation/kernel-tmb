@@ -8,7 +8,7 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		2
+%define kstable		3
 
 # this is the releaseversion
 %define kbuild		1
@@ -1019,6 +1019,35 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Aug 16 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.3-1mdv
+- update to kernel.org 2.6.22.3:
+  * fixes: CVE-2007-3105 and other bugs
+  * full log: http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.22.3
+- add audio fixes from main kernel:
+    DA59_hda_codec_fix_51_output.patch
+    DA60_hda_codec_hp_spartan_quirk.patch
+    DA61_usbaudio_roland_junog_quirk.patch
+    DA62_hda-codec-hp-nettle-id.patch
+    DA63_hda-codec-fix-hp-nettle-51.patch
+    DA64_hda-codec-hp-lucknow-51-support.patch
+    DA65_hda-codec-Add-quirk-for-HP-Samba.patch
+    DA66_hda-codec-Add-LG-LW20-line-in-capture-sourc.patch
+    DA67_hda-codec-Add-LG-LW20-si3054-modem-id.patch
+    DA68_hda-codec-Add-quirks-for-HP-dx2200-dx2250.patch
+    DA69_si3054.patch
+    DA70_hda-codec-Add-quirk-for-Asus-P5LD2.patch
+    DA80_usbaudio-logitech-id.patch
+- add network updates from main kernel:
+    DN02_e1000_7.6.5.patch
+    DN03_fix-forcedeth-phy-oui-realtek-id.patch
+- add ide/ahci updates from main kernel:
+    DB33_ahci_SB700_support.patch
+    DI25_add_marvell_ide.patch
+- add smbus updates from main kernel:
+    DS01_smbus_sb700_support.patch
+    DS02_smbus_sb800_support.patch
+- update defconfigs
+  
 * Fri Aug 10 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.2-1mdv
 - update to kernel.org 2.6.22.2:
   * fixes: CVE-2007-3851 and other bugs
