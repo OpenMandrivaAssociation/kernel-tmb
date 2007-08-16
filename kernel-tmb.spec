@@ -1019,7 +1019,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Thu Aug 16 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.3-1mdv
+* Fri Aug 17 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.3-1mdv
 - update to kernel.org 2.6.22.3:
   * fixes: CVE-2007-3105 and other bugs
   * full log: http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.22.3
@@ -1038,6 +1038,7 @@ rm -rf %{buildroot}
     DA70_hda-codec-Add-quirk-for-Asus-P5LD2.patch
     DA80_usbaudio-logitech-id.patch
 - add network updates from main kernel:
+    DN01_r8169_link_down_fix.patch
     DN02_e1000_7.6.5.patch
     DN03_fix-forcedeth-phy-oui-realtek-id.patch
 - add ide/ahci updates from main kernel:
@@ -1046,6 +1047,9 @@ rm -rf %{buildroot}
 - add smbus updates from main kernel:
     DS01_smbus_sb700_support.patch
     DS02_smbus_sb800_support.patch
+- add patch DI26: fix marvell ide to build with 2.6.22+
+- update patch FS01: unionfs 2.1
+- redo patch FS02: fix unionfs to build with AppArmor
 - update defconfigs
   
 * Fri Aug 10 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.2-1mdv
