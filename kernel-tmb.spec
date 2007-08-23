@@ -8,7 +8,7 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		3
+%define kstable		5
 
 # this is the releaseversion
 %define kbuild		1
@@ -1019,6 +1019,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug 24 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.5-1mdv
+- update to kernel.org 2.6.22.5:
+  * fixes CVE-2007-3848
+  * other fixes: http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.22.5
+- update patch CF01: CFS scheduler v 20.2
+- drop patch CF02: CFS updates, merged upstream
+- drop patch CK07: merged in CFS
+- drop patch DB33: sb700 ahci support, merged upstream
+- update patch FS01: unionfs 2.1.2
+- update defconfigs
+ 
 * Fri Aug 17 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.3-1mdv
 - update to kernel.org 2.6.22.3:
   * fixes: CVE-2007-3105 and other bugs
