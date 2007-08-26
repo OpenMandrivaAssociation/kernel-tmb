@@ -11,7 +11,7 @@
 %define kstable		5
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1019,6 +1019,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Aug 26 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.5-2mdv
+- add patch AA01: 2.6.22.6-rc1
+- update patch CF01: CFS v 20.4
+- add patch DC01: add Via P4M900 agpgart support
+- drop patches DN33-DN43: old netfilter ipset, ifwlog, psd support
+- update patch MB40: acer_acpi v0.7
+- redo patch MB41: fix acer_acpi Kconfig and Makefile
+- add patch NI01: netfilter ipset support (from OpenWrt) (#32399)
+- make CPU_IDLE_GOV_MENU builtin on -laptop kernels (Request by Danny)
+- update defconfigs
+
 * Fri Aug 24 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.5-1mdv
 - update to kernel.org 2.6.22.5:
   * fixes CVE-2007-3848
