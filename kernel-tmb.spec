@@ -8,10 +8,10 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		5
+%define kstable		6
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -526,6 +526,9 @@ PrepareKernel() {
 %else
 	LC_ALL=C perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = -$extension/" Makefile
 %endif
+### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
+	LC_ALL=C perl -p -i -e "s/^source/### source/" drivers/crypto/Kconfig
+
 	%smake oldconfig
 }
 
@@ -592,10 +595,6 @@ SaveDevel() {
 		rm -rf $TempDevelRoot/include/asm-sparc64
 	%endif
 
-### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
-        mkdir -p $TempDevelRoot/arch/s390/crypto/
-        cp -fR arch/s390/crypto/Kconfig $TempDevelRoot/arch/s390/crypto/
-
 # fix permissions
 	chmod -R a+rX $TempDevelRoot
 
@@ -603,9 +602,7 @@ SaveDevel() {
 	
 
 ### Cteate the kernel_devel_files.*
-# defattr sets the tree to readonly to try and work around broken dkms & co
 cat > $kernel_devel_files <<EOF
-#defattr(0444,root,root,0555)
 %defattr(-,root,root)
 %dir $DevelRoot
 %dir $DevelRoot/arch
@@ -616,8 +613,6 @@ $DevelRoot/Documentation
 $DevelRoot/arch/i386
 $DevelRoot/arch/x86_64
 %endif
-### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
-$DevelRoot/arch/s390
 %ifarch sparc sparc64
 $DevelRoot/arch/sparc
 $DevelRoot/arch/sparc64
@@ -677,6 +672,7 @@ EOF
 ### Create -devel Post script on the fly
 cat > $kernel_devel_files-post <<EOF
 if [ -d /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel} ]; then
+	rm -f /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}/{build,source}
 	ln -sf $DevelRoot /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}/build
 	ln -sf $DevelRoot /lib/modules/%{kversion}-%{ktag}-$devel_flavour-%{buildrpmrel}/source
 fi
@@ -739,6 +735,7 @@ ln -sf initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}.img initrd-%{kt
 popd > /dev/null
 %if %build_devel
 if [ -d /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} ]; then
+	rm -f /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/{build,source}
 	ln -sf /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/build
 	ln -sf /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/source
 fi
@@ -879,10 +876,6 @@ done
 	rm -rf %{target_source}/include/asm-sparc64
 %endif
 
-### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
-        mkdir -p %{target_source}/arch/s390/crypto/
-        cp -fR arch/s390/crypto/Kconfig %{target_source}/arch/s390/crypto/
-
 # other misc files
 rm -f %{target_source}/{.config.old,.config.cmd,.mailmap,.missing-syscalls.d}
 
@@ -945,8 +938,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/arch/i386
 %{_kerneldir}/arch/x86_64
 %endif
-### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
-%{_kerneldir}/arch/s390
 %ifarch sparc sparc64
 %{_kerneldir}/arch/sparc
 %{_kerneldir}/arch/sparc64
@@ -1019,6 +1010,25 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Sep  1 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.6-1mdv
+- update to kernel.org 2.6.22.6:
+  * fixes: http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.22.6
+- drop patch AA01: merged upstream
+- update patch AS01: linux-phc 0.3.0
+- update patch CF01: CFS v 20.5
+- redo patch FS02: unionfs AppArmor vfs uildfix (initial patch for
+  2.1 by John Johansen <jjohansen@suse.de>
+- readd patch NI05: netfilter IFWLOG support
+- add patch NI06: IFWLOG buildfix for 2.6.22
+- readd patch NI10: netfilter PSD support
+- add patch NI11: PSD buildfix for 2.6.22
+- update patches SA01-SA46: AppArmor SuSe 10_3 branch, commit 942
+- enable DEBUG_FS (#32886)
+- enable USB_EHCI_TT_NEWSCHED (#32894)
+- fix #29744, #29074 in a cleaner way by disabling the sourcing of
+  arch/s390/crypto/Kconfig
+- update defconfigs
+
 * Sun Aug 26 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.5-2mdv
 - add patch AA01: 2.6.22.6-rc1
 - update patch CF01: CFS v 20.4
