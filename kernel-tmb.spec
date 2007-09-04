@@ -11,7 +11,7 @@
 %define kstable		6
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1010,6 +1010,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Sep  4 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.6-2mdv
+- add patch DA81: alsa hda-intel codec detection fix (Danny)
+- enable USB_SUSPEND only on laptop kernels, as it causes to much 
+  regressions for normal users, but is a tradeoff for laptop users (#33089)
+- add patches FS04, FS05: ext3/4 orphan list debug support and corruption 
+  fix (#32527) (main kernel, Luiz)
+- make SUSPEND2 builtin on -laptop kernels as it cant resume without it
+
 * Sat Sep  1 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.6-1mdv
 - update to kernel.org 2.6.22.6:
   * fixes: http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.22.6
@@ -1022,7 +1030,8 @@ rm -rf %{buildroot}
 - add patch NI06: IFWLOG buildfix for 2.6.22
 - readd patch NI10: netfilter PSD support
 - add patch NI11: PSD buildfix for 2.6.22
-- update patches SA01-SA46: AppArmor SuSe 10_3 branch, commit 942
+- update patches SA01-SA46: AppArmor 2.1 prerelease
+  (SuSe 10_3 branch, commit 942)
 - enable DEBUG_FS (#32886)
 - enable USB_EHCI_TT_NEWSCHED (#32894)
 - fix #29744, #29074 in a cleaner way by disabling the sourcing of
