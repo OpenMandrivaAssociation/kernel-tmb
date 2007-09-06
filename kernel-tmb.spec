@@ -3,15 +3,15 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	22
+%define sublevel	23
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		0
-%define kstable		6
+%define kpatch		rc5
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -388,7 +388,7 @@ Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
 Summary: 	The Linux source code for %{kname}-%{buildrel}  
 Group: 		Development/Kernel
 Autoreqprov: 	no
-Provides: 	kernel-source = %{kverrel}, kernel-source-fbsplash, kernel-devel = %{kverrel}
+Provides: 	kernel-source = %{kverrel}, kernel-devel = %{kverrel}
 
 %description -n %{kname}-source-%{buildrel}
 The %{kname}-source package contains the source code files for the %{ktag}
@@ -1010,6 +1010,44 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Sep  6 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc5.1mdv
+- update to kernel.org 2.6.23-rc5
+- add patch AA01: 2.6.23-rc5-git1
+- update patch AX10: High Resolution Timer Support & Tickless System
+- disable patch CA03: video 80x25 fallback, as there is a brand new
+  setup code in 2.6.23-rcX
+- drop patch CF01: cfs sceduler, merged upstream
+- disable patches CK01-CK06: swap prefetch as it's broken
+- drop patches DA59-DA80: alsa fixes, merged upstream
+- drop patch DC01: P4M900 agpgart spport, mreged upstream
+- drop patch DF01: dmi based autoloading, merged upstream
+- drop patch DI01: 2.6.23-ide-git-upstream, merged upstream
+- drop patch DI10: wacom bamboo support, merged upstream
+- drop patches DI25,DI26: marvell ide support, as it's broken
+- disable patch DN02: add 47xx support to b44, needs to be updated
+- drop patch DN03: forcedeth phy oui id fix, merged upstream
+- disable patch DN04: e1000 update, needs to be updated
+- drop patch DN05: r8169 link down fix, merged upstream
+- drop patched DN50-DN52: wireless (dscape) git
+- drop patches DS11, DS12: Amd SB700/800 smbus support, mreged upstream
+- drop patch DV01: fbsplash support
+- drop patches DV21, DV22: nvidiafb fixes, merged upstream
+- update/add patches FR01-FR22: ReiserFS4 from 2.6.23-rc4-mm1
+- update patch FS01: unionfs 2.1.2 for 2.6.23-rc3
+- rediff patch FS02: unionfs AppArmor buildfix
+- drop patches FS04, FS05: ext3/4 orphan list debug support and 
+  corruption fix, merged upstream
+- disable patch KP01: suspend2 support, as upstream needs to catch up
+- update patches MB10: ndiswrapper 1.48-rc2
+- redo patch MB11: ndiswrapper Kconfig & Makefile fix
+- add patch MB23: squasfs buildfix for 2.6.23
+- update patch MB40: acer_acpi v0.8.2
+- update patch MC30: drbd 8.0.6
+- disable  patch NB01: bluetooth sco support, need to be rewritten
+- add patch NI02: ipset 2.6.23 buildfix
+- rediff patches SA03, SA21: AppArmor
+- update defconfigs
+
 * Tue Sep  4 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.6-2mdv
 - add patch DA81: alsa hda-intel codec detection fix (Danny)
 - enable USB_SUSPEND only on laptop kernels, as it causes to much 
