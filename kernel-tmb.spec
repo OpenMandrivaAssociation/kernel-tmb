@@ -649,6 +649,7 @@ $DevelRoot/include/rxrpc
 $DevelRoot/include/scsi
 $DevelRoot/include/sound
 $DevelRoot/include/video
+$DevelRoot/include/xen
 $DevelRoot/init
 $DevelRoot/ipc
 $DevelRoot/kernel
@@ -974,6 +975,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/scsi
 %{_kerneldir}/include/sound
 %{_kerneldir}/include/video
+%{_kerneldir}/include/xen
 %{_kerneldir}/init
 %{_kerneldir}/ipc
 %{_kerneldir}/kernel
@@ -1019,7 +1021,7 @@ rm -rf %{buildroot}
 - drop patch CF01: cfs sceduler, merged upstream
 - disable patches CK01-CK06: swap prefetch as it's broken
 - drop patches DA59-DA80: alsa fixes, merged upstream
-- drop patch DC01: P4M900 agpgart spport, mreged upstream
+- drop patch DC01: P4M900 agpgart spport, merged upstream
 - drop patch DF01: dmi based autoloading, merged upstream
 - drop patch DI01: 2.6.23-ide-git-upstream, merged upstream
 - drop patch DI10: wacom bamboo support, merged upstream
@@ -1046,6 +1048,7 @@ rm -rf %{buildroot}
 - disable  patch NB01: bluetooth sco support, need to be rewritten
 - add patch NI02: ipset 2.6.23 buildfix
 - rediff patches SA03, SA21: AppArmor
+- add include/xen/ to filelists
 - update defconfigs
 
 * Tue Sep  4 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.6-2mdv
