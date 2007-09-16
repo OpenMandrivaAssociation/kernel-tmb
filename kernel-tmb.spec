@@ -7,7 +7,7 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc5
+%define kpatch		rc6
 %define kstable		0
 
 # this is the releaseversion
@@ -1012,6 +1012,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Sep 16 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc6.1mdv
+- update to kernel.org 2.6.23-rc6
+- update patch AA01: 2.6.23-rc6-git6
+- update patch AX10: High Resolution Timer Support & Tickless System
+  2.6.23-rc6-hrt2
+- update patches FS01, FS02: unionfs 2.1.3
+- add patch SA47: fix AppArmor syslog logging (AppArmor svn rev 961)
+- update defconfigs
+
 * Thu Sep  6 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc5.1mdv
 - update to kernel.org 2.6.23-rc5
 - add patch AA01: 2.6.23-rc5-git1
