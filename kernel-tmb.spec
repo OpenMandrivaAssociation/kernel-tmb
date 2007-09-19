@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1012,6 +1012,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Sep 20 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc6.2mdv
+- update patch KP01: tuxonice 2.2.10.3 (suspend2) is back
+- update defconfigs
+
 * Sun Sep 16 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc6.1mdv
 - update to kernel.org 2.6.23-rc6
 - update patch AA01: 2.6.23-rc6-git6
