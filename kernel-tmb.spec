@@ -1015,7 +1015,11 @@ rm -rf %{buildroot}
 * Thu Sep 20 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc7.1mdv
 - update to kernel.org 2.6.23-rc7
 - drop patch AA01: rc6-git6, mergesd upstream
-- rediff patch AX10: High Resolution Timer Support & Tickless System
+- add patch AA10: fix VESA mode decoding in ACPI wakeup (LKML)
+- add patch AA11: fix ACPI wakeup devices after hibernation (LKML)
+- update patch AX10: High Resolution Timer Support & Tickless System
+  2.6.23-rc7-hrt1
+- add patch MC32: drbd Kconfig and Makefile buildfix (from main, Luiz)
 - rediff patch KP01: tuxonice 2.2.10.3
 - require the fixed mkinitrd-4.2.17-52mdv
 - fix i386 defconfig to be i686, so that only desktop586 is built
