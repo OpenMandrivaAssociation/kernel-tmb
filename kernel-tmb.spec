@@ -7,11 +7,11 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc6
+%define kpatch		rc7
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -190,7 +190,7 @@ If you want more info on the various %{kname} flavours, please visit:	\
 http://www.iki.fi/tmb/Kernels/
 
 ### Global Requires/Provides
-%define requires1 	mkinitrd >= 4.2.17-%mkrel 20
+%define requires1 	mkinitrd >= 4.2.17-%mkrel 52
 %define requires2 	bootloader-utils >= 1.12-%mkrel 1
 %define requires3 	sysfsutils >= 1.3.0-%mkrel 1 module-init-tools >= 3.2-0.pre8.%mkrel 2
 
@@ -1012,6 +1012,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Sep 20 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc7.1mdv
+- update to kernel.org 2.6.23-rc7
+- drop patch AA01: rc6-git6, mergesd upstream
+- rediff patch AX10: High Resolution Timer Support & Tickless System
+- rediff patch KP01: tuxonice 2.2.10.3
+- require the fixed mkinitrd-4.2.17-52mdv
+- fix i386 defconfig to be i686, so that only desktop586 is built
+  for i586 (Thanks to Danny for noticing)
+- update defconfigs
+
 * Thu Sep 20 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc6.2mdv
 - update patch KP01: tuxonice 2.2.10.3 (suspend2) is back
 - update defconfigs
