@@ -11,7 +11,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1012,6 +1012,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Sep 23 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc7.2mdv
+- add patch AA01: x86_64 zero extend all registers after ptrace in 
+  32bit entry path (CVE-2007-4573)
+- add patch SA48: fix AppArmor return-code and rejected_mask 
+  (from John Johansen @ suse)
+- add patch FS03: unionfs: do not update mtime if there is no upper 
+  branch for the inode (blino@mandriva.com)
+
 * Thu Sep 20 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc7.1mdv
 - update to kernel.org 2.6.23-rc7
 - drop patch AA01: rc6-git6, mergesd upstream
