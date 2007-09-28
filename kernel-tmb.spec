@@ -7,11 +7,11 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc7
+%define kpatch		rc8
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1012,6 +1012,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Sep 28 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc8.1mdv
+- update to kernel.org 2.6.23-rc8-git2 (fixes CVE-2007-4571)
+- drop old patch AA01: CVE-2007-4573 fix, merged upstream
+- drop patches AA10, AA11: ACPI and VESA wakeup fixes, merged upstream
+- rediff patch AX10: hrt/tickless support
+
 * Sun Sep 23 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc7.2mdv
 - add patch AA01: x86_64 zero extend all registers after ptrace in 
   32bit entry path (CVE-2007-4573)
