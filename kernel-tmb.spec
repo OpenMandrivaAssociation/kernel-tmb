@@ -7,8 +7,8 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		rc8
-%define kstable		0
+%define kpatch		0
+%define kstable		1
 
 # this is the releaseversion
 %define kbuild		1
@@ -139,6 +139,8 @@ Source1: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/
 %if %build_nosrc
 NoSource: 0
 %endif
+# This is for disabling mrproper on -devel rpms
+Source2: 	disable-mrproper-in-devel-rpms.patch
 
 Source4: 	README.kernel-%{ktag}-sources
 Source5: 	README.Mandriva_Linux_%{ktag}
@@ -332,7 +334,7 @@ processor mode, use the "nosmp" boot parameter.
 %ifarch %{ix86}
 %define summary_laptop Linux kernel for laptop use with i686-up/smp-4GB
 %define info_laptop This kernel is compiled for laptop use, single or \
-multiple i686 processor(s)/core(s) and less than 4GB RAM, using HZ_100 \
+multiple i686 processor(s)/core(s) and less than 4GB RAM, using HZ_300 \
 to save battery, voluntary preempt, CFS cpu scheduler, cfq i/o scheduler \
 and some other laptop-specific optimizations. If you want to sacrifice \
 battery life for performance, you better use the %{kname}-desktop. \
@@ -342,7 +344,7 @@ processor mode, use the "nosmp" boot parameter.
 %else
 %define summary_laptop Linux kernel for laptop use with %{_arch}
 %define info_laptop This kernel is compiled for laptop use, single or \
-multiple %{_arch} processor(s)/core(s), using HZ_100 to save battery, \
+multiple %{_arch} processor(s)/core(s), using HZ_300 to save battery, \
 voluntary preempt, CFS cpu scheduler, cfq i/o scheduler and some other \
 laptop-specific optimizations. If you want to sacrifice battery life for \
 performance, you better use the %{kname}-desktop. \
@@ -539,7 +541,7 @@ BuildKernel() {
 
 	%kmake all
 
-# Start installing stuff
+	# Start installing stuff
 	install -d %{temp_boot}
 	install -m 644 System.map %{temp_boot}/System.map-$KernelVer
 	install -m 644 .config %{temp_boot}/config-$KernelVer
@@ -574,7 +576,7 @@ SaveDevel() {
 	cp -fR .config Module.symvers $TempDevelRoot
 	cp -fR 3rdparty/mkbuild.pl $TempDevelRoot/3rdparty
 	
-# Needed for truecrypt build (Danny)
+	# Needed for truecrypt build (Danny)
 	cp -fR drivers/md/dm.h $TempDevelRoot/drivers/md/
 	
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
@@ -595,8 +597,11 @@ SaveDevel() {
 		rm -rf $TempDevelRoot/include/asm-sparc64
 	%endif
 
-# fix permissions
+	# fix permissions
 	chmod -R a+rX $TempDevelRoot
+	
+	# disable mrproper in -devel rpms
+	patch -p1 -d $TempDevelRoot -i %{SOURCE2}
 
 	kernel_devel_files=../kernel_devel_files.$devel_flavour
 	
@@ -1012,6 +1017,32 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Oct 20 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.1-1mdv
+- update to kernel.org 2.6.23.1 stable
+- drop patch AA01: 2.6.23-rc8-git2, merged upstream
+- update kernel-laptop summary and descriptions
+- update patch AX10: High Resolution Timer Support & Tickless System
+  to 2.6.23-hrt3
+- add patch CF01: update CFS scheduler to v22.1-rc0
+- update patch MB10: ndiswrapper-1.49rc4
+- update patch MB40: acer_acpi 0.10rc3
+- update patches MB60-MB64: ipw3945 1.2.2
+- sync wireless support with main:
+  * update MB70,MB71: rt2400-cvs20070820
+  * update MB80,MB81: rt2500-cvs20070820
+  * update MB90,MB91: rt2570-cvs20070820
+  * update MC00-MC02: rt61-cvs20070820
+  * update MC10-MC12: rt73-cvs20070823
+- add patches MC40,MC41: Tablet Buttons Driver for Fujitsu Siemens
+  (requested bu Austin)
+- re-enable CONFIG_INPUT_TABLET as it got disabled by mistake
+- set -laptop kernels to HZ_300 as HZ_100 is known to cause audio skips
+  as noted during testing of main kernel
+- disable mrproper target on -devel rpms to stop 3rdparty installers from 
+  wiping out needed files and thereby breaking builds
+  (based on an initial patch by Danny used in kernel-multimedia series)
+- update defconfigs
+
 * Fri Sep 28 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc8.1mdv
 - update to kernel.org 2.6.23-rc8-git2 (fixes CVE-2007-4571)
 - drop old patch AA01: CVE-2007-4573 fix, merged upstream
@@ -1081,7 +1112,7 @@ rm -rf %{buildroot}
 - drop patches FS04, FS05: ext3/4 orphan list debug support and 
   corruption fix, merged upstream
 - disable patch KP01: suspend2 support, as upstream needs to catch up
-- update patches MB10: ndiswrapper 1.48-rc2
+- update patch MB10: ndiswrapper 1.48-rc2
 - redo patch MB11: ndiswrapper Kconfig & Makefile fix
 - add patch MB23: squasfs buildfix for 2.6.23
 - update patch MB40: acer_acpi v0.8.2
