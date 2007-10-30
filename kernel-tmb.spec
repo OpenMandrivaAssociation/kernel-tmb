@@ -11,7 +11,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1017,6 +1017,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Oct 30 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.1-2mdv
+- add patches DC01-DC03: fix x86_64 build of i8k (Dell SMM)
+
 * Sat Oct 20 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.1-1mdv
 - update to kernel.org 2.6.23.1 stable
 - drop patch AA01: 2.6.23-rc8-git2, merged upstream
