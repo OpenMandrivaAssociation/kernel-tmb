@@ -8,10 +8,10 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		1
+%define kstable		9
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1017,6 +1017,36 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Nov 28 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.9-1mdv
+- update to kernel.org 2.6.23.9:
+  * CVE-2007-5500, CVE-2007-5501, CVE-2006-6058
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.9
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.8
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.7
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.6
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.5
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.4
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.3
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.2
+- update patch CF01: CFS scheduler to v24
+- add patch DN20: iwlvifi 1.2.0
+- update patch MB10: ndiswrapper 1.49 final
+- update patch MB40: acer_acpi 0.10rc4
+- add patch NI07: netfilter IFWLOG api fix (Luiz)
+- add patch NI12: netfilter PSD api fix (Luiz)
+- sync with main:
+  * update patches MB70-MB71: rt2400 cvs20071020 wireless support
+  * update patches MB80-MB81: rt2500 cvs20071020 wireless support
+  * update patches MB90-MB91: rt2570 cvs20071020 wireless support
+  * update patches MC00-MC02: rt61 cvs202071020 wireless support
+  * update patches MC10-MC12: rt73 cvs20071020 wireless support
+  * add patches MC50-MC52: acx cvs200701 wireless support
+  * add patches MC60-MC51: Atmel at76c503a wireless support
+  * add patches MC80-MC81: Via High Speed serial support
+  * add patch MD00: USB Video class support
+- enable DEBUG_BUGVERBOSE for x86_64 too
+- update defconfigs
+
 * Tue Oct 30 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.1-2mdv
 - add patches DC01-DC03: fix x86_64 build of i8k (Dell SMM)
 
