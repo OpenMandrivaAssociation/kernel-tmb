@@ -11,7 +11,7 @@
 %define kstable		9
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1017,6 +1017,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Dec  2 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.9-2mdv
+- add patches AA01-AA08 from stable queue:
+  * libertas: properly account for queue commands
+  * NET: random : secure_tcp_sequence_number should not assume 
+    CONFIG_KTIME_SCALAR
+  * NETFILTER: Fix NULL pointer dereference in nf_nat_move_storage()
+  * ramdisk: fix data corruption on memory pressure
+  * PKT_SCHED: Check subqueue status before calling hard_start_xmit
+  * Fix synchronize_irq races with IRQ handler
+  * Input: ALPS - add support for model found in Dell Vostro 1400
+  * Input: ALPS - add signature for ThinkPad R61
+
 * Wed Nov 28 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.9-1mdv
 - update to kernel.org 2.6.23.9:
   * CVE-2007-5500, CVE-2007-5501, CVE-2006-6058
