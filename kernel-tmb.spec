@@ -11,7 +11,7 @@
 %define kstable		9
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1017,6 +1017,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Dec  4 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.9-3mdv
+- add patches CF02, CF03: CFS scheduler Local Dos bugfixes (#35822)
+
 * Sun Dec  2 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.9-2mdv
 - add patches AA01-AA08 from stable queue:
   * libertas: properly account for queue commands
