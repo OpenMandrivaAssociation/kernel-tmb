@@ -8,10 +8,10 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		9
+%define kstable		10
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1017,6 +1017,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Dec 15 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.10-1mdv
+- update to kernel.org 2.6.23.10 stable:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.10
+- drop patches AA01-AA08: -stable prepatches (merged upstream)
+- add patch AI10: fix kernel error message when CPU is not fully
+  i686-compatible, and suggest desktop586 flavour (#34231)
+- rediff patch CF01: CFS scheduler v24
+- add patch CF04: sched: enable early use of sched_clock()
+- update patch MB40: acer_acpi 0.10rc5
+- update patch MC30: drbd v 8.0.8 (#36055)
+
 * Tue Dec  4 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.9-3mdv
 - add patches CF02, CF03: CFS scheduler Local Dos bugfixes (#35822)
 
