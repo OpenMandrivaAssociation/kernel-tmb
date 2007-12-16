@@ -8,7 +8,7 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		10
+%define kstable		11
 
 # this is the releaseversion
 %define kbuild		1
@@ -1017,6 +1017,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Dec 16 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.11-1mdv
+- update to kernel.org 2.6.23.10 stable:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.11
+
 * Sat Dec 15 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.10-1mdv
 - update to kernel.org 2.6.23.10 stable:
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.10
