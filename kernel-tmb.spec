@@ -198,7 +198,6 @@ http://www.iki.fi/tmb/Kernels/
 
 %define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 86
 
-BuildRoot: 		%{_tmppath}/%{kname}-%{kversion}-%{_arch}-build
 Autoreqprov: 		no
 BuildRequires: 		gcc >= 4.0.1-%mkrel 5 module-init-tools >= 3.2-0.pre8.%mkrel 2
 
