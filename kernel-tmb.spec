@@ -8,7 +8,7 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
 %define kpatch		0
-%define kstable		11
+%define kstable		12
 
 # this is the releaseversion
 %define kbuild		1
@@ -1017,8 +1017,19 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Dec 24 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.12-1mdv
+- update to kernel.org 2.6.23.12 stable:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.12
+- update patch CF01: CFS scheduler v 24.1
+- drop patches CF02-CF04: CFS bugfixes (merged upstream)
+- add patch DM01: update to thinkpad-acpi v 0.18 (#35222)
+- update patch MB40: acer_acpi 0.10 final
+- add patch MS01: fix SLUB vs SLAB hackbench regression
+- switch to SLUB as default (same as upstream)
+- update defconfigs
+
 * Sun Dec 16 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.11-1mdv
-- update to kernel.org 2.6.23.10 stable:
+- update to kernel.org 2.6.23.11 stable:
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.11
 
 * Sat Dec 15 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.10-1mdv
