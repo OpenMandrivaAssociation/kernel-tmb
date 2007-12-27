@@ -11,7 +11,7 @@
 %define kstable		12
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1017,6 +1017,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Dec 28 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.12-2mdv
+- update patches DS01-DS02: alsa pcspeaker support, and enable it
+- update patches MB10-MB12: ndiswrapper 1.51
+
 * Mon Dec 24 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.12-1mdv
 - update to kernel.org 2.6.23.12 stable:
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.23.12
