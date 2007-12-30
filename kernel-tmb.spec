@@ -8,11 +8,11 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		git6
+%define kgit		git7
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1039,6 +1039,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Dec 31 2007 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc6.2mdv
+- update to kernel.org 2.6.24-rc6-git7
+- Doh :-( ... re-enable SMP support in all configs as it got disabled by
+  mistake in the scripts cleanup
+
 * Sun Dec 30 2007 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc6.1mdv
 - add support for -git tarballs
 - update to 2.6.24-rc6-git6
