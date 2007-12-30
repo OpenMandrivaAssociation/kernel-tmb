@@ -1067,6 +1067,7 @@ rm -rf %{buildroot}
 - update patch MB02: 3rdparty merge (from main)
 - update patch MB20: squashfs 3.3
 - drop patches MB21-MB23: squashfs fixes (not needed anymore)
+- add patch MB32: acerhk buildfix for 2.6.24
 - update patches MB50-MB52: qc-usb v 0.6.6
 - add patch MB64: ipw3945 buildfix for 2.6.24
 - add patch MB72: rt2400 buildfix for 2.6.24
