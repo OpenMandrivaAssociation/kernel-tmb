@@ -3,15 +3,16 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	23
+%define sublevel	24
 
 # kernel Makefile extraversion is substituted by 
-# kpatch/kstable wich are either 0 (empty), pre/rc (kpatch) or stable release (kstable)
-%define kpatch		0
-%define kstable		12
+# kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
+%define kpatch		rc6
+%define kgit		git6
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -144,7 +145,6 @@ Source2: 	disable-mrproper-in-devel-rpms.patch
 
 Source4: 	README.kernel-%{ktag}-sources
 Source5: 	README.Mandriva_Linux_%{ktag}
-Source6: 	README.%{ktag}.urpmi
 
 Source100: 	linux-%{patch_ver}.tar.bz2
 Source101: 	linux-%{patch_ver}.tar.bz2.sign
@@ -164,6 +164,10 @@ Source102: 	%{kname}.patchlist
 Patch1:		ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/testing/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}.bz2
 Source10: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/testing/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}.bz2.sign
 %endif
+%if %kgit
+Patch2:		ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/snapshots/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}-%{kgit}.bz2
+Source11:	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/snapshots/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}-%{kgit}.bz2.sign
+%endif
 %if %kstable
 Patch1:   	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2
 Source10: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2.sign
@@ -180,7 +184,7 @@ of the operating system:  memory allocation, process allocation, device \
 input and output, etc.
 
 %define common_description_info For instructions for update, see:	\
-http://www.mandriva.com/security/kernelupdate				\
+http://www.mandriva.com/en/security/kernelupdate			\
 									\
 The %{ktag} kernels is an experimental kernel based on the kernel.org	\
 kernels with added patches. Some of them may/will never end up in	\
@@ -467,6 +471,9 @@ cd %src_dir
 %if %kpatch
 %patch1 -p1
 %endif
+%if %kgit
+%patch2 -p1
+%endif
 %if %kstable
 %patch1 -p1
 %endif
@@ -516,19 +523,28 @@ PrepareKernel() {
 	echo "Make dep for kernel $extension"
 	%smake -s mrproper
 
-	if [ $name = ""]; then
-	    cp arch/%{target_arch}/defconfig-maximum .config
+	if [ "%{target_arch}" == "i386" -o "%{target_arch}" == "x86_64" ]; then
+	    if [ -z "$name" ]; then
+		cp arch/x86/configs/%{target_arch}_defconfig-desktop .config
+	    else
+		cp arch/x86/configs/%{target_arch}_defconfig-$name .config
+	    fi
 	else
-	    cp arch/%{target_arch}/defconfig-$name .config
+	    if [ -z "$name" ]; then
+		cp arch/%{target_arch}/defconfig-desktop .config
+	    else
+		cp arch/%{target_arch}/defconfig-$name .config
+	    fi
 	fi
 	
-# make sure EXTRAVERSION says what we want it to say
-%if %kstable
-	LC_ALL=C perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = .%{kstable}-$extension/" Makefile
-%else
-	LC_ALL=C perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = -$extension/" Makefile
-%endif
-### FIXME MDV bugs #29744, #29074, will be removed when fixed upstream
+	# make sure EXTRAVERSION says what we want it to say
+	%if %kstable
+		LC_ALL=C perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = .%{kstable}-$extension/" Makefile
+	%else
+		LC_ALL=C perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = -$extension/" Makefile
+	%endif
+	
+	### FIXME MDV bugs #29744, #29074, will be removed when/if fixed upstream
 	LC_ALL=C perl -p -i -e "s/^source/### source/" drivers/crypto/Kconfig
 
 	%smake oldconfig
@@ -565,13 +581,18 @@ SaveDevel() {
 	TempDevelRoot=%{temp_root}$DevelRoot
 
 	mkdir -p $TempDevelRoot
-	for i in $(find . -name Makefile -o -name Makefile-* -o -name Makefile.*); do cp -R --parents $i $TempDevelRoot;done
-	for i in $(find . -name Kconfig -o -name Kconfig.* -o -name Kbuild -o -name Kbuild.*); do cp -R --parents $i $TempDevelRoot;done
+	for i in $(find . -name 'Makefile*'); do cp -R --parents $i $TempDevelRoot;done
+	for i in $(find . -name 'Kconfig*' -o -name 'Kbuild*'); do cp -R --parents $i $TempDevelRoot;done
 	cp -fR include $TempDevelRoot
 	cp -fR scripts $TempDevelRoot
-	cp -fR arch/%{target_arch}/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/%{target_arch}/kernel/
+	%ifarch %{ix86} x86_64
+		cp -fR arch/x86/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/x86/kernel/
+		cp -fR arch/x86/kernel/asm-offsets_{32,64}.c $TempDevelRoot/arch/x86/kernel/
+	%else
+		cp -fR arch/%{target_arch}/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/%{target_arch}/kernel/
+	%endif
 	%ifarch %{ix86}
-	cp -fR arch/%{target_arch}/kernel/sigframe.h $TempDevelRoot/arch/%{target_arch}/kernel/
+		cp -fR arch/x86/kernel/sigframe_32.h $TempDevelRoot/arch/x86/kernel/
 	%endif
 	cp -fR .config Module.symvers $TempDevelRoot
 	cp -fR 3rdparty/mkbuild.pl $TempDevelRoot/3rdparty
@@ -579,16 +600,17 @@ SaveDevel() {
 	# Needed for truecrypt build (Danny)
 	cp -fR drivers/md/dm.h $TempDevelRoot/drivers/md/
 	
+	# Needed for lguest
+	cp -fR drivers/lguest/lg.h $TempDevelRoot/drivers/lguest/
+		
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
 	done
 	
 	%ifnarch %{ix86} x86_64
-		rm -rf $TempDevelRoot/arch/i386
-		rm -rf $TempDevelRoot/arch/x86_64
-		rm -rf $TempDevelRoot/include/asm-i386
-		rm -rf $TempDevelRoot/include/asm-x86_64
+		rm -rf $TempDevelRoot/arch/x86
+		rm -rf $TempDevelRoot/include/asm-x86
 	%endif
 	%ifnarch sparc sparc64
 		rm -rf $TempDevelRoot/arch/sparc
@@ -597,6 +619,11 @@ SaveDevel() {
 		rm -rf $TempDevelRoot/include/asm-sparc64
 	%endif
 
+	# Clean the scripts tree
+	pushd $TempDevelRoot >/dev/null
+		%smake -s clean
+	popd >/dev/null
+	
 	# fix permissions
 	chmod -R a+rX $TempDevelRoot
 	
@@ -615,8 +642,7 @@ cat > $kernel_devel_files <<EOF
 $DevelRoot/3rdparty
 $DevelRoot/Documentation
 %ifarch %{ix86} x86_64
-$DevelRoot/arch/i386
-$DevelRoot/arch/x86_64
+$DevelRoot/arch/x86
 %endif
 %ifarch sparc sparc64
 $DevelRoot/arch/sparc
@@ -632,8 +658,7 @@ $DevelRoot/include/acpi
 $DevelRoot/include/asm
 $DevelRoot/include/asm-generic
 %ifarch %{ix86} x86_64
-$DevelRoot/include/asm-i386
-$DevelRoot/include/asm-x86_64
+$DevelRoot/include/asm-x86
 %endif
 %ifarch sparc sparc64
 $DevelRoot/include/asm-sparc
@@ -661,6 +686,7 @@ $DevelRoot/kernel
 $DevelRoot/lib
 $DevelRoot/mm
 $DevelRoot/net
+$DevelRoot/samples
 $DevelRoot/scripts
 $DevelRoot/security
 $DevelRoot/sound
@@ -671,7 +697,6 @@ $DevelRoot/Makefile
 $DevelRoot/Module.symvers
 %doc README.Mandriva_Linux_%{ktag}
 %doc README.kernel-%{ktag}-sources
-%doc README.urpmi
 EOF
 
 
@@ -714,7 +739,6 @@ cat > $kernel_files <<EOF
 %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/modules.*
 %doc README.Mandriva_Linux_%{ktag}
 %doc README.kernel-%{ktag}-sources
-%doc README.urpmi
 EOF
 
 
@@ -833,6 +857,7 @@ CreateKernel server
     PrepareKernel "" %{buildrpmrel}%{ktag}custom
 %smake -s prepare
 %smake -s scripts
+%smake -s clean
 %endif
 
 
@@ -842,7 +867,6 @@ CreateKernel server
 %install
 install -m 644 %{SOURCE4}  .
 install -m 644 %{SOURCE5}  .
-install -m 644 %{SOURCE6}  README.urpmi
 
 cd %src_dir
 
@@ -941,8 +965,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/3rdparty
 %{_kerneldir}/Documentation
 %ifarch %{ix86} x86_64
-%{_kerneldir}/arch/i386
-%{_kerneldir}/arch/x86_64
+%{_kerneldir}/arch/x86
 %endif
 %ifarch sparc sparc64
 %{_kerneldir}/arch/sparc
@@ -958,8 +981,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/asm
 %{_kerneldir}/include/asm-generic
 %ifarch %{ix86} x86_64
-%{_kerneldir}/include/asm-i386
-%{_kerneldir}/include/asm-x86_64
+%{_kerneldir}/include/asm-x86
 %endif
 %ifarch sparc sparc64
 %{_kerneldir}/include/asm-sparc
@@ -987,6 +1009,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/lib
 %{_kerneldir}/mm
 %{_kerneldir}/net
+%{_kerneldir}/samples
 %{_kerneldir}/scripts
 %{_kerneldir}/security
 %{_kerneldir}/sound
@@ -1002,7 +1025,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/REPORTING-BUGS
 %doc README.Mandriva_Linux_%{ktag}
 %doc README.kernel-%{ktag}-sources
-%doc README.urpmi
 #endif build_source
 
 %files -n %{kname}-source-latest
@@ -1017,6 +1039,54 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Dec 30 2007 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc6.1mdv
+- add support for -git tarballs
+- update to 2.6.24-rc6-git6
+- rediff patch AI01: Toshiba Equium A60 needs pci=assign-busses
+- drop patches AI02-AI03: picopower irq-router support (merged upstream)
+- rediff patch AI10: error message suggesting use of desktop586 kernel
+- drop patch AX01: nvidia sata corruption fix (fixed upstream)
+- drop patch AX10: x86_64 High Resolution Timer & Tickless support
+  (merged upstream)
+- update patch AS01: linux-phc 0.3.1:1
+- rediff patch CE02: acpi dsdt support
+- drop patch CF01: CFS v24.1 (merged upstream)
+- drop patches CK01-CK06: swap prefeth as upstream has dropped them too
+- redo patch CR01: BadRAM support
+- disable patches DA11-DA12: nVidia Software NCQ support, need to be redone
+- drop patch DA81: Danny's Intel HDA codec detection fix, merged upstream
+- redo patch DC03: fix Kconfig to enable i8k on x86_64
+- update patch DM01: thincpad-acpi v 0.18 for 2.6.24-rc6
+- drop patch DN20: iwlwifi support, merged upstream
+- add patch DS03: pcsp buildif for 2.6.24
+- add patches FP01-FP03: add pagecache zero_user* support, needed for reiser4
+- replace old patches FR01-FR22 with new FR01-FR22: Reiserfs4 support from
+  AKPM's 2.6.24-rc6-mm1
+- update patch FS01: unionfs v 2.2
+- update patch KP01: tuxonice v 3.0-rc3
+- update patch MB02: 3rdparty merge (from main)
+- update patch MB20: squashfs 3.3
+- drop patches MB21-MB23: squashfs fixes (not needed anymore)
+- update patches MB50-MB52: qc-usb v 0.6.6
+- add patch MB64: ipw3945 buildfix for 2.6.24
+- add patch MB72: rt2400 buildfix for 2.6.24
+- add patch MB82: rt2500 buildfix for 2.6.24
+- add patch MB92: rt2570 buildfix for 2.6.24
+- add patch MC03: rt61 buildfix for 2.6.24
+- add patch MC13: rt73 buildfix for 2.6.24
+- add patch MC53: acx buildfix for 2.6.24
+- update patch MD00-MD02: uvc r158 (from main)
+- drop patch MS02: SLUB regression fix, merged upstream
+- updste patches NI01-NI05: ipset support (from main)
+- update patches NI10-NI11: ifwlog support (from main)
+- update patches NI15-NI16: psd support (from main)
+- disable patches SA01-SA58: AppArmor support, need to be updated
+- update specfile & build scripts for the i386 + x86_64 > x86 merge
+- drop defconfig-maximum as it's a duplicate of defconfig-desktop
+- use make clean on -devel & source tree to not ship unneeded files
+- update defconfigs
+- drop README.urpmi
+
 * Fri Dec 28 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.12-2mdv
 - update patches DS01-DS02: alsa pcspeaker support, and enable it
 - update patches MB10-MB12: ndiswrapper 1.51
