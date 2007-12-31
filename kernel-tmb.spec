@@ -909,6 +909,13 @@ done
 # other misc files
 rm -f %{target_source}/{.config.old,.config.cmd,.mailmap,.missing-syscalls.d}
 
+# this ends up in the i386 build, probably a bug with latest i386/x86_64
+# merge changes in 2.6.24-rc3, for now just use a temporary fix and
+# clean it
+%ifarch %{ix86}
+unlink %{target_source}/arch/i386/boot/bzImage
+%endif
+
 #endif %build_source
 %endif
 
