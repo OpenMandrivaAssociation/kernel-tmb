@@ -8,11 +8,11 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		git7
+%define kgit		git11
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -409,16 +409,19 @@ drivers against, install the *-devel-* rpm that is matching your kernel.
 %post -n %{kname}-source-%{buildrel}
 for i in /lib/modules/%{kversion}-%{ktag}-*-%{buildrpmrel}; do
         if [ -d $i ]; then
-		rm -f $i/{build,source}
-                ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} $i/build
-                ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} $i/source
+		if [ ! -L $i/build -a ! -L $i/source ]; then	
+            		ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} $i/build
+            		ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} $i/source
+		fi
         fi
 done
 
 %preun -n %{kname}-source-%{buildrel}
 for i in /lib/modules/%{kversion}-%{ktag}-*-%{buildrpmrel}/{build,source}; do
 	if [ -L $i ]; then
-		rm -f $i
+		if [ "$(readlink $i)" = "/usr/src/%{kversion}-%{ktag}-%{buildrpmrel}" ]; then
+			rm -f $i
+		fi
 	fi
 done
 exit 0
@@ -641,14 +644,14 @@ cat > $kernel_devel_files <<EOF
 %dir $DevelRoot/include
 $DevelRoot/3rdparty
 $DevelRoot/Documentation
-%ifarch %{ix86} x86_64
-$DevelRoot/arch/x86
-%endif
 %ifarch sparc sparc64
 $DevelRoot/arch/sparc
 $DevelRoot/arch/sparc64
 %endif
 $DevelRoot/arch/um
+%ifarch %{ix86} x86_64
+$DevelRoot/arch/x86
+%endif
 $DevelRoot/block
 $DevelRoot/crypto
 $DevelRoot/drivers
@@ -657,14 +660,14 @@ $DevelRoot/include/Kbuild
 $DevelRoot/include/acpi
 $DevelRoot/include/asm
 $DevelRoot/include/asm-generic
-%ifarch %{ix86} x86_64
-$DevelRoot/include/asm-x86
-%endif
 %ifarch sparc sparc64
 $DevelRoot/include/asm-sparc
 $DevelRoot/include/asm-sparc64
 %endif
 $DevelRoot/include/asm-um
+%ifarch %{ix86} x86_64
+$DevelRoot/include/asm-x86
+%endif
 $DevelRoot/include/config
 $DevelRoot/include/crypto
 $DevelRoot/include/keys
@@ -778,12 +781,12 @@ cat > $kernel_files-preun <<EOF
 /sbin/installkernel -R %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
 pushd /boot > /dev/null
 if [ -L vmlinuz-%{ktag}-$kernel_flavour ]; then
-	if [ \$(readlink vmlinuz-%{ktag}-$kernel_flavour) = "vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}" ]; then
+	if [ "$(readlink vmlinuz-%{ktag}-$kernel_flavour)" = "vmlinuz-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}" ]; then
 		rm -f vmlinuz-%{ktag}-$kernel_flavour
 	fi
 fi
 if [ -L initrd-%{ktag}-$kernel_flavour.img ]; then
-	if [ \$(readlink initrd-%{ktag}-$kernel_flavour.img) = "initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}.img" ]; then
+	if [ "$(readlink initrd-%{ktag}-$kernel_flavour.img)" = "initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}.img" ]; then
 		rm -f initrd-%{ktag}-$kernel_flavour.img
 	fi
 fi
@@ -894,10 +897,8 @@ for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68kn
 done
 
 %ifnarch %{ix86} x86_64
-	rm -rf %{target_source}/arch/i386
-	rm -rf %{target_source}/arch/x86_64
-	rm -rf %{target_source}/include/asm-i386
-	rm -rf %{target_source}/include/asm-x86_64
+	rm -rf %{target_source}/arch/x86
+	rm -rf %{target_source}/include/asm-x86
 %endif
 %ifnarch sparc sparc64
 	rm -rf %{target_source}/arch/sparc
@@ -971,14 +972,14 @@ rm -rf %{buildroot}
 %dir %{_kerneldir}/include
 %{_kerneldir}/3rdparty
 %{_kerneldir}/Documentation
-%ifarch %{ix86} x86_64
-%{_kerneldir}/arch/x86
-%endif
 %ifarch sparc sparc64
 %{_kerneldir}/arch/sparc
 %{_kerneldir}/arch/sparc64
 %endif
 %{_kerneldir}/arch/um
+%ifarch %{ix86} x86_64
+%{_kerneldir}/arch/x86
+%endif
 %{_kerneldir}/block
 %{_kerneldir}/crypto
 %{_kerneldir}/drivers
@@ -987,14 +988,14 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/acpi
 %{_kerneldir}/include/asm
 %{_kerneldir}/include/asm-generic
-%ifarch %{ix86} x86_64
-%{_kerneldir}/include/asm-x86
-%endif
 %ifarch sparc sparc64
 %{_kerneldir}/include/asm-sparc
 %{_kerneldir}/include/asm-sparc64
 %endif
 %{_kerneldir}/include/asm-um
+%ifarch %{ix86} x86_64
+%{_kerneldir}/include/asm-x86
+%endif
 %{_kerneldir}/include/config
 %{_kerneldir}/include/crypto
 %{_kerneldir}/include/keys
@@ -1046,6 +1047,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jan  5 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc6.3mdv
+- update to kernel.org 2.6.24-rc6-git11
+- update patch FS01: unionfs 2.2.1
+- more spec fixes due to x86 merge
+- fix build,source symlinks to -source tree to be created only if no
+  matching -devel tree is installed, and to be removed only if they
+  point at the -source tree
+- optimize NR_CPUS according to flavours for memory savings
+  * desktop586: 8, desktop: 16, laptop: 8, server: 32
+
 * Mon Dec 31 2007 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc6.2mdv
 - update to kernel.org 2.6.24-rc6-git7
 - Doh :-( ... re-enable SMP support in all configs as it got disabled by
