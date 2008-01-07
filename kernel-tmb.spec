@@ -7,12 +7,12 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
-%define kpatch		rc6
-%define kgit		git11
+%define kpatch		rc7
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -127,7 +127,7 @@ License: 	GPL
 Group: 	 	System/Kernel and hardware
 ExclusiveArch: 	%{ix86} x86_64 sparc64
 ExclusiveOS: 	Linux
-URL: 		http://www.kernel.org/
+URL: 		http://wiki.mandriva.com/en/Docs/Howto/Mandriva_Kernels#kernel-tmb
 
 ####################################################################
 #
@@ -190,10 +190,7 @@ The %{ktag} kernels is an experimental kernel based on the kernel.org	\
 kernels with added patches. Some of them may/will never end up in	\
 the main kernels due to their experimental nature. Some refer to	\
 this kernel as a 'hackkernel' ...					\
-Use these kernels at your own risk !!					\
-									\
-If you want more info on the various %{kname} flavours, please visit:	\
-http://www.iki.fi/tmb/Kernels/
+Use these kernels at your own risk !!					
 
 ### Global Requires/Provides
 %define requires1 	mkinitrd >= 4.2.17-%mkrel 52
@@ -1047,6 +1044,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan  7 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.1mdv
+- update to kernel.org 2.6.24-rc7
+- review and updeate defconfigs
+  * make RTC modular (same as main kernel)
+  * enable USB_SUSPEND and USB_PERSIST
+  * enable some modules that got disabled by mistake
+- fix url to point at Mandriva wiki
+
 * Sat Jan  5 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc6.3mdv
 - update to kernel.org 2.6.24-rc6-git11
 - update patch FS01: unionfs 2.2.1
