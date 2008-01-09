@@ -8,11 +8,11 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		0
+%define kgit		git2
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1044,9 +1044,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jan 10 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.3mdv
+- update to 2.6.24-rc7-git2
+- drop patch DS05: alsa hda_intel revert (merged upstream)
+
 * Wed Jan  9 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.2mdv
 - redo the defconfigs as they got somewhat screwed up in last build
-- add patch DS06: revert alsa hda_intel to -rc6 status as -rc7 is broken
+- add patch DS05: revert alsa hda_intel to -rc6 status as -rc7 is broken
   (noted on LKML)
 - disable CONFIG_RTC as it conflicts with GEN_RTC
 
