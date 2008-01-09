@@ -12,7 +12,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1044,6 +1044,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jan  9 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.2mdv
+- redo the defconfigs as they got somewhat screwed up in last build
+- add patch DS06: revert alsa hda_intel to -rc6 status as -rc7 is broken
+  (noted on LKML)
+- disable CONFIG_RTC as it conflicts with GEN_RTC
+
 * Mon Jan  7 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.1mdv
 - update to kernel.org 2.6.24-rc7
 - review and updeate defconfigs
