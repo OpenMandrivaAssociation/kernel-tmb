@@ -8,11 +8,11 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		git2
+%define kgit		git4
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1044,6 +1044,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jan 12 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.4mdv
+- update to 2.6.24-rc7-git4
+- add patch DA01: acpi-release-20070126-2.6.24-rc7, acpi regression
+  fixes (should fix #36711)
+- disable XEN Guuest support on all but server kernels as it 
+  breaks AGP support (#36458)
+
 * Thu Jan 10 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.3mdv
 - update to 2.6.24-rc7-git2
 - drop patch DS05: alsa hda_intel revert (merged upstream)
