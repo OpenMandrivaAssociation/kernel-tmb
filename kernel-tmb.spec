@@ -7,12 +7,12 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
-%define kpatch		rc7
-%define kgit		git4
+%define kpatch		rc8
+%define kgit		git3
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -218,6 +218,9 @@ Version:	%{fakever}				\
 Release:	%{fakerel}				\
 Provides:	%kprovides				\
 Requires(pre):	%requires1 %requires2 %requires3	\
+%ifarch %{ix86}						\
+Conflicts:	arch(x86_64)				\
+%endif							\
 Summary:	%{expand:%{summary_%(echo %{1})}}	\
 Group:		System/Kernel and hardware		\
 %description -n %{kname}-%{1}-%{buildrel}		\
@@ -229,6 +232,9 @@ Group:		System/Kernel and hardware		\
 Version:	%{fakever}				\
 Release:	%{fakerel}				\
 Requires:	glibc-devel ncurses-devel make gcc perl	\
+%ifarch %{ix86}						\
+Conflicts:	arch(x86_64)				\
+%endif							\
 Summary:	The kernel-devel files for %{kname}-%{1}-%{buildrel} \
 Group:		Development/Kernel			\
 Provides:	kernel-devel = %{kverrel} 		\
@@ -248,6 +254,9 @@ Summary:	Virtual rpm for latest %{kname}-%{1}	\
 Group:		System/Kernel and hardware		\
 Requires:	%{kname}-%{1}-%{buildrel}		\
 Obsoletes:	%{kname}-%{1}-smp-latest <= 2.6.22-0.rc5.%{expand:%mkrel 1} \
+%ifarch %{ix86}						\
+Conflicts:	arch(x86_64)				\
+%endif							\
 %description -n %{kname}-%{1}-latest			\
 This package is a virtual rpm that aims to make sure you always have the \
 latest %{kname}-%{1} installed...			\
@@ -261,6 +270,9 @@ Summary:	Virtual rpm for latest %{kname}-%{1}-devel \
 Group:		Development/Kernel			\
 Requires:	%{kname}-%{1}-devel-%{buildrel}		\
 Obsoletes:	%{kname}-%{1}-smp-devel-latest <= 2.6.22-0.rc5.%{expand:%mkrel 1} \
+%ifarch %{ix86}						\
+Conflicts:	arch(x86_64)				\
+%endif							\
 %description -n %{kname}-%{1}-devel-latest		\
 This package is a virtual rpm that aims to make sure you always have the \
 latest %{kname}-%{1}-devel installed...			\
@@ -392,6 +404,9 @@ Summary: 	The Linux source code for %{kname}-%{buildrel}
 Group: 		Development/Kernel
 Autoreqprov: 	no
 Provides: 	kernel-source = %{kverrel}, kernel-devel = %{kverrel}
+%ifarch %{ix86}
+Conflicts:	arch(x86_64)
+%endif
 
 %description -n %{kname}-source-%{buildrel}
 The %{kname}-source package contains the source code files for the %{ktag}
@@ -432,6 +447,9 @@ Release: 	%{rpmrel}
 Summary: 	Virtual rpm for latest %{kname}-source
 Group:   	Development/Kernel
 Requires: 	%{kname}-source-%{buildrel}
+%ifarch %{ix86}
+Conflicts:	arch(x86_64)
+%endif
 
 %description -n %{kname}-source-latest
 This package is a virtual rpm that aims to make sure you always have the
@@ -1044,6 +1062,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jan 19 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc8.1mdv
+- update to 2.6.24-rc8-git3
+- rediff patch CR01: BadRAM support
+- drop patch DA01: acpi regression fixes (merged upstream)
+- update FR01-FR17: Reiser4 support (from 2.6.24-rc8-mm1)
+- update FS01: unionfs 2.2.2
+- set CONFIG_PHYSICAL_START=0x200000 on x86_64 so the kernels actually boot
+- make 32bit kernels conflict arch(x86_64) so they cant be installed
+  by mistake (#32631)
+- update defconfigs
+
 * Sat Jan 12 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.4mdv
 - update to 2.6.24-rc7-git4
 - add patch DA01: acpi-release-20070126-2.6.24-rc7, acpi regression
