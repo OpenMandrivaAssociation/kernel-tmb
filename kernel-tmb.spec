@@ -8,11 +8,11 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		rc8
-%define kgit		git3
+%define kgit		git5
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1062,6 +1062,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jan 23 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc8.2mdv
+- update to 2.6.24-rc8-git5
+- add patch DS10: alsa 1.0.16-rc1
+- add patch KS01: CFS cpu_share tunable crash fix (LKML)
+- update defconfigs
+
 * Sat Jan 19 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc8.1mdv
 - update to 2.6.24-rc8-git3
 - rediff patch CR01: BadRAM support
