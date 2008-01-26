@@ -7,12 +7,12 @@
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
-%define kpatch		rc8
-%define kgit		git5
+%define kpatch		0
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1062,6 +1062,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jan 26 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-1mdv
+- update to 2.6.24 final
+- drop patch KS01: CFS cpu_share fix (merged upstream)
+- update patch FS01: unionfs 2.2.3
+
 * Wed Jan 23 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc8.2mdv
 - update to 2.6.24-rc8-git5
 - add patch DS10: alsa 1.0.16-rc1
