@@ -1062,8 +1062,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Thu Jan 31 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-2mdv
+* Fri Feb  1 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-2mdv
 - add patch DM10: device-mapper raid4/5 target
+- add patch DM11: fix device-mapper  raid4/5 build for 2.6.24
 - update patch DN15: nozomi driver merged upstream
 - drop patch DN16: nozomi build fix, not neede anymore
 - uppdate patch DS10: alsa 1.0.16rc2 + git-2008-01-31
