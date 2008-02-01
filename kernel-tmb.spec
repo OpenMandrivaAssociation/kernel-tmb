@@ -1068,6 +1068,8 @@ rm -rf %{buildroot}
 - update patch DN15: nozomi driver merged upstream
 - drop patch DN16: nozomi build fix, not neede anymore
 - uppdate patch DS10: alsa 1.0.16rc2 + git-2008-01-31
+- add patch KS01: disable inclusion of s390 file in sysctl_check as 
+  we dont ship arch/s390 files in our kernel-source (#37388)
 - update defconfigs
 
 * Sat Jan 26 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-1mdv
