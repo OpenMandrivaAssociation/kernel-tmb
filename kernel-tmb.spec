@@ -9,10 +9,10 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1062,6 +1062,28 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Feb 10 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.1-1mdv
+- update to 2.6.24.1 stable:
+  * CVE-2008-0007, CVE-2008-0009/10
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.24.1
+- add patches DN20,DN21: Atheros L2 10/100 support
+- update patch DS10: alsa 1.0.16 final
+- add selected patches from alsa HG:
+  * DS11: sound-soc-fix-duplicate-rj-master-test
+  * DS12: sound-hda-intel-Fix-PCM-device-number-assignment
+  * DS13: sound-hda-codec-Add-ID-for-HDMI-codec-on-Jetway-J9F2
+  * DS14: sound-ice1712-Fix-hoontech-MIDI-input
+  * DS15: sound-hda-STAC927x-power-down-inactive-DACs
+  * DS16: sound-hda-intel-use-SG-buffers
+  * DS17: sound-hda-intel-support-64bit-buffer-allocation
+  * DS18: sound-ice1712-add-support-for-Delta-1010E
+  * DS19: sound-ice1712-all-support-for-Delta-66E
+  * DS20: sound-hda-intel-Fix-compile-error-with-CONFIG_SND_DEBUG_DETECT
+  * DS21: sound-hda-codec-correct-HDMI-transmitter-names
+  * DS22: sound-hda-codec-remove-duplicate-controls-in-alc268-test-mixer
+  * DS23: sound-hda-codec-Fix-race-condition-in-generic-bound-volume-switch-controls
+- update defconfigs
+
 * Fri Feb  1 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-2mdv
 - add patch DM10: device-mapper raid4/5 target
 - add patch DM11: fix device-mapper  raid4/5 build for 2.6.24
