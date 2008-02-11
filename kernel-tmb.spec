@@ -9,7 +9,7 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		1
+%define kstable		2
 
 # this is the releaseversion
 %define kbuild		1
@@ -1062,6 +1062,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Feb 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.2-1mdv
+- quick update to 2.6.24.2 stable: (CVE-2008-0600)
+
 * Sun Feb 10 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.1-1mdv
 - update to 2.6.24.1 stable:
   * CVE-2008-0007, CVE-2008-0009/10
