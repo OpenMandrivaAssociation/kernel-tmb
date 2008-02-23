@@ -12,7 +12,7 @@
 %define kstable		2
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1062,6 +1062,51 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb 23 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.2-2mdv
+- disable CONFIG_USB_OHCI_HCD_SSB so ssb wont get loaded even if it
+  is blacklisted (reported by AdamW on kernel-discuss)
+- disable FAIR_USER_SCHED and FAIR_GROUP_SCHED to get better
+  porformance from the kernels (reported by FHimpe on kernel-discuss)
+- add patch DI10: update Wacom tablet support (#37073)
+  * adds support for: Bamboo1, BambooFun and Cintiq 12WX
+- add patch DM20: add compal-laptop driver (#37860)
+- add patch DN30: initial rndis wm5/6 support (#30128)
+- add more fixes and addons from Alsa HG:
+  * DS24: sound-hda-codec-fix-ALC880-F1734-model
+  * DS25: sound-hda-codec-fix-automute-of-AD1981HD-hp-model
+  * DS26: sound-hda-codec-dont-create-vmaster-if-no-slaves-found
+  * DS27: sound-hda-codec-fix-wrong-capture-source-selection-for-ALC883-codec
+  * DS28: sound-hda-codec-fix-ALC882-capture-source-selection
+  * DS29: sound-hda-codec-clean-up-capture-source-selection-of-Realtek-codecs
+  * DS30: sound-hda-codec-implement-auto-mic-jack-sensing-for-Samsung-laptops-with-AD1986A
+  * DS31: sound-hda-codec-more-auto-configuration-fixups
+  * DS32: sound-hda-codec-fix-aout-configuration-of-realtek-codecs
+  * DS33: sound-hda-codec-add-IEC958-default-PCM-switch
+  * DS34: sound-hda-codec-add-more-names-to-vendor-list
+  * DS35: sound-hda-codec-fix-breakage-of-resume-in-auto-config-of-realtek-codecs
+  * DS36: sound-hda-intel-add-ATI-RV7xx-HDMI-audio-support
+  * DS37: sound-hda-codec-fix-amp-in-values-for-pin-widgets
+  * DS38: sound-hda-codec-fix-missing-capsrc_nids-for-ALC262
+  * DS39: sound-hda-codec-add-support-for-AD1883-AD1884A-AD198A-q984B
+  * DS40: sound-hda-codec-add-model-mobile-for-AD1884A
+  * DS41: sound-intel8x0-add-support-for-8-channel-sound
+  * DS42: sound-hda-codec-fix-master-volume-on-HP-dv8000
+  * DS43: bt87X-fix-freeing-of-shared-interrupt
+  * DS44: sound-hda-intel-fix-oops-with-ATI-HDMI-devices
+  * DS45: sound-hda-codec-fix-ALC662-recording
+  * DS46: sound-hda-codec-fix-ALC268-capture-source
+  * DS47: sound-hda-codec-fix-STAC927x-power-management
+  * DS48: sound-hda-codec-fix-STAC927x-invalid-association-value
+  * DS49: sound-hda-add-PCI_QUIRKS-for-laptops-with-92HDxxxx-codecs
+  * DS50: sound-hda-STAC927x-analog-mic
+  * DS51: sound-seq_oss_synth-remove-invalid-bug
+  * DS52: sound-hda-codec-add-missing-descriptions-for-STAC-codec-models
+- update patch FS01: unionfs v2.2.4 (from main)
+- update patch MB10: ndiswrapper 1.52
+- update patch MC30: drbd v8.0.11 (from main)
+- update patches MD00-MD01: uvc r173 (from main)
+- update defconfigs
+    
 * Mon Feb 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.2-1mdv
 - quick update to 2.6.24.2 stable: (CVE-2008-0600)
 
