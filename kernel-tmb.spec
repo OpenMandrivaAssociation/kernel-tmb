@@ -9,10 +9,10 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		2
+%define kstable		3
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1062,6 +1062,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Feb 29 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-1mdv
+- update to 2.6.24.3 stable:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.24.3
+- update patch MB40: acer_acpi 0.11.1
+- add patch MD10: Prism2 v0.2.9 (#38155)
+- update defconfigs
+
 * Sat Feb 23 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.2-2mdv
 - disable CONFIG_USB_OHCI_HCD_SSB so ssb wont get loaded even if it
   is blacklisted (reported by AdamW on kernel-discuss)
