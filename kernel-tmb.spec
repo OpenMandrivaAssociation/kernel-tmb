@@ -12,7 +12,7 @@
 %define kstable		3
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1062,6 +1062,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Mar  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-2mdv
+- update patch DI10: wacom tablet 0.7.9-8 (#37073)
+  * bugfixes, adds support for Wacom Cintiq 20WSX
+- add patch DH01: add usb hid quirk for Multilaser USB-PS/2 
+  keyboard adapter (#36870)
+- add fixes from Alsa HG tree:
+  * DS53: hda-codec adapt eeepc p701 mixer for virtual master control
+  * DS54: usb-audio add workaround for broken E-Mu frequency feedback
+  * DS55: usb-audio sort quirks list
+  * DS56: sb8 fix sb 1.0 capture DMA programming
+  * DS57: hda-codec fix AD1988 capture elements
+  * DS58: hda-codec add Fujitsu Lifebook E8410 to quirk table
+  * DS59: hda-codec fix initial DAC numbers of 92HD71bxx codecs
+  * DS60: oxygen add owner field
+  * DS61: hda-codec add docking-station mic-input for Thinkpad X61
+  * DS62: hda-codec fix names of realtek codecs to adapt master controls
+  * DS63: intel8x0 add quirk for Compaq Deskpro EN
+  * DS64: hda-sigmatel disable power management on fixed ports
+  * DS65: hda-sigmatel-add-verbs-for-92hd73xxx-laptops
+  * DS66: hda-codec fix array over-range access with stac92hd71bxx codec
+
 * Fri Feb 29 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-1mdv
 - update to 2.6.24.3 stable:
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.24.3
