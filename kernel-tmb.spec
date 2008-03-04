@@ -12,7 +12,7 @@
 %define kstable		3
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -217,6 +217,7 @@ BuildRequires: 		gcc >= 4.0.1-%mkrel 5 module-init-tools >= 3.2-0.pre8.%mkrel 2
 Version:	%{fakever}				\
 Release:	%{fakerel}				\
 Provides:	%kprovides				\
+Provides:	should-restart = system			\
 Requires(pre):	%requires1 %requires2 %requires3	\
 %ifarch %{ix86}						\
 Conflicts:	arch(x86_64)				\
@@ -1062,6 +1063,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Mar  5 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-3mdv
+- add patch DV01: bootsplash 3.1.6 
+- add Provides should-restart = system
+- add patch DH02: fix for wacom serial devices when usbhid are loaded (#35201)
+- update patch DN30: full usb-rndis-lite svn rev 3305 checkout (#30128)
+- replace old patches DS01-DS03 with new DS01,DS02:
+  * alsa pc-speaker support from Alsa HG
+- add fixes from Alsa HG tree:
+  * DS67: hda-codec mode for alc883 to support M720R
+  * DS68: hda ALC288 Add NEC S970 to the quirk table
+- add patches DS90,DS91: Enable a wacom digitizer on an HP TC1100
+- update patch KP01: TuxOnIce 3.0-rc5
+- add patch MB65: ipw3945 fix skb->tail on 64 bit
+- update defconfigs
+
 * Sun Mar  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-2mdv
 - update patch DI10: wacom tablet 0.7.9-8 (#37073)
   * bugfixes, adds support for Wacom Cintiq 20WSX
