@@ -12,7 +12,7 @@
 %define kstable		3
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -200,6 +200,7 @@ Use these kernels at your own risk !!
 %define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 86
 
 BuildRoot: 		%{_tmppath}/%{kname}-%{kversion}-%{_arch}-build
+%define buildroot	%{_tmppath}/%{kname}-%{kversion}-%{_arch}-build
 Autoreqprov: 		no
 BuildRequires: 		gcc >= 4.0.1-%mkrel 5 module-init-tools >= 3.2-0.pre8.%mkrel 2
 
@@ -1063,6 +1064,37 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Mar  9 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-4mdv
+- override system buildroot definition on 2008 systems to 
+  get back correct BuildRoot behaviour
+- add patches from upstream stable queue:
+  * AA01: ipcomp-disable-bh-on-output-when-using-shared-tfm
+  * AA02: ipconfig-the-kernel-gets-no-ip-from-some-dhcp-servers
+  * AA03: ipv4-remove-ip_tos-setting-privilege-checks
+  * AA04: ipv6-dst_entry-leak-in-ip4ip6_err
+  * AA05: ipv6-fix-ipsec-datagram-fragmentation
+  * AA06: net-fix-race-in-dev_close
+  * AA07: net-messed-multicast-lists-after-dev_mc_sync-unsync
+  * AA08: niu-bump-driver-version-and-release-date
+  * AA09: niu-fix-bmac-alternate-mac-address-indexing
+  * AA10: niu-more-bmac-alt-mac-address-fixes
+  * AA11: revert-net-add-if_addrlabel.h-to-sanitized-headers
+  * AA12: sparc64-loosen-checks-in-exception-table-handling
+  * AA13: sparc-fix-link-errors-with-gcc-4.3
+  * AA14: tcp-improve-ipv4-established-hash-function
+- add updates from Alsa HG:
+  * DS02: pcsp: improve "enable" option handling
+  * DS04: pcsp: add description
+  * DS69: hda-codec - model for alc883 to support FUJITSU Pi2515
+  * DS70: hda-codec - model for cx20549 to support laptop HP530
+  * DS71: hda_intel: Add the IDs of nvidia MCP79 HD audio controller
+  * DS72: hda-codec - Fix dmics on ALC268 in auto configuration
+  * DS73: hda-codec - Add internal mic item for ALC268 acer model
+  * DS74: HDA Codecs: add support for Toshiba Equium L30
+  * DS75: at73c213: fix error checking for clk API
+  * DS76: at73c213: monaural support
+- add patch FF01: fix timestamps on fat partitions (#26819)
+
 * Wed Mar  5 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-3mdv
 - add patch DV01: bootsplash 3.1.6 
 - add Provides should-restart = system
