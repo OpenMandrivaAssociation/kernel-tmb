@@ -9,10 +9,10 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		3
+%define kstable		4
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -123,7 +123,7 @@ Summary: 	Linux kernel built for Mandriva with modifications by %{ktag}
 Name:		%{kname}
 Version: 	%{kversion}
 Release: 	%{rpmrel}
-License: 	GPL
+License: 	GPLv2
 Group: 	 	System/Kernel and hardware
 ExclusiveArch: 	%{ix86} x86_64 sparc64
 ExclusiveOS: 	Linux
@@ -622,7 +622,10 @@ SaveDevel() {
 	
 	# Needed for lguest
 	cp -fR drivers/lguest/lg.h $TempDevelRoot/drivers/lguest/
-		
+	
+	# Needed for lirc_gpio (Anssi Hannula, #39004)
+	cp -fR drivers/media/video/bt8xx/bttv{,p}.h $TempDevelRoot/drivers/media/video/bt8xx/
+			
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
@@ -784,10 +787,19 @@ fi
 ln -sf initrd-%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}.img initrd-%{ktag}-$kernel_flavour.img
 popd > /dev/null
 %if %build_devel
+# create kernel-devel symlinks if matching -devel- rpm is installed
 if [ -d /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} ]; then
 	rm -f /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/{build,source}
 	ln -sf /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/build
 	ln -sf /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/source
+fi
+%endif
+%if %build_source
+# create kernel-source symlinks only if matching -devel- rpm is not installed
+if [ -d /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} -a ! -d /usr/src/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} ]; then
+	rm -f /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/{build,source}
+	ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/build
+	ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/source
 fi
 %endif
 EOF
@@ -1064,6 +1076,23 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Mar 25 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.4-1mdv
+- update to 2.6.24.4:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.24.4
+- drop patches AA01-AA14: patches from stable tree (merged upstream)
+- add patch DI20: add i2c_verify_client support (needed for v4l-dvb)
+- add patch DM50: upstream v4l-dvb snapshot as of 20080324
+- drop patches DS01-DS03, DS11-DS76, DS99: alsa fixes from Alsa HG
+- rediff and rename patch DS10 to DS01: alsa 1.0.16 final
+- add patch DS02: Alsa HG 20080323 full checkout
+- rediff patch FP01: pagecache zeroing fixes
+- Include bttv.h and bttvp.h headers in kernel-devel, required by
+  dkms-lirc-gpio (#39004, patch by Anssi Hannula <anssi@mandriva.org>)
+- Fix kernel-source symlinks if the kernel is installed after the
+  source and no matching -devel- rpm is installed (#38862)
+- update defconfigs
+- fix license
+
 * Sun Mar  9 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-4mdv
 - override system buildroot definition on 2008 systems to 
   get back correct BuildRoot behaviour
