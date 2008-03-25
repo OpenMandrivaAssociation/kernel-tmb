@@ -1085,6 +1085,7 @@ rm -rf %{buildroot}
 - drop patches DS01-DS03, DS11-DS76, DS99: alsa fixes from Alsa HG
 - rediff and rename patch DS10 to DS01: alsa 1.0.16 final
 - add patch DS02: Alsa HG 20080323 full checkout
+- fix patch DS02 to actually build on i586
 - rediff patch FP01: pagecache zeroing fixes
 - Include bttv.h and bttvp.h headers in kernel-devel, required by
   dkms-lirc-gpio (#39004, patch by Anssi Hannula <anssi@mandriva.org>)
