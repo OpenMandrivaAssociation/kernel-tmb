@@ -9,7 +9,7 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		4
+%define kstable		6
 
 # this is the releaseversion
 %define kbuild		1
@@ -1076,6 +1076,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat May  3 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.6-1mdv
+- update to kernel.org 2.6.24.6
+  * fixes CVE-2008-1375, CVE-2008-1675
+  * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.24.6
+  * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.24.5
+- rediff patd DM50:. v4l_dvb snapshot
+- update patch FS01: unionfs 2.3.3
+- add patch FS10: UDF v2.5 support (#40412)
+- update patch KP01: Suspend2 3.0-rc7
+- enable CONFIG_FS_UFS_WRITE
+
 * Tue Mar 25 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.4-1mdv
 - update to 2.6.24.4:
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.24.4
