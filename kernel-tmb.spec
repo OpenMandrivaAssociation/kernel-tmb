@@ -12,7 +12,7 @@
 %define kstable		6
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1076,6 +1076,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May  6 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.6-2mdv
+- add patch DA10: add device ids for Intel ICH10, nVidia MCP7B and
+  Marvell 6121 to SATA AHCI
+- update patch DS02: Alsa HG Snapshot 2008-05-04
+- replace old patch FS10: new clean backport of UDF2.5 from 2.6.26-rc1
+- add fixes from main kernel:
+    * DN10: r8169: fix past rtl_chip_info array size for unknown chipsets
+    * DN11: r8169: fix oops in r8169_get_mac_version
+    * DS03: dont build pcspkr when snd-pcsp is enabled as they conflict
+
 * Sat May  3 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.6-1mdv
 - update to kernel.org 2.6.24.6
   * fixes CVE-2008-1375, CVE-2008-1675
