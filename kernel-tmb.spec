@@ -9,10 +9,10 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		6
+%define kstable		7
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1076,6 +1076,26 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun May 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-1mdv
+- update to kernel.org 2.6.24.7: fix CVE-2008-1669
+- move patch DA10 (add ata ids) to DA50 to make room for more acpi fixes
+- add patches from main kernel:
+  * DA10-DA12: acpi wmi interface
+  * DA15: acpi proc event regs
+  * DA20: Generate input events for ACPI hotkeys in asus-laptop
+  * DA21-DA22: add Acpi eee support
+  * DA25: disable acpi_irq on CLEVO M360S
+  * DA26: limit Clevo M720SR to C2 power state as C3 causes lockup
+  * DA30: make acpi video ignore unsupported devices
+  * DA35: add ids to toshiba_acpi to enable autoloading
+- drop patches DS90-DS91: serial-wacom-acpi, it's broken and replaced by
+  acpi-wmi patches DA10-DA12
+- update patch FS10: UDF 2.50 from 2.6.26-rc1-git7, fixes memory corruption
+  (exportfs part reverted to get a clean backport for main)
+- update patch MD00: uvc r205 (from main)
+- update patch MD01: uvc buildfixes to match v4l-dvb patch DM50
+- update defconfigs
+
 * Tue May  6 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.6-2mdv
 - add patch DA10: add device ids for Intel ICH10, nVidia MCP7B and
   Marvell 6121 to SATA AHCI
