@@ -986,7 +986,7 @@ find %{target_modules} -name "*.ko" | xargs gzip -9
 # We used to have a copy of PrepareKernel here
 # Now, we make sure that the thing in the linux dir is what we want it to be
 for i in %{target_modules}/*; do
-  rm -f $i/build $i/source $i/modules.*
+  rm -f $i/build $i/source
 done
 
 # sniff, if we gzipped all the modules, we change the stamp :(
@@ -1157,6 +1157,9 @@ rm -rf %{buildroot}
 - update patch FS01: unionfs 2.3.3
 - update patch KP01: TuxOnIce 3.0-rc7
 - update defconfigs
+- fix -doc filelist
+- do not remove modules.* before calling depmod in %install 
+  (fixes missing modules.order file, noted by Anssi)
 
 * Sat Jun 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-3mdv
 - fix build with disabled -doc
