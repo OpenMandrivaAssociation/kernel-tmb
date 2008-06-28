@@ -657,7 +657,7 @@ SaveDevel() {
 	cp -fR drivers/media/dvb/dvb-core/*.h $TempDevelRoot/drivers/media/dvb/dvb-core/
 	cp -fR drivers/media/dvb/frontends/lgdt330x.h $TempDevelRoot/drivers/media/dvb/frontends/
                                                                         			
-	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
+	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu mn10300 parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
 	done
@@ -951,7 +951,7 @@ chmod -R a+rX %{target_source}
 
 # we remove all the source files that we don't ship
 # first architecture files
-for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
+for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu mn10300 parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 	rm -rf %{target_source}/arch/$i
 	rm -rf %{target_source}/include/asm-$i
 done
@@ -1158,8 +1158,9 @@ rm -rf %{buildroot}
 - update patch KP01: TuxOnIce 3.0-rc7
 - update defconfigs
 - fix -doc filelist
-- do not remove modules.* before calling depmod in %install 
+- do not remove modules.* before calling depmod in install 
   (fixes missing modules.order file, noted by Anssi)
+- dont ship mn10300 arch files
 
 * Sat Jun 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-3mdv
 - fix build with disabled -doc
