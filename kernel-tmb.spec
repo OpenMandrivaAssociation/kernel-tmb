@@ -1084,6 +1084,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/security
 %{_kerneldir}/sound
 %{_kerneldir}/usr
+%{_kerneldir}/virt
 %{_kerneldir}/.config
 %{_kerneldir}/.gitignore
 %{_kerneldir}/COPYING
@@ -1164,6 +1165,7 @@ rm -rf %{buildroot}
   (fixes missing modules.order file, noted by Anssi)
 - dont ship mn10300 arch files
 - add arch/Kconfig to -devel and -source rpms
+- add /virt to -source rpm
 
 * Sat Jun 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-3mdv
 - fix build with disabled -doc
