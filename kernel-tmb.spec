@@ -488,7 +488,7 @@ latest %{kname}-source installed...
 #
 # kernel-doc: documentation for the Linux kernel
 #
-%if build_doc
+%if %build_doc
 %package -n %{kname}-doc
 Version: 	%{kversion}
 Release: 	%{rpmrel}
@@ -971,13 +971,6 @@ done
 # other misc files
 rm -f %{target_source}/{.config.old,.config.cmd,.mailmap,.missing-syscalls.d,arch/.gitignore}
 
-# this ends up in the i386 build, probably a bug with latest i386/x86_64
-# merge changes in 2.6.24-rc3, for now just use a temporary fix and
-# clean it
-%ifarch %{ix86}
-unlink %{target_source}/arch/i386/boot/bzImage
-%endif
-
 #endif %build_source
 %endif
 
@@ -1166,6 +1159,7 @@ rm -rf %{buildroot}
 - dont ship mn10300 arch files
 - add arch/Kconfig to -devel and -source rpms
 - add /virt to -source rpm
+- remove unlinking of /arch/i386/boot/bzImage, not needed anymore
 
 * Sat Jun 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-3mdv
 - fix build with disabled -doc
