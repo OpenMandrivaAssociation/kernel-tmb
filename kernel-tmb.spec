@@ -3,13 +3,13 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	24
+%define sublevel	25
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		7
+%define kstable		9
 
 # this is the releaseversion
 %define kbuild		1
@@ -82,6 +82,9 @@
 %define build_laptop		1
 %endif
 
+# Build realtime (i686 / 4GB)/x86_64 / sparc64 sets
+%define build_realtime		0
+
 # Build server (i686 / 64GB)/x86_64 / sparc64 sets
 %define build_server		1
 
@@ -89,6 +92,7 @@
 %{?_without_desktop586: %global build_desktop586 0}
 %{?_without_desktop: %global build_desktop 0}
 %{?_without_laptop: %global build_laptop 0}
+%{?_without_realtime: %global build_realtime 0}
 %{?_without_server: %global build_server 0}
 %{?_without_doc: %global build_doc 0}
 %{?_without_source: %global build_source 0}
@@ -98,6 +102,7 @@
 %{?_with_desktop586: %global build_desktop586 1}
 %{?_with_desktop: %global build_desktop 1}
 %{?_with_laptop: %global build_laptop 1}
+%{?_with_realtime: %global build_realtime 1}
 %{?_with_server: %global build_server 1}
 %{?_with_doc: %global build_doc 1}
 %{?_with_source: %global build_source 1}
@@ -370,6 +375,27 @@ processor mode, use the "nosmp" boot parameter.
 %mkflavour laptop
 %endif
 
+%if %build_realtime
+%ifarch %{ix86}
+%define summary_realtime Linux Kernel for desktop use with i686 & 4GB RAM
+%define info_realtime This kernel is compiled for desktop use, single or \
+multiple i686 processor(s)/core(s) and less than 4GB RAM, using full \
+preempt and realtime, CFS cpu scheduler and cfq i/o scheduler. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
+%else
+%define summary_realtime Linux Kernel for desktop use with %{_arch}
+%define info_realtime This kernel is compiled for desktop use, single or \
+multiple %{_arch} processor(s)/core(s), using full preempt and realtime, \
+CFS cpu scheduler and cfq i/o scheduler. \
+This kernel relies on in-kernel smp alternatives to switch between up & smp \
+mode depending on detected hardware. To force the kernel to boot in single \
+processor mode, use the "nosmp" boot parameter.
+%endif
+%mkflavour realtime
+%endif
+
 #
 # kernel-server: i686, smp-alternatives, 64 GB /x86_64
 #
@@ -462,13 +488,14 @@ latest %{kname}-source installed...
 #
 # kernel-doc: documentation for the Linux kernel
 #
-%package -n %{kname}-doc-%{buildrel}
-Version: 	%{fakever}
-Release: 	%{fakerel}
+%if build_doc
+%package -n %{kname}-doc
+Version: 	%{kversion}
+Release: 	%{rpmrel}
 Summary: 	Various documentation bits found in the %{kname} source
 Group: 		Books/Computer books
 
-%description -n %{kname}-doc-%{buildrel}
+%description -n %{kname}-doc
 This package contains documentation files from the %{kname} source. 
 Various bits of information about the Linux kernel and the device drivers 
 shipped with it are documented in these files. You also might want install 
@@ -476,7 +503,7 @@ this package if you need a reference to the options that can be passed to
 Linux kernel modules at load time.
 
 %common_description_info
-
+%endif #build_doc
 #
 # End packages - here begins build stage
 #
@@ -625,7 +652,11 @@ SaveDevel() {
 	
 	# Needed for lirc_gpio (Anssi Hannula, #39004)
 	cp -fR drivers/media/video/bt8xx/bttv{,p}.h $TempDevelRoot/drivers/media/video/bt8xx/
-			
+
+	# Needed for external dvb tree (#41418)
+	cp -fR drivers/media/dvb/dvb-core/*.h $TempDevelRoot/drivers/media/dvb/dvb-core/
+	cp -fR drivers/media/dvb/frontends/lgdt330x.h $TempDevelRoot/drivers/media/dvb/frontends/
+                                                                        			
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
@@ -1076,6 +1107,72 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jun 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.9-1mdv
+- update to 2.6.25.9
+- add support for -realtime flavour (disabled for now)
+- drop patches merged upstream:
+  * DA35_acpi-add-aliases-to-toshiba_acpi-module.patch
+  * DA50_ata-ahci-ICH10-MCP7B-Marvell-ids.patch
+  * DA51_ata-piix-ich10-ids.patch
+  * DC01_fix-i8k-build-on-x86_64.patch
+  * DC02_add-dell-mp061-support-to-i8k.patch
+  * DC03_enable-i8k-on-x86_64-build.patch
+  * DH02_hid-usbhid-blacklist.patch
+  * DI10_input-tablet-wacom-0.7.9-8.patch
+  * DI20_drivers-i2c_verify_client.patch
+  * DM01_thinkpad-acpi-0.18-20071203_v2.6.24-rc6.patch
+  * DM20_acpi-compal-laptop-20080205.patch
+  * DM50_v4l-dvb-9a2af878cbd5-20080324.patch
+  * DN10_net-r8169-fix-past-rtl_chip_info-array-size-for-unknown.patch
+  * DN11_net-r8169-fix-oops-in-r8169_get_mac_version.patch
+  * DN15_char-nozomi-driver.patch
+  * DN40_net-forcedeth-locking-bug.patch
+  * DN41_net-skge-napi-poll-locking-bug.patch
+  * DN42_net-sky2-add-marvell-ids.patch
+  * FP01_pagecache-zeroing-zero_user_segment-zero_user_segments-and-zero_user.patch
+  * FP02_pagecache-zeroing-zero_user_segment-zero_user_segments-and-zero_user-fix.patch
+  * FP03_pagecache-zeroing-zero_user_segment-zero_user_segments-and-zero_user-fix-2.patch
+  * FR04_make-copy_from_user_inatomic-not-zero-the-tail-on-i386-vs-reiser4.patch
+  * MB40_acer_acpi-0.11.1.tar
+  * MB41_acer_acpi-Kconfig-Makefile.patch
+- drop patches not needed anymore:
+  * DI02_idedisk_reboot.patch
+  * DN30_rndis_host_wm5-6.patch
+  * KS01_kernel-sysctl_check-remove-s390-include.patch
+  * MD01_3rd_uvc_buildfix.patch
+- disable broken patches:
+  * AS01_linux-phc-kernel-vanilla-2.6.25.8.patch
+  * CR01_BadRAM-2.6.25.8.patch
+  * FS10_fs-udf-2.50-from-2.6.26-rc1-git7.patch
+- rediff patch DA21: asus_acpi Eee support
+- rediff patch DB25: fix megaraid_mbox sysfs name
+- rediff patch NI15: netfilter psd target
+- replace old patches DS01-DS03 with new DS01: Alsa 1.0.17-rc2
+- add patch DS02: revert 2.6.26 specific alsa code
+- update patch DV01: bootsplash 3.1.6
+- add patch MB21: fix squashfs build (from main)
+- update patches MC30-MC32: drbd 8.0.12 (from main)
+- update patch MC40: fsc_btns 1.10
+- update patch MD10: fix Prism25 Kconfig
+- update patch FS01: unionfs 2.3.3
+- update patch KP01: TuxOnIce 3.0-rc7
+- update defconfigs
+
+* Sat Jun 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-3mdv
+- fix build with disabled -doc
+- fix -doc versioning
+- update patch DA50: Ahci ICH10 MCP7B Marvell ids 
+- add patch DA51: add ich10 support to ata_piix
+- add patch DA52: add Tecra M4/M6 and Satellite R20 to piix_broken_suspend
+- add patch DN40: fix forcedeth locking bug
+- add patch DN41: fix skge locking bug
+- add patch DN42: add more Marvell ids to sky2
+- add dvb-core header files to -devel rpms so it's possible to build
+  external dvb drivers without needing full source (#41418)
+
+* Fri May 23 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-2mdv
+ - bump release to 2mdv to get past testing kernels
+ 
 * Sun May 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-1mdv
 - update to kernel.org 2.6.24.7: fix CVE-2008-1669
 - move patch DA10 (add ata ids) to DA50 to make room for more acpi fixes
