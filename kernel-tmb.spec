@@ -12,7 +12,7 @@
 %define kstable		9
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1103,6 +1103,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jun 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.9-2mdv
+- fix patch DS02: to properly revert 2.6.26-rcX speciific code in 
+  Alsa 1.0.17-rc2 (initial patch causes oops on boot :-( )
+
 * Sat Jun 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.9-1mdv
 - update to 2.6.25.9
 - add support for -realtime flavour (disabled for now)
