@@ -695,6 +695,7 @@ cat > $kernel_devel_files <<EOF
 %dir $DevelRoot/include
 $DevelRoot/3rdparty
 $DevelRoot/Documentation
+$DevelRoot/arch/Kconfig
 %ifarch sparc sparc64
 $DevelRoot/arch/sparc
 $DevelRoot/arch/sparc64
@@ -1032,6 +1033,7 @@ rm -rf %{buildroot}
 %dir %{_kerneldir}/include
 %{_kerneldir}/3rdparty
 %{_kerneldir}/Documentation
+%{_kerneldir}/arch/Kconfig
 %ifarch sparc sparc64
 %{_kerneldir}/arch/sparc
 %{_kerneldir}/arch/sparc64
@@ -1161,6 +1163,7 @@ rm -rf %{buildroot}
 - do not remove modules.* before calling depmod in install 
   (fixes missing modules.order file, noted by Anssi)
 - dont ship mn10300 arch files
+- add arch/Kconfig to -devel and -source rpms
 
 * Sat Jun 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-3mdv
 - fix build with disabled -doc
