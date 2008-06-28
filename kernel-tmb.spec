@@ -1101,7 +1101,7 @@ rm -rf %{buildroot}
 %endif
 
 %if %build_doc
-%files -n %{kname}-doc-%{buildrel}
+%files -n %{kname}-doc
 %defattr(-,root,root)
 %doc linux-%{tar_ver}/Documentation/*
 %endif
