@@ -12,7 +12,7 @@
 %define kstable		9
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -83,7 +83,7 @@
 %endif
 
 # Build realtime (i686 / 4GB)/x86_64 / sparc64 sets
-%define build_realtime		0
+%define build_realtime		1
 
 # Build server (i686 / 64GB)/x86_64 / sparc64 sets
 %define build_server		1
@@ -1103,6 +1103,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jun 30 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.9-3mdv
+- add patch DM50: v4l-dvb tree as of 2008-06-29
+- add patch DM51: v4l-dvb compat fixes for 2.6.25
+- update patch MB10, MB12: ndiswrapper 1.53
+- add patch MC82: add missing viahss MODULE_LICENSE
+- re-enable patch MD01: uvc buildfix due to new v4l-dvb code in patch DM50
+- add patch RT01: realtime support v 2.6.25.8-rt7 (for realtime flavour)
+- add patch RT02: fix reiser4 build with -rt patchset
+- add patch RT03: fix unionfs build with -rt patchset
+- switch back to SLAB as SLUB does not work with -rt patchset
+- disable netfilter ip_set, its broken with -rt patchset
+- disable reiser4, its broken with -rt patchset
+- enable build of -realtime flavour
+- update defconfigs
+
 * Sat Jun 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.9-2mdv
 - fix patch DS02: to properly revert 2.6.26-rcX speciific code in 
   Alsa 1.0.17-rc2 (initial patch causes oops on boot :-( )
