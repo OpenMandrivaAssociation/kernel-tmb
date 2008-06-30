@@ -911,6 +911,10 @@ CreateKernel desktop
 CreateKernel laptop
 %endif
 
+%if %build_realtime
+CreateKernel realtime
+%endif
+
 %if %build_server
 CreateKernel server
 %endif
@@ -1116,6 +1120,7 @@ rm -rf %{buildroot}
 - disable netfilter ip_set, its broken with -rt patchset
 - disable reiser4, its broken with -rt patchset
 - enable build of -realtime flavour
+- fix spec so the realtime kernels really gets built
 - update defconfigs
 
 * Sat Jun 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.9-2mdv
