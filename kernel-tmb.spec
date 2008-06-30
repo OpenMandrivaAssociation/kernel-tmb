@@ -1119,6 +1119,8 @@ rm -rf %{buildroot}
 - switch back to SLAB as SLUB does not work with -rt patchset
 - disable netfilter ip_set, its broken with -rt patchset
 - disable reiser4, its broken with -rt patchset
+- disable RT2570 and QC-USB on -realtime flavours, as they
+  do not work with full realtime
 - enable build of -realtime flavour
 - fix spec so the realtime kernels really gets built
 - update defconfigs
