@@ -9,10 +9,10 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		9
+%define kstable		10
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1107,6 +1107,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jul  6 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.10-1mdv
+- update to 2.6.25.10
+- update patch DS01: Alsa 1.0.17rc3
+- rediff patch RT01: realtime support
+
 * Mon Jun 30 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.9-3mdv
 - add patch DM50: v4l-dvb tree as of 2008-06-29
 - add patch DM51: v4l-dvb compat fixes for 2.6.25
