@@ -9,7 +9,7 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		10
+%define kstable		11
 
 # this is the releaseversion
 %define kbuild		1
@@ -1107,6 +1107,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jul 14 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-1mdv
+- update to 2.6.25.11
+
 * Sun Jul  6 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.10-1mdv
 - update to 2.6.25.10
 - update patch DS01: Alsa 1.0.17rc3
