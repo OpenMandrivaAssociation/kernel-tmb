@@ -12,7 +12,7 @@
 %define kstable		11
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -83,7 +83,7 @@
 %endif
 
 # Build realtime (i686 / 4GB)/x86_64 / sparc64 sets
-%define build_realtime		1
+%define build_realtime		0
 
 # Build server (i686 / 64GB)/x86_64 / sparc64 sets
 %define build_server		1
@@ -354,7 +354,7 @@ processor mode, use the "nosmp" boot parameter.
 %ifarch %{ix86}
 %define summary_laptop Linux kernel for laptop use with i686-up/smp-4GB
 %define info_laptop This kernel is compiled for laptop use, single or \
-multiple i686 processor(s)/core(s) and less than 4GB RAM, using HZ_300 \
+multiple i686 processor(s)/core(s) and less than 4GB RAM, using HZ_250 \
 to save battery, voluntary preempt, CFS cpu scheduler, cfq i/o scheduler \
 and some other laptop-specific optimizations. If you want to sacrifice \
 battery life for performance, you better use the %{kname}-desktop. \
@@ -364,7 +364,7 @@ processor mode, use the "nosmp" boot parameter.
 %else
 %define summary_laptop Linux kernel for laptop use with %{_arch}
 %define info_laptop This kernel is compiled for laptop use, single or \
-multiple %{_arch} processor(s)/core(s), using HZ_300 to save battery, \
+multiple %{_arch} processor(s)/core(s), using HZ_250 to save battery, \
 voluntary preempt, CFS cpu scheduler, cfq i/o scheduler and some other \
 laptop-specific optimizations. If you want to sacrifice battery life for \
 performance, you better use the %{kname}-desktop. \
@@ -402,7 +402,7 @@ processor mode, use the "nosmp" boot parameter.
 
 %if %build_server
 %ifarch %{ix86}
-%define summary_server Linux Kernel for server use with i686  & 64GB RAM
+%define summary_server Linux Kernel for server use with i686 & 64GB RAM
 %define info_server This kernel is compiled for server use, single or \
 multiple i686 processor(s)/core(s) and up to 64GB RAM using PAE, using \
 no preempt, CFS cpu scheduler and cfq i/o scheduler. \
@@ -1107,6 +1107,54 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jul 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-2mdv
+- add patches AA01-AA29: Fixes from -stable queue:
+  * b43legacy: do not return tx_busy from op_tx
+  * b43: do not return tx_busy from op_tx
+  * b43: fix possible mmio access while device is down
+  * mac80211: detect driver tx bugs
+  * block: fix the starving writes bug in the anticipatory io scheduler
+  * md: fix error paths if md_probe fails
+  * md: dont acknowlege that stripe expand is complete until it really is
+  * md: ensure interrupted recovery completed properly
+  * block: properly notify block layer of sync writes
+  * ohci: fix problem if sm501 and another platform driver is selected
+  * usb-ehci: fix timer regression
+  * usb-ohci: record data toggle after unlink
+  * usb: fix interrupt disabling for hcds with shared interrupt handlers
+  * hdaps: add support for various newer lenovo thinkpads
+  * b43legacy: fix possible null pointer dereference in dma code
+  * netdrvr: 3c59x remove irqs_disabled warning from local_bh_enable
+  * scsi: esp fix oops in esp_reset_cleanup
+  * scsi: esp tidy up target reference counting
+  * scsi: ses fix timeout
+  * mm: switch node meminfo active inactive pages to kbytes
+  * reiserfs: discard prealloc in reiserfs_delete_inode
+  * cciss: read config to obtain max outstanding commands per controller
+  * serial: fix serial_match_port for dynamic major tty device numbers
+  * can: add sanity checks
+  * sisusbvga: fix oops on disconnect
+  * md: ensure all blocks are uptodate or locked when syncing
+  * textsearch: fix boyer moore text search bug
+  * netfilter: nf_conntrack_tcp fixing to check the lower bound of valid ack
+  * zd1211rw: add id for airties wus 201
+- update patch DS01: Alsa 1.0.17 Final
+- update and enable patch FS10: UDF 2.50 support
+- add patch FS11: disable UDF_DEBUG
+- add patch FS12: fix regression in udf anchor block detection
+- add patch FS20: enable reading of cds with broken rockridge data
+- disable -rt patchset and -realtime on 2.6.25 series, it has
+  way too many problems for now for a stable *tmb* series
+- add patch NW01: add dummy ieee80211_regdom parameter to cfg80211
+  so it will work on systems that assume a 2.6.26+ series kernel
+- switch back to SLUB from SLAB
+- enable Reiser4 fs again
+- disable USB_KBD and USB_MOUSE, only needed on embedded systems
+- change -laptop kernel config options to save more power:
+  * HZ_300 -> HZ_250 (lowest that works with audio)
+- change -server kernel config options
+  * HZ_100 -> HZ_250 (lowest that works with audio)
+
 * Mon Jul 14 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-1mdv
 - update to 2.6.25.11
 
