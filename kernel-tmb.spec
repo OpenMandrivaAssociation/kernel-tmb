@@ -3,16 +3,16 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	25
+%define sublevel	26
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		11
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1107,6 +1107,39 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jul 22 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26-1mdv
+- update to 2.6.26
+- drop patches AA01-AA29: -stable-queue fixes (merged upstream)
+- disable patch DA04: acpi double proc entries fix (broken)
+- drop patch DA30: acpi video ignore unsupported devices (merged upstream)
+- disable patches DM10, DM11: dm-raid45 support (broken)
+- update patches DM50, DM51: v4l-dvb snapshot as of 2008-07-22
+  * new drivers:
+    - Gspca, Sensoray 2255, DvbWorld 2102 DVB-S, Anysee DVB-T/C
+    - Siano SMS1XXX, Micronas DRX3975D/DRX3977D
+- update patch DN20: atl2 nic 2.0.4 (from main)
+- drop patch DN21: atl2 nic buildfix (fixed upstream)
+- rediff patch DS01: Alsa 1.0.17
+- drop patch DS02: alsa compat fix (not needed anymore)
+- drop patch FF01: fat: allow utime (merged upstream)
+- add patch FS02: unionfs buildfix for 2.6.26
+- drop patches FS10-FS12: UDF 2.50 read support (merged upstream)
+- rediff patch KP01:TuxOnIce 3.0-rc7
+- drop old/obsoleted patches from 3rdparty tree:
+  * MB50-MB52: qc-usb v0.6.6 (replaced by intree drivers)
+  * MB60-MB65: ipw3945 v1.2.2 (replaced by the intree iwl* drivers)
+  * MB70-MB72: rt2400 v1.2.2-cvs (replaced by the intree rt2* drivers)
+  * MB80-MB82: rt2500 v1.1.0-cvs (replaced by the intree rt2* drivers)
+  * MB90-MB92: rt2570 v1.0.0-cvs (replaced by the intree rt2* drivers)
+  * MC00-MC03: rt61 v1.1.0-cvs (replaced by the intree rt5* drivers)
+  * MC10-MC13: rt73 v1.0.3.6-cvs (replaced by the intree rt7* drivers)
+  * MD00-MD01: uvc r205 (merged upstream)
+- update patch MC30, MC31: drbd v8.2.6
+- update patch MC40: fsc_btns 1.40
+- add patch MD11: prism25 buildfix for 2.6.26
+- drop patch NW01: dummy ieee80211_regdom parameter (not needed anymore)
+- update defconfigs
+
 * Sun Jul 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-2mdv
 - add patches AA01-AA29: Fixes from -stable queue:
   * b43legacy: do not return tx_busy from op_tx
