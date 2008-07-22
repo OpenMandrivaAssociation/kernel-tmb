@@ -705,6 +705,7 @@ $DevelRoot/arch/x86
 $DevelRoot/block
 $DevelRoot/crypto
 $DevelRoot/drivers
+$DevelRoot/firmware
 $DevelRoot/fs
 $DevelRoot/include/Kbuild
 $DevelRoot/include/acpi
@@ -1040,6 +1041,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/block
 %{_kerneldir}/crypto
 %{_kerneldir}/drivers
+%{_kerneldir}/firmware
 %{_kerneldir}/fs
 %{_kerneldir}/include/Kbuild
 %{_kerneldir}/include/acpi
@@ -1137,6 +1139,8 @@ rm -rf %{buildroot}
 - add patch MD11: prism25 buildfix for 2.6.26
 - drop patch NW01: dummy ieee80211_regdom parameter (not needed anymore)
 - update defconfigs
+- fix sigframe.h in -devel rpms
+- add /firmware to -devel and -source rpms
 
 * Sun Jul 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-2mdv
 - add patches AA01-AA29: Fixes from -stable queue:
