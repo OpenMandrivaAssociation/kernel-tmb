@@ -591,9 +591,6 @@ PrepareKernel() {
 		LC_ALL=C perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = -$extension/" Makefile
 	%endif
 	
-	### FIXME MDV bugs #29744, #29074, will be removed when/if fixed upstream
-	LC_ALL=C perl -p -i -e "s/^source/### source/" drivers/crypto/Kconfig
-
 	%smake oldconfig
 }
 
@@ -1144,6 +1141,7 @@ rm -rf %{buildroot}
 - add /firmware to -devel and -source rpms
 - add kernel/bounds.c to -devel rpms
 - fix disable-mrpoper patch to apply cleanly 
+- drop spec fix for #29744, #29074 (not needed anymore)
 
 * Sun Jul 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-2mdv
 - add patches AA01-AA29: Fixes from -stable queue:
