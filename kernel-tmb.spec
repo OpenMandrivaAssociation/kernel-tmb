@@ -1143,6 +1143,7 @@ rm -rf %{buildroot}
 - fix sigframe.h in -devel rpms
 - add /firmware to -devel and -source rpms
 - add kernel/bounds.c to -devel rpms
+- fix disable-mrpoper patch to apply cleanly 
 
 * Sun Jul 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-2mdv
 - add patches AA01-AA29: Fixes from -stable queue:
