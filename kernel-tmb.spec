@@ -638,9 +638,7 @@ SaveDevel() {
 	%else
 		cp -fR arch/%{target_arch}/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/%{target_arch}/kernel/
 	%endif
-	%ifarch %{ix86}
-		cp -fR arch/x86/kernel/sigframe_32.h $TempDevelRoot/arch/x86/kernel/
-	%endif
+	cp -fR arch/x86/kernel/sigframe.h $TempDevelRoot/arch/x86/kernel/
 	cp -fR .config Module.symvers $TempDevelRoot
 	cp -fR 3rdparty/mkbuild.pl $TempDevelRoot/3rdparty
 	
