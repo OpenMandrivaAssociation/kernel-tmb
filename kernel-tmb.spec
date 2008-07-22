@@ -639,8 +639,9 @@ SaveDevel() {
 		cp -fR arch/%{target_arch}/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/%{target_arch}/kernel/
 	%endif
 	cp -fR arch/x86/kernel/sigframe.h $TempDevelRoot/arch/x86/kernel/
+	cp -fR kernel/bounds.c $TempDevelRoot/kernel/
 	cp -fR .config Module.symvers $TempDevelRoot
-	cp -fR 3rdparty/mkbuild.pl $TempDevelRoot/3rdparty
+	cp -fR 3rdparty/mkbuild.pl $TempDevelRoot/3rdparty/
 	
 	# Needed for truecrypt build (Danny)
 	cp -fR drivers/md/dm.h $TempDevelRoot/drivers/md/
@@ -1141,6 +1142,7 @@ rm -rf %{buildroot}
 - update defconfigs
 - fix sigframe.h in -devel rpms
 - add /firmware to -devel and -source rpms
+- add kernel/bounds.c to -devel rpms
 
 * Sun Jul 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-2mdv
 - add patches AA01-AA29: Fixes from -stable queue:
