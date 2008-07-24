@@ -12,7 +12,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -306,14 +306,14 @@ latest %{kname}-%{1}-devel installed...			\
 
 %ifarch %{ix86}
 #
-# kernel-desktop586: i586, smp-alternatives, 1GB
+# kernel-desktop586: i586, smp-alternatives, 4GB
 #
 
 %if %build_desktop586
-%define summary_desktop586 Linux kernel for desktop use with i586 & 1GB RAM
+%define summary_desktop586 Linux kernel for desktop use with i586 & 4GB RAM
 %define info_desktop586 This kernel is compiled for desktop use, single or \
-multiple i586 processor(s)/core(s) and less than 1GB RAM (usually 870-900MB \
-detected), using voluntary preempt, CFS cpu scheduler and cfq i/o scheduler. \
+multiple i586 processor(s)/core(s) and less than 4GB RAM, using voluntary \
+preempt, CFS cpu scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
 processor mode, use the "nosmp" boot parameter.
@@ -653,7 +653,8 @@ SaveDevel() {
 	cp -fR drivers/media/dvb/dvb-core/*.h $TempDevelRoot/drivers/media/dvb/dvb-core/
 	cp -fR drivers/media/dvb/frontends/lgdt330x.h $TempDevelRoot/drivers/media/dvb/frontends/
                                                                         			
-	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu mn10300 parisc powerpc ppc s390 sh sh64 v850 xtensa; do
+	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k \
+		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
 	done
@@ -953,7 +954,8 @@ chmod -R a+rX %{target_source}
 
 # we remove all the source files that we don't ship
 # first architecture files
-for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k m68knommu mn10300 parisc powerpc ppc s390 sh sh64 v850 xtensa; do
+for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k \
+	 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 v850 xtensa; do
 	rm -rf %{target_source}/arch/$i
 	rm -rf %{target_source}/include/asm-$i
 done
@@ -1105,6 +1107,26 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jul 24 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26-2mdv
+- change desktop586 kernels to support 4GB RAM:
+- add patch DN05: rndis_host: support WM6 devices as modems
+- add fixes and updates from ALSA:
+  * DS02: add TriTech 28023 AC97 codec ID and Wolfson 97
+  * DS03: Au1xpsc psc not disabled when TX is idle
+  * DS04: re-order AC97 codec ID-table
+  * DS05: hda Align BDL position adjustment parameter
+  * DS06: ens1370 SRC stands for Sample Rate Converter
+  * DS07: sound alsa ens1370 communicate PCI device to AC97
+  * DS08: ASoC Refactor DAPM event handler
+  * DS09: ASoC Factor PGA DAPM handling into main
+  * DS10: hda Added support for Asus V1Sn
+  * DS11: opti93x Fix NULL dereference
+  * DS12: opti9xx no isapnp param for CONFIG_PNP
+  * DS13: hda Add support of ASUS Eeepc P90
+  * DS14: hda digital pc beep support hd audio codecs
+  * DS15: soc wm9712 mono mixer
+  * DS16: hda Add automatic model setting for Acer Aspire 5920G
+
 * Tue Jul 22 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26-1mdv
 - update to 2.6.26
 - drop patches AA01-AA29: -stable-queue fixes (merged upstream)
