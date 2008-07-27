@@ -12,7 +12,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1107,8 +1107,38 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jul 27 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26-3mdv
+- change desktop586 kernels back to 1GB RAM until someone actually
+  needs 4GB on i586
+- add patches from stable queue:
+    * AA01: pxamci: trivial fix of dma alignment register bit clearing
+    * AA02: udplite: protection against coverage value wrap-around
+    * AA03: ipv6: use timer pending
+    * AA04: ipv6: __kernel__ ifdef struct ipv6 devconf
+    * AA05: hdlcdrv: fix crc calculation
+    * AA06: quota: fix possible infinite loop in quota code
+    * AA07: isofs: fix minor filesystem corruption
+    * AA08: kvm: vmx fix a wrong usage of vmcs_config
+    * AA09: kvm: svm fix suspend resume support
+    * AA10: kvm: mmu_shrink kvm_mmu_zap_page requires slots_lock to be held
+    * AA11: kvm: vmx add ept_sync_context in flush_tlb
+    * AA12: kvm: x86 emulator fix hlt instruction
+    * AA13: kvm: mmu nuke shadowed pgtable pages and ptes on memslot destruction
+    * AA14: kvm: mmu fix potential race setting upper shadow ptes on nonpae hosts
+    * AA15: ptrace: fix ptrace_getfpxregs error
+    * AA16: rcu: fix rcu_try_flip_waitack_needed to prevent grace period stall
+    * AA17: signal: fix typos from signal_32-64.h merge
+    * AA18: x86: reboot quirks add dell precision workstation t5400
+    * AA19: usb: fix usb serial pm counter decrement for disconnected interfaces
+- update patch CE02: acpi dsdt initrd v0.9a
+- update patch DM50: v4l-dvb snapshot 2008-07-27
+- drop patch DM51: v4l-dvb buildfix (merged upstream)
+- drop patch FS20: broken isofs rockridge fix (it's now -stable AA07)
+- update patch KP01: TuxOnIce 3.0-rc7 2008-07-27
+- redo kernel-tmb.patchlist
+- update defconfigs
+
 * Thu Jul 24 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26-2mdv
-- change desktop586 kernels to support 4GB RAM:
 - add patch DN05: rndis_host: support WM6 devices as modems
 - add fixes and updates from ALSA:
   * DS02: add TriTech 28023 AC97 codec ID and Wolfson 97
