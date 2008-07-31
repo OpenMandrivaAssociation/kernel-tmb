@@ -12,7 +12,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1107,6 +1107,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug  1 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26-4mdv
+- drop patches AA01-AA19: stable queue fixes (included in 2.6.26.1-rc1)
+- add new AA01: 2.6.26.1-rc1
+- add patch DM10: dm-raid4-5 support
+- add patch DM11: dm-raid4-5 buildfixes for 2.6.26 series kernels
+- rediff patch DM50: v4l-dvb snapshot
+- rediff patch DS01: alsa 1.0.17
+- update defconfigs
+
 * Sun Jul 27 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26-3mdv
 - change desktop586 kernels back to 1GB RAM until someone actually
   needs 4GB on i586
