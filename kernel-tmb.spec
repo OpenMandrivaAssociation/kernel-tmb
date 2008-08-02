@@ -9,10 +9,10 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1107,6 +1107,34 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Aug  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.1-1mdv
+- update to 2.6.26.1:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.26.1
+- drop patch AA01: 2.6.26.1-rc1 (merged upstream)
+- add patches from stable queue:
+    * AA01: ftrace: remove unneeded documentation
+    * AA02: romfs: readpage dont report errors for pages beyond i_size
+    * AA03: netfilter: nf nat_sip c is optional for session
+    * AA04: scsi: bsg fix bsg_mutex hang with device removal
+    * AA05: x86: idle process add checking for null early param
+    * AA06: x86: io delay add checking for null early param
+    * AA07: md: close race in md_probe
+    * AA08: kprobe: smoke test lockdep warning
+    * AA09: netfilter: xt_time fix time s time_mt s use of do_div
+    * AA10: md: linear correct disk numbering error check
+    * AA11: scsi: ch fix ch_remove oops
+    * AA12: nfs: ensure we zap only the access and acl caches when setting new acls
+    * AA13: jbd: fix race between free buffer and commit transaction
+    * AA14: input: i8042 add intel d845pesv to nopnp list
+    * AA15: input: i8042 add gericom bellagio to nomux blacklist
+    * AA16: input: i8042 add acer aspire 1360 to nomux blacklist
+    * AA17: bluetooth: signal userspace for hidp and bnep socket errors
+    * AA18: ptrace: add compat handler for ptrace_getsiginfo
+- update patch FS01: unionfs 2.4
+. drop patch FS02: unionfs prototype fix (not needed anymore)
+- add patch FS10: 2.6.26-ext4-4 patchset, makes ext4 ready for wider
+  testing according to upstream
+
 * Fri Aug  1 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26-4mdv
 - drop patches AA01-AA19: stable queue fixes (included in 2.6.26.1-rc1)
 - add new AA01: 2.6.26.1-rc1
