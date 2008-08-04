@@ -12,7 +12,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -670,9 +670,10 @@ SaveDevel() {
 		rm -rf $TempDevelRoot/include/asm-sparc64
 	%endif
 
-	# Clean the scripts tree
+	# Clean the scripts tree, and make sure everything is ok (sanity check)
+	# running prepare+scripts (tree was already "prepared" in build)
 	pushd $TempDevelRoot >/dev/null
-		%smake -s clean
+		%smake -s prepare scripts clean
 	popd >/dev/null
 	
 	# fix permissions
@@ -918,12 +919,10 @@ CreateKernel server
 %endif
 
 
-# We don't make to repeat the depend code at the install phase
+# kernel-source is shipped as a clean source tree, with no preparation
 %if %build_source
     PrepareKernel "" %{buildrpmrel}%{ktag}custom
-%smake -s prepare
-%smake -s scripts
-%smake -s clean
+%smake -s mrproper
 %endif
 
 
@@ -983,7 +982,7 @@ find %{target_modules} -name "*.ko" | xargs gzip -9
 # We used to have a copy of PrepareKernel here
 # Now, we make sure that the thing in the linux dir is what we want it to be
 for i in %{target_modules}/*; do
-  rm -f $i/build $i/source
+    rm -f $i/build $i/source
 done
 
 # sniff, if we gzipped all the modules, we change the stamp :(
@@ -1045,7 +1044,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/fs
 %{_kerneldir}/include/Kbuild
 %{_kerneldir}/include/acpi
-%{_kerneldir}/include/asm
 %{_kerneldir}/include/asm-generic
 %ifarch sparc sparc64
 %{_kerneldir}/include/asm-sparc
@@ -1055,7 +1053,6 @@ rm -rf %{buildroot}
 %ifarch %{ix86} x86_64
 %{_kerneldir}/include/asm-x86
 %endif
-%{_kerneldir}/include/config
 %{_kerneldir}/include/crypto
 %{_kerneldir}/include/keys
 %{_kerneldir}/include/linux
@@ -1082,7 +1079,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/sound
 %{_kerneldir}/usr
 %{_kerneldir}/virt
-%{_kerneldir}/.config
 %{_kerneldir}/.gitignore
 %{_kerneldir}/COPYING
 %{_kerneldir}/CREDITS
@@ -1107,6 +1103,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Aug  4 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.1-2mdv
+- update patch FS10: ext4 update to 2.6.26-ext4-5
+- fix missing bounds.h in -devel rpms
+- dont prepare -source tree at all
+
 * Sat Aug  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.1-1mdv
 - update to 2.6.26.1:
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.26.1
