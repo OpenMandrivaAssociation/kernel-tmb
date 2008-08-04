@@ -145,8 +145,10 @@ Source1: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/
 %if %build_nosrc
 NoSource: 0
 %endif
-# This is for disabling mrproper on -devel rpms
+# This is for disabling mrproper in -devel rpms
 Source2: 	disable-mrproper-in-devel-rpms.patch
+# This is for disabling the rest of the scripts in -devel rpms
+Source3:	disable-prepare-scripts-configs-in-devel-rpms.patch
 
 Source4: 	README.kernel-%{ktag}-sources
 Source5: 	README.Mandriva_Linux_%{ktag}
@@ -681,6 +683,8 @@ SaveDevel() {
 	
 	# disable mrproper in -devel rpms
 	patch -p1 -d $TempDevelRoot -i %{SOURCE2}
+	# disable the rest of the scripts in -devel rpms
+	patch -p1 -d $TempDevelRoot -i %{SOURCE3}
 
 	kernel_devel_files=../kernel_devel_files.$devel_flavour
 	
@@ -1107,6 +1111,7 @@ rm -rf %{buildroot}
 - update patch FS10: ext4 update to 2.6.26-ext4-5
 - fix missing bounds.h in -devel rpms
 - dont prepare -source tree at all
+- keep disable-prepare-scripts as a separate patch like main
 
 * Sat Aug  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.1-1mdv
 - update to 2.6.26.1:
