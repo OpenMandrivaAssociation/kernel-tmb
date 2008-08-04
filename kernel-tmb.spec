@@ -153,6 +153,9 @@ Source3:	disable-prepare-scripts-configs-in-devel-rpms.patch
 Source4: 	README.kernel-%{ktag}-sources
 Source5: 	README.Mandriva_Linux_%{ktag}
 
+# This is for keeping asm-offsets.h and bounds.h in -devel rpms
+Source6: 	kbuild-really-dont-remove-bounds-asm-offsets-headers.patch
+
 Source100: 	linux-%{patch_ver}.tar.bz2
 Source101: 	linux-%{patch_ver}.tar.bz2.sign
 Source102: 	%{kname}.patchlist
@@ -672,6 +675,9 @@ SaveDevel() {
 		rm -rf $TempDevelRoot/include/asm-sparc64
 	%endif
 
+	# disable removal of asm-offsets.h and bounds.h
+	patch -p1 -d $TempDevelRoot -i %{SOURCE6}
+	
 	# Clean the scripts tree, and make sure everything is ok (sanity check)
 	# running prepare+scripts (tree was already "prepared" in build)
 	pushd $TempDevelRoot >/dev/null
@@ -689,7 +695,7 @@ SaveDevel() {
 	kernel_devel_files=../kernel_devel_files.$devel_flavour
 	
 
-### Cteate the kernel_devel_files.*
+### Create the kernel_devel_files.*
 cat > $kernel_devel_files <<EOF
 %defattr(-,root,root)
 %dir $DevelRoot
@@ -1112,6 +1118,7 @@ rm -rf %{buildroot}
 - fix missing bounds.h in -devel rpms
 - dont prepare -source tree at all
 - keep disable-prepare-scripts as a separate patch like main
+- disable removal of asm-offsets.h and bounds.h in -devel rpms (Herton)
 
 * Sat Aug  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.1-1mdv
 - update to 2.6.26.1:
