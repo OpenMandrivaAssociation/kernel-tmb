@@ -9,10 +9,10 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		1
+%define kstable		2
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1113,6 +1113,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug  8 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.2-1mdv
+- update to 2.6.26.2:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.26.2
+- drop patches AA01-AA18: stable queue fixes, merged upstream
+- add patch DN06: John Carrs 'dirty patch' to usb rndis_host,
+  fixes support of several WM devices
+- update patch DS01: Alsa 1.0.17+ 2008-07-27
+- drop patches DS02-DS16: alsa fixes, merged in DS01
+- add patch DS02: alsa: bluetooth SCO support
+- add patch DS03: alsa: support NEC Versa S9100
+- add patch DS04: alsa: support Sony Vaio VGN FZ18M
+- add patch DS05: alsa: support Toshiba Pro A200/A210
+- drop patch DV01: bootsplash support, as we now use splashy
+- update defconfigs
+
 * Mon Aug  4 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.1-2mdv
 - update patch FS10: ext4 update to 2.6.26-ext4-5
 - fix missing bounds.h in -devel rpms
