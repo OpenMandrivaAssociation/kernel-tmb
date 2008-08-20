@@ -9,7 +9,7 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		2
+%define kstable		3
 
 # this is the releaseversion
 %define kbuild		1
@@ -1113,6 +1113,19 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Aug 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.3-1mdv
+- update to 2.6.26.3:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.26.3
+- update patch DM50: remove tea575x-tuner changes as a more complete
+  one is in Alsa-1.0.18-rc1
+- update patch DS01: Alsa 1.0.18rc1
+- drop patch DS03: Nec Versa S9100 support (merged upstream)
+- update patch FS10: ext4 support: 2.6.26-ext4-7
+- make TuxOnIce builtin and default on -laptop flavour
+- disable CONFIG_SCHED_HRTICK as it's known to cause boot problems with
+  at least Intel GMA cards, as noted on LKML and kernel BugZilla #10892
+- update defconfigs
+
 * Fri Aug  8 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.2-1mdv
 - update to 2.6.26.2:
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.26.2
