@@ -1122,8 +1122,9 @@ rm -rf %{buildroot}
 - drop patch DS03: Nec Versa S9100 support (merged upstream)
 - update patch FS10: ext4 support: 2.6.26-ext4-7
 - make TuxOnIce builtin and default on -laptop flavour
-- disable CONFIG_SCHED_HRTICK as it's known to cause boot problems with
-  at least Intel GMA cards, as noted on LKML and kernel BugZilla #10892
+- add patch KS01: really disable CONFIG_SCHED_HRTICK as it's known to 
+  cause boot problems with at least Intel GMA cards, as noted on LKML 
+  and kernel.org BugZilla #10892
 - update defconfigs
 
 * Fri Aug  8 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.2-1mdv
