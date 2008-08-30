@@ -3,13 +3,14 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	26
+%define sublevel	27
 
 # kernel Makefile extraversion is substituted by 
-# kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), git (kgit), or stable release (kstable)
-%define kpatch		0
+# kpatch/kgit/kstable wich are either 0 (empty), 
+# rc (kpatch), git (kgit), or stable release (kstable)
+%define kpatch		rc5
 %define kgit		0
-%define kstable		3
+%define kstable		0
 
 # this is the releaseversion
 %define kbuild		1
@@ -117,6 +118,11 @@
 # there are places where parallel make don't work
 %define smake make
 
+# Parallelize xargs invocations on smp machines
+%define kxargs xargs %([ -z "$RPM_BUILD_NCPUS" ] \\\
+	&& RPM_BUILD_NCPUS="`/usr/bin/getconf _NPROCESSORS_ONLN`"; \\\
+	[ "$RPM_BUILD_NCPUS" -gt 1 ] && echo "-P $RPM_BUILD_NCPUS")
+
 # Sparc arch wants sparc64 kernels
 %define target_arch    %(echo %{_arch} | sed -e "s/sparc/sparc64/")
 
@@ -206,6 +212,7 @@ Use these kernels at your own risk !!
 %define requires1 	mkinitrd >= 4.2.17-%mkrel 52
 %define requires2 	bootloader-utils >= 1.12-%mkrel 1
 %define requires3 	sysfsutils >= 1.3.0-%mkrel 1 module-init-tools >= 3.2-0.pre8.%mkrel 2
+%define requires4	kernel-firmware >= 2.6.27-1mmb
 
 %define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 86
 
@@ -229,7 +236,7 @@ Version:	%{fakever}				\
 Release:	%{fakerel}				\
 Provides:	%kprovides				\
 Provides:	should-restart = system			\
-Requires(pre):	%requires1 %requires2 %requires3	\
+Requires(pre):	%requires1 %requires2 %requires3 %requires4 \
 %ifarch %{ix86}						\
 Conflicts:	arch(x86_64)				\
 %endif							\
@@ -553,7 +560,7 @@ cd %src_dir
 LC_ALL=C perl -p -i -e "s/^SUBLEVEL.*/SUBLEVEL = %{sublevel}/" Makefile
 
 # get rid of unwanted files
-find . -name '*~' -o -name '*.orig' -o -name '*.append' |xargs rm -f
+find . -name '*~' -o -name '*.orig' -o -name '*.append' |%kxargs rm -f
 
 
 %build
@@ -620,6 +627,9 @@ BuildKernel() {
 	# modules
 	install -d %{temp_modules}/$KernelVer
 	%smake INSTALL_MOD_PATH=%{temp_root} KERNELRELEASE=$KernelVer modules_install 
+
+	# remove /lib/firmware, we use a separate kernel-firmware
+	rm -rf %{temp_root}/lib/firmware
 }
 
 
@@ -677,12 +687,14 @@ SaveDevel() {
 
 	# disable removal of asm-offsets.h and bounds.h
 	patch -p1 -d $TempDevelRoot -i %{SOURCE6}
-	
+
 	# Clean the scripts tree, and make sure everything is ok (sanity check)
 	# running prepare+scripts (tree was already "prepared" in build)
 	pushd $TempDevelRoot >/dev/null
 		%smake -s prepare scripts clean
 	popd >/dev/null
+	
+	rm -f $TempDevelRoot/.config.old
 	
 	# fix permissions
 	chmod -R a+rX $TempDevelRoot
@@ -731,6 +743,7 @@ $DevelRoot/include/asm-x86
 %endif
 $DevelRoot/include/config
 $DevelRoot/include/crypto
+$DevelRoot/include/drm
 $DevelRoot/include/keys
 $DevelRoot/include/linux
 $DevelRoot/include/math-emu
@@ -987,7 +1000,7 @@ rm -f %{target_source}/{.config.old,.config.cmd,.mailmap,.missing-syscalls.d,arc
 %endif
 
 # gzipping modules
-find %{target_modules} -name "*.ko" | xargs gzip -9
+find %{target_modules} -name "*.ko" | %kxargs gzip -9
 
 # We used to have a copy of PrepareKernel here
 # Now, we make sure that the thing in the linux dir is what we want it to be
@@ -1007,7 +1020,7 @@ for i in *; do
 	pushd $i
 	echo "Creating module.description for $i"
 	modules=`find . -name "*.ko.gz"`
-	echo $modules | xargs /sbin/modinfo \
+	echo $modules | %kxargs /sbin/modinfo \
 	| perl -lne 'print "$name\t$1" if $name && /^description:\s*(.*)/; $name = $1 if m!^filename:\s*(.*)\.k?o!; $name =~ s!.*/!!' > modules.description
 	popd
 done
@@ -1064,6 +1077,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/asm-x86
 %endif
 %{_kerneldir}/include/crypto
+%{_kerneldir}/include/drm
 %{_kerneldir}/include/keys
 %{_kerneldir}/include/linux
 %{_kerneldir}/include/math-emu
@@ -1113,6 +1127,33 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Aug 30 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc5.1mdv
+- update to 2.6.27-rc5
+- require kernel-firmware from main
+- remove /lib/firmware from the rpms
+- parallelize xargs invocations on smp machines
+- add patch DM12: fix dm-raid45 build with 2.6.27
+- update patch DM50: dvl-dvb snapshot 2008-08-29
+- drop patch DN05: support wm6 devices as modems (merged upstream)
+- update patch DN20: atl2 support for 2.6.27 series (from main)
+- update patch DS01: Alsa snapshot 2008-08-27 (from main)
+- drop old patches FR01-FR17: reiser4 support
+- add new FR01-FR12: Reiser4 support from 2.6.27-rc1-mm1
+- add patch FR13: Reiser4 buildfix for 2.6.27-rc5
+- update patch FS01: unionfs 2.4.0 for 2.6.27-rcX
+- drop patch FS10: ext4 snapshot (merged upstream)
+- update patch KP01: TuxOnIce 3.0-rc7
+- drop patch KS01: disabling of SCHED_HRTICK, as it's now fixed upstream
+- update patch MB02: 3rdparty merge (from main)
+- add patch MB13: ndiswrapper buildfix for 2.6.27 (from main)
+- update patch MB20: squashfs 3.4 (from main)
+- drop patch MB21: squashfs buildfix (not needed anymore)
+- add patch MC54: acx buildfix for 2.6.27 (from main)
+- drop old patches MC60-MC61: old Atmel wireless support
+- add new patch MC60: Atmel at76 wireless support (from main)
+- update patches MD10-MD13: Prism2 0.2.9 r1859 (from main)
+- update defconfigs
+
 * Wed Aug 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.26.3-1mdv
 - update to 2.6.26.3:
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.26.3
