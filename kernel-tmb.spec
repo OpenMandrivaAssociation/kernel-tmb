@@ -6,10 +6,10 @@
 %define sublevel	27
 
 # kernel Makefile extraversion is substituted by 
-# kpatch/kgit/kstable wich are either 0 (empty), 
-# rc (kpatch), git (kgit), or stable release (kstable)
-%define kpatch		rc5
-%define kgit		0
+# kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
+# git (kgit, only the number after "git"), or stable release (kstable)
+%define kpatch		rc6
+%define kgit		2
 %define kstable		0
 
 # this is the releaseversion
@@ -20,7 +20,11 @@
 
 %define rpmtag		%distsuffix
 %if %kpatch
+%if %kgit
+%define rpmrel		%mkrel 0.%{kpatch}.%{kgit}.%{kbuild}
+%else
 %define rpmrel		%mkrel 0.%{kpatch}.%{kbuild}
+%endif
 %else
 %define rpmrel		%mkrel %{kbuild}
 %endif
@@ -48,7 +52,11 @@
 
 # used for not making too long names for rpms or search paths 
 %if %kpatch
+%if %kgit
+%define buildrpmrel     0.%{kpatch}.%{kgit}.%{kbuild}%{rpmtag}
+%else
 %define buildrpmrel     0.%{kpatch}.%{kbuild}%{rpmtag}
+%endif
 %else
 %define buildrpmrel     %{kbuild}%{rpmtag}
 %endif
@@ -181,8 +189,8 @@ Patch1:		ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/t
 Source10: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/testing/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}.bz2.sign
 %endif
 %if %kgit
-Patch2:		ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/snapshots/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}-%{kgit}.bz2
-Source11:	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/snapshots/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}-%{kgit}.bz2.sign
+Patch2:		ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/snapshots/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}-git%{kgit}.bz2
+Source11:	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/snapshots/patch-%{kernelversion}.%{patchlevel}.%{sublevel}-%{kpatch}-git%{kgit}.bz2.sign
 %endif
 %if %kstable
 Patch1:   	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2
@@ -372,7 +380,8 @@ and some other laptop-specific optimizations. If you want to sacrifice \
 battery life for performance, you better use the %{kname}-desktop. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
-processor mode, use the "nosmp" boot parameter.
+processor mode, use the "nosmp" boot parameter. \
+NOTE! This kernel also uses TuxOnIce by default.
 %else
 %define summary_laptop Linux kernel for laptop use with %{_arch}
 %define info_laptop This kernel is compiled for laptop use, single or \
@@ -382,7 +391,8 @@ laptop-specific optimizations. If you want to sacrifice battery life for \
 performance, you better use the %{kname}-desktop. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
-processor mode, use the "nosmp" boot parameter.
+processor mode, use the "nosmp" boot parameter. \
+NOTE! This kernel also uses TuxOnIce by default.
 %endif
 %mkflavour laptop
 %endif
@@ -1127,6 +1137,26 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Sep 13 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc6.2.1mdv
+- update to 2.6.27-rc6-git2
+- update patches FR01-FR15: Reiser4 from 2.6.27-rc5-mm1
+- update patch DS01: Alsa 1.0.18rc3 (from main)
+- update patch DM50: v4l-dvb snapshot 2009-09-13
+- add patch NI06: fix netfilter ipset build on 2.6.27 (from main)
+- change versioning to show git snapshot like kernel-linus
+- redo defconfigs based on main kernel defconfigs with the following changes:
+  * disable TASKSTATS, NAMESPACES, SLUB_DEBUG, BLK_DEV_IO_TRACE, IP_VS_DEBUG
+  * disable BLK_DEV_UB, SCSI_SAS_LIBSAS_DEBUG, AIC94XX_DEBUG, B43_DEBUG
+  * disable B43LEGACY_DEBUG, HID_DEBUG, REISERFS_PROC_INFO
+  * disable OCFS2_DEBUG_MASKLOG, CIFS_STATS2, KEYS_DEBUG_PROC_KEYS
+  * change NR_CPUS to 16
+  * enable MD_FAULTY, DM_DELAY, FIREWIRE, FIREWIRE_OHCI, FIREWIRE_SBP2
+  * enable FIREWIRE_OHCI_REMOTE_DMA, TULIP_MMIO, TULIP_NAPI, 
+  * enable TULIP_NAPI_HW_MITIGATION, SUNDANCE_MMIO, VIA_RHINE_MMIO
+  * enable HIPPI, ROADRUNNER, VIDEO_VIVI, DVB_USB_DIBUSB_MB_FAULTY
+  * enable AUTOFS_FS, KARMA_PARTITION, DETECT_SOFTLOCKUP, EARLY_PRINTK
+  * enable 4KSTACKS, CRYPTO_DEV_HIFN_795X_RNG
+
 * Sat Aug 30 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc5.1mdv
 - update to 2.6.27-rc5
 - require kernel-firmware from main
