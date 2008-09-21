@@ -9,7 +9,7 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		4
+%define kgit		6
 %define kstable		0
 
 # this is the releaseversion
@@ -1137,8 +1137,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Mon Sep 15 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc6.4.1mdv
-- update to 2.6.27-rc6-git4
+* Sun Sep 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc6.6.1mdv
+- update to 2.6.27-rc6-git6
+- update patch FS01: unionfs v2.5
 
 * Sat Sep 13 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc6.2.1mdv
 - update to 2.6.27-rc6-git2
