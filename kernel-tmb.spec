@@ -8,8 +8,8 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc6
-%define kgit		6
+%define kpatch		rc7
+%define kgit		4
 %define kstable		0
 
 # this is the releaseversion
@@ -1137,6 +1137,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Sep 26 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc7.4.1mdv
+- update to 2.6.27-rc7-git4
+- add patch FS02: export security_inode_permission, as unionfs needs it.
+
 * Sun Sep 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc6.6.1mdv
 - update to 2.6.27-rc6-git6
 - update patch FS01: unionfs v2.5
