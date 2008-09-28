@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		4
+%define kgit		5
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Sep 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc7.5.2mdv
+- update to 2.6.27-rc7-git5
+- add patch DA30: acpi ec v2.1, adds fast transaction (from main)
+- add patch DA55: fix sata_nv regression (#44287, from main)
+- add patch DC01: add support for intel G41 chipset (from main)
+- update patch DM50: v4l-dvb snapshot 2008-09-28
+- add patch DN30: add support for JMicron Gigabit ethernet (from main)
+- update defconfigs
+
 * Fri Sep 26 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc7.4.1mdv
 - update to 2.6.27-rc7-git4
 - add patch FS02: export security_inode_permission, as unionfs needs it.
@@ -1149,7 +1158,7 @@ rm -rf %{buildroot}
 - update to 2.6.27-rc6-git2
 - update patches FR01-FR15: Reiser4 from 2.6.27-rc5-mm1
 - update patch DS01: Alsa 1.0.18rc3 (from main)
-- update patch DM50: v4l-dvb snapshot 2009-09-13
+- update patch DM50: v4l-dvb snapshot 2008-09-13
 - add patch NI06: fix netfilter ipset build on 2.6.27 (from main)
 - change versioning to show git snapshot like kernel-linus
 - redo defconfigs based on main kernel defconfigs with the following changes:
