@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc7
-%define kgit		5
+%define kpatch		rc8
+%define kgit		3
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Oct  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc8.3.1mdv
+- update to 2.6.27-rc8-git3
+  * contains workaround for e1000e hw breaking bug
+- drop patches MC50-MC54: acx wireless, due to legal reasons
+- drop patch DA55: sata_nv regression fix, merged upstream
+- add patch DS00: revert upstream alsa fixes already in Alsa 1.0.18rc3
+- add patches MC33, MC34: drbd fixes (from main)
+- update defconfigs
+
 * Sun Sep 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc7.5.2mdv
 - update to 2.6.27-rc7-git5
 - add patch DA30: acpi ec v2.1, adds fast transaction (from main)
