@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Oct 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-2mdv
+- drop patches DA10-DA12: tc1100-wmi, all needed support is 
+  already in 2.6.27
+- drop old patch DA30: acpi ec 2.1 (merged in updated ACPICA)
+- add patch DA30: ACPI and ACPICA 2008-07-29 update
+  * improvements for docking, bay and hotplug
+  * better errror messages, support more laptops
+  * better rfkill support
+- add patch DA31: export symbol acpi_os_hotplug_execute
+- add patch DI01: Alps touchpad support for Dell Latitude E6500 (#44701)
+- update patches DM10-DM12: rename dm-raid4-5 to dm-raid45 as
+  that's what the kernel expects to find.
+- add patch DM13: add dm-raid4-5 modalias to dm-raid45 to not break updates
+- update defconfigs
+
 * Sat Oct 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-1mdv
 - update to 2.6.27 final
 - add patch DA35: sata_nv hardreset fix
