@@ -8,8 +8,8 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc8
-%define kgit		3
+%define kpatch		0
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
@@ -1137,6 +1137,31 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Oct 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-1mdv
+- update to 2.6.27 final
+- add patch DA35: sata_nv hardreset fix
+- update patch DM50: v4l-dvb snapshot 2008-10-10
+- drop patch DM51: saa7134-alsa fix, fixed in DS01
+- update patch DN10: even more r8169 fixes
+  * from: http://userweb.kernel.org/~romieu/r8169/2.6.27-rc9
+- update patch DS01: Alsa 1.0.18rc3.1 snapshot 2008-10-10
+- add patch FS10: ext4 updates to 2.6.27-rc9-ext4-1
+- add patch FS15: fix barrier fail detection in XFS
+- update patch KP01: TuxOnIce 3.0-rc7 for 2.6.27
+- update patch MC34: rename drbd WARN macro to DRBD_WARN
+- add patch MC35: drbd: fix cn_idx_drbd definition
+- update defconfigs
+
+* Mon Oct  6 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc8.8.1mdv
+- update to 2.6.27-rc8-git8
+- update patch DM50: v4l-dvb snapshot 2008-10-06
+- add patch DM51: convert saa7134-alsa to snd_BUG_ON
+- add patch DN10: support more r8169 network cards
+  * from: http://userweb.kernel.org/~romieu/r8169/2.6.27-rc6/
+- drop patch DS00: alsa revert 
+- update patch DS01: Alsa 1.0.18rc3.1 snapshot 2008-10-06
+- update defconfigs
+
 * Thu Oct  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-0.rc8.3.1mdv
 - update to 2.6.27-rc8-git3
   * contains workaround for e1000e hw breaking bug
