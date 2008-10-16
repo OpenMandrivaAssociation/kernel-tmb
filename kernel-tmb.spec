@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Oct 16 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.1-1mdv
+- update to 2.6.27.1
+  * disables CONFIG_DYNAMIC_FTRACE due to possible memory corruption
+    on module unload (this  is the reason e1000e cards broke)
+      
 * Sat Oct 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-2mdv
 - drop patches DA10-DA12: tc1100-wmi, all needed support is 
   already in 2.6.27
