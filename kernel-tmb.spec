@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		1
+%define kstable		2
 
 # this is the releaseversion
 %define kbuild		1
@@ -1137,6 +1137,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Oct 19 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.2-1mdv
+- update to 2.6.27.2
+- add patch AA01: 2.6.27.3-rc1
+- add patch DN11: fix NULL pointer dereference on r8169 load
+  (Reported by Charles, fix pointed out by Andrey)
+- drop patch FS15: XFS barrier fail detection fix, merged upstream
+
 * Thu Oct 16 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.1-1mdv
 - update to 2.6.27.1
   * disables CONFIG_DYNAMIC_FTRACE due to possible memory corruption
