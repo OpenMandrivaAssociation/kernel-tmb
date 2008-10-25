@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		2
+%define kstable		3
 
 # this is the releaseversion
 %define kbuild		1
@@ -1137,6 +1137,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Oct 25 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.3-1mdv
+- update to 2.6.27.3 final
+- update patch AA01: 2.6.27.4-rc3
+- rediff patch DA30: acpica 20080729
+- update patch FS10: ext4 update to 2.6.27-ext4-2
+- enable EXT4DEV_COMPAT so userspace expecting to mount ext4dev
+  instead of ext4 wont break
+- update defconfigs
+
 * Sun Oct 19 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.2-1mdv
 - update to 2.6.27.2
 - add patch AA01: 2.6.27.3-rc1
