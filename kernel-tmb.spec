@@ -13,7 +13,7 @@
 %define kstable		4
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Oct 26 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.4-2mdv
+- update patch DN10: updates r8169 to 2.6.28-rc2 level
+  * fixes possible "brick" bug
+- drop patch DN11: r8169 NULL pointer fix (merged upstream)
+
 * Sun Oct 26 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.4-1mdv
 - update to 2.6.27.4 final
 - drop patch AA01: 2.6.27.4-rc3 (merged upstream)
