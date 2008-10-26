@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		3
+%define kstable		4
 
 # this is the releaseversion
 %define kbuild		1
@@ -1137,6 +1137,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Oct 26 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.4-1mdv
+- update to 2.6.27.4 final
+- drop patch AA01: 2.6.27.4-rc3 (merged upstream)
+
 * Sat Oct 25 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.3-1mdv
 - update to 2.6.27.3 final
 - update patch AA01: 2.6.27.4-rc3
