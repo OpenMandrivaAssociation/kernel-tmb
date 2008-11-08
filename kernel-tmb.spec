@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		4
+%define kstable		5
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,32 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Nov  7 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.5-1mdv
+- update to 2.6.27.5
+- rediff patch DA30: acpica update
+- drop patch DA35: sata_nv hardreset fix (merged upstream)
+- add patch DA45: ata support for Intel Ibex Peak (PCH)
+- rediff patch DC01: Intel G41 AGP support
+- add patch DM01: fix raid10 recovery bug
+- update patch DM50: v4l-dvb snapshot 2008-11-07
+  * adds STB0899, STB6100, Philips TDA8261, LG LGDT3304, 
+    Sharp S921 dvb support
+  * adds Finepix, SunPlus usb webcam support
+- add patch DM51: revert dvb changes not supported by 2.6.27 kernel
+- add patch DN15: Intel 82567LM-4 gigabit lan support
+- add patch DN16: Intel (ich10) 82567LF-3 and LM-3 gigabit lan support
+- update patch DS01: Alsa 1.0.18+ snapshot 2008-11-07
+  * adds hrtimer backend support
+  * adds Intel hdmi audio support
+  * adds support for some more laptops
+- add patch DS02: revert Alsa changes not supported by 2.6.27 kernel
+- add patch DS10: Selected updates from Alsa -unstable tree
+  * adds support for Creative X-Fi CA0110-IBG codec
+  * adds support for Creative X-Fi Emu20k1 chip
+  * adds support for VIA VT1732 (Envy24-II)
+  * adds support for several Gateway systems
+- update defconfigs
+
 * Sun Oct 26 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.4-2mdv
 - update patch DN10: updates r8169 to 2.6.28-rc2 level
   * fixes possible "brick" bug
