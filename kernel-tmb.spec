@@ -13,7 +13,7 @@
 %define kstable		5
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Nov  8 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.5-2mdv
+- update patch DA30: ACPICA 2008-09-26
+- disable old acpi patches to see if they are needed anymore:
+  * DA15: acpi-add-proc-event-regs
+  * DA20: acpi-asus-laptop-input
+  * DA21: acpi-asus-eee
+  * DA22: acpi-asus-disable-autoload-on-asus-laptops
+  * DA25: acpi-CELVO-M360S-disable_acpi_irq
+  * DA26: acpi-processor-M720SR-limit-to-C2
+- update defconfigs
+
 * Fri Nov  7 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.5-1mdv
 - update to 2.6.27.5
 - rediff patch DA30: acpica update
