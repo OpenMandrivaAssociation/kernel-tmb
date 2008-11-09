@@ -13,7 +13,7 @@
 %define kstable		5
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,25 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Nov  9 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.5-3mdv
+- rename acpi patches to prepare for acpi fixes:
+  * change patch DA30 prefix to DA01 (acpica update)
+  * change patch DA31 prefix to DA02 (acpica buildfix)
+- add acpi patches:
+  * DA03: i7300_idle: Disable ioat channel only on platforms where idle can load
+  * DA04: i7300_idle: Cleanups
+  * DA05: i7300_idle: Fix compile warning about I7300_IDLE_IOAT_CHANNEL not defined
+  * DA06: suspend: build fix for ACPI_SLEEP=n & XEN_SAVE_RESTORE=y
+  * DA07: fix Oops in pci-acpi
+  * DA08: toshiba_acpi: depends on INPUT
+  * DA09: make dock driver not a module as it needs to be loaded before libata
+- add patch DA40: ahci: add support for Promise PDC42819 in sata mode
+- add patch DN02: bonding: add more ethtool support
+- add patch DN40: amd8111e: fix dma_free_coherent context bug
+- add patch DN41: sis190: add support for Atheros AR8021 PHY
+- add patch DN42: smc911x: add support for LAN921-5-7-8 chips
+- add patch DN43: p54usb: add support for SMC 2862W-G version 2
+
 * Sat Nov  8 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.5-2mdv
 - update patch DA30: ACPICA 2008-09-26
 - disable old acpi patches to see if they are needed anymore:
