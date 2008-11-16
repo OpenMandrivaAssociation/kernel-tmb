@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		5
+%define kstable		6
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Nov 16 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.6-1mdv
+- update to 2.6.27.6 (CVE-2008-5025)
+- drop patch DM01: raid10 recovery bugfix (merged upstream)
+- rediff patch DA01: acpica update
+- rediff patch DN10: r8169 updates
+- rediff patch DS01: Alsa update
+- update defconfigs
+
 * Sun Nov  9 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.5-3mdv
 - rename acpi patches to prepare for acpi fixes:
   * change patch DA30 prefix to DA01 (acpica update)
