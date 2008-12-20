@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		6
+%define kstable		10
 
 # this is the releaseversion
 %define kbuild		1
@@ -1137,6 +1137,51 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Dec 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.10-1mdv
+- update to 2.6.27.10
+  * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.10
+- update to 2.6.27.9 (CVE-2008-5079)
+  * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.9
+- update to 2.6.27.8 (CVE-2008-5300)
+  * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.8
+- update to 2.6.27.7 (CVE-2008-5033)
+  * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.7
+- update patch DM50: v4l-dvb snapshot 2008-12-20
+  * adds support for: 
+    Phytec VD-012, Compro VideoMate E650F, Sattrade ST4200 DVB-S/S2,
+    TBS 8910 DVB-S, Prof 6200 DVB-S, Pinnacle PCTV HD Mini,
+    Hauppauge WinTV HVR 850, Kworld Plus TV Analog Lite PCI
+  * adds gspca support for: 
+    Hercules Blog Webcam, Hercules Dualpix HD Weblog, Hercules Classic Silver,
+    Genius Eye 312, Microdia Audio, Microdia Sonix PC Camera, 
+    Sony HD Eye for PS3 (SLEH 00201), Trust WB-1300N, HP 2.0 Megapixel rz406aa
+- drop patch AA01: fix broken ownership of proc sys files (merged upstream)
+- rediff patch DA01: acpica 20080926 update
+- drop patch DI01: ALPS support for Latitude E6500 (merged upstream)
+- rediff patch FS10: ext4 update
+- update patch DS01: Alsa 1.0.18+ snapshot 2008-12-20
+  * adds support for:
+    - Olpc XO-1 additional sound features
+    - low volume boost on Audigy
+  * HD Audio and HDMI updates including:
+    - add quirk for Medion MD96630
+    - fix Samsung R60, X11, X60 quirks
+    - add quirks for HP 6730b, 6730s, EliteBook 8530p, dv5, dv7
+    - adds support for nVidia MCP67 HDMI, Asus P5Q-EM HDMI
+    - adds support for Acer Aspire 4930G, Fujitsu Amilio XA3530
+    - adds support for MSI 7260, HT Omega Claro Halo
+    - add quirks for Dell Studio 1537, Studio17
+  * Adds support for a lot of Digigram based cards:
+    - VX882E, PCX882E, VX881E, PCX881E, VX1222HR, VX1221HR, VX1222E, PCX1222E,
+      VX1221E, PCX1221E, VX222HR, VX222E, PCX22HR, PCX22E, VX222HRMIC,
+      VX222E_MIC, PCX924HR, PCX924E, PCX924HRMIC, PCX924E_MIC
+- update patch DS02: Alsa 1.0.18+ buildfixes 2008-12-20
+- update patch DS10: Alsa unstable adddons 2008-12-20
+- update defconfigs
+
+* Wed Nov 19 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.6-2mdv
+- add patch AA01: fix broken ownership of proc sys files
+
 * Sun Nov 16 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.6-1mdv
 - update to 2.6.27.6 (CVE-2008-5025)
 - drop patch DM01: raid10 recovery bugfix (merged upstream)
