@@ -13,7 +13,7 @@
 %define kstable		10
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Dec 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.10-2mdv
+- add pathes from Stable queue:
+  * AA01: usb-gadget: fix rndis working at high speed
+  * AA02: usb-storage: update unusual_devs entry for nokia 5310
+  * AA03: usb-storage: add unusual_devs entry for nokia 3109c
+  * AA04: usb-storage: add unusual_devs entry for nokiav3500c
+  * AA05: powerpc: fix corruption error in rh_alloc_fixed
+  * AA06: iwlagn: downgrade bug_on in interrupt
+- Add patches from main kernel:
+  * AX01, AX02: add detection of AMD family 0x11 northbridges
+  * AX10: add more pcore fsbs to cpufreq
+  * DH10: add hwmon coretemp support for Intel Atom
+  * DU01, DU02: add usb-storage support for Nokia 5610 & 7610
+
 * Sat Dec 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.10-1mdv
 - update to 2.6.27.10
   * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.10
