@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		10
+%define kstable		12
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,26 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.12-1mdv
+- update to 2.6.27.12: (CVE-2009-0029)
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.12
+- update to 2.6.27.11:
+  * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.11
+- drop patch AA01-AA06: stable-queue patches (merged upstream)
+- update patch DM10: dm-raid45 2008-10-27
+- drop patches DM11, DM12: dm-raid45 buildfixes (merged upstream)
+- update patch DM13: dm-raid4-5 modalias
+- update patch DM50: v4l-dvb snapshot 2009-01-18
+- update patch DM51: v4l-dvb snapshot buildfix
+- update patch DS01: Alsa 1.0.18+ snapshot 2009-01-18
+- update patch DS02: Alsa dnapshot buildfix
+- rediff patch DS10: Alsa unstable addons 2009-01-18
+- drop old patches FR01-FR13: reiser4 patches from old akpm patchset
+- add new patch FR01: reiser4 for 2.6.27 updated 2009-01-15
+- update patch KP01: TuxOnIce 3.0-rc8
+- update create_configs for the new TuxOnIce
+- update defconfigs
+
 * Sun Dec 28 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27.10-2mdv
 - add pathes from Stable queue:
   * AA01: usb-gadget: fix rndis working at high speed
