@@ -13,7 +13,7 @@
 %define kstable		12
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.12-2mdv
+- rediff patch DM50: cleaner v4l-dvb snaphot 2009-01-18
+- update/rediff patch DM51: v4l-dvb buildfix zoran_card build under ix86
+- update patch DS01: Alsa 1.0.19 Final
+- rediff patch DS02: Alsa buildfixes
+- rediff patch DS10: Alsa unstable addons
+- update patch FS01: unionfs 2.5.1
+
 * Mon Jan 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.12-1mdv
 - update to 2.6.27.12: (CVE-2009-0029)
   * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.12
@@ -1151,7 +1159,7 @@ rm -rf %{buildroot}
 - update patch DS01: Alsa 1.0.18+ snapshot 2009-01-18
 - update patch DS02: Alsa dnapshot buildfix
 - rediff patch DS10: Alsa unstable addons 2009-01-18
-- drop old patches FR01-FR13: reiser4 patches from old akpm patchset
+- drop old patches FR01-FR14: reiser4 patches from old akpm patchset
 - add new patch FR01: reiser4 for 2.6.27 updated 2009-01-15
 - update patch KP01: TuxOnIce 3.0-rc8
 - update create_configs for the new TuxOnIce
