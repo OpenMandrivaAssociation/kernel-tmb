@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		12
+%define kstable		13
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,26 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jan 25 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.13-1mdv
+- update to kernel.org 2.6.27.13:
+  * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.13
+- rediff patch DS01: Alsa 1.0.19
+- drop patches DU01, DU02: usb-storage support for Nokia 5610 & 7610,
+  not needed anymore as it's fixed on vendor level in 2.6.27.13
+  (cf usb-storage: set CAPACITY_HEURISTICS flag for bad	vendors)
+- drop patch FS10: ext4 patchset 2.6.27-ext4-2
+- add new patch FS10: ext4 stable backports queue
+- add patch FS11: ext4 Add blocks added during resize to bitmap
+- add patch FS12: ext4 Use EXT4_GROUP_INFO_NEED_INIT_BIT during resize
+- add patch FS13: ext4 Use an rbtree for tracking blocks freed during
+		  transaction
+- add patch FS14: ext4 Dont use blocks freed but not yet committed 
+		  in buddy cache init
+- add patch FS15: ext4 Use new buffer_head flag to check uninit group 
+		  bitmaps initialization
+- update patch KP01: TuxOnIce 3.0-rc8 for 2.6.27.13
+- update defconfigs
+
 * Mon Jan 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.12-2mdv
 - rediff patch DM50: cleaner v4l-dvb snaphot 2009-01-18
 - update/rediff patch DM51: v4l-dvb buildfix zoran_card build under ix86
