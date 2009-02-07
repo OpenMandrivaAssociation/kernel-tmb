@@ -1147,6 +1147,7 @@ rm -rf %{buildroot}
 - rediff patch DA01: acpica 2008-09-26 update
 - rediff patch DS01: Alsa 1.0.19 final
 - update patch KP01: TuxOnIce 3.0-rc8 for 2.6.27.15
+- add patch KP02: revert tuxonice_userui code not in 2.6.27
 
 * Sun Feb  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.13-2mdv
 - bump release to get past kernels in testing tree
