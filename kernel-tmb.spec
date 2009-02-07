@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		13
+%define kstable		15
 
 # this is the releaseversion
 %define kbuild		1
@@ -1137,6 +1137,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb  7 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.15-1mdv
+- update to 2.6.27.15:
+    * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.15
+- update to 2.6.27.14:
+    * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.14
+- add patches from stable queue:
+    * AA01: md: ensure an md array never has too many devices
+- rediff patch DA01: acpica 2008-09-26 update
+- rediff patch DS01: Alsa 1.0.19 final
+- update patch KP01: TuxOnIce 3.0-rc8 for 2.6.27.15
+
+* Sun Feb  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.13-2mdv
+- bump release to get past kernels in testing tree
+
 * Sun Jan 25 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.13-1mdv
 - update to kernel.org 2.6.27.13:
   * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.13
