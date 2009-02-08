@@ -13,7 +13,7 @@
 %define kstable		15
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1137,6 +1137,34 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Feb  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.15-2mdv
+- add patch AX05: fix boot with AMD Fam10h CPUs on systems with broken
+  or missing MP table
+- add patch AX15: add cache descriptors for Intel Core i7
+- update patch DM50: v4l-dvb snapshot 2009-02-07
+    * bugfixes, updates
+    * adds bttv support for IVCE-8784
+    * adds cx23885 support for TurboSight TBS 6920, TeVii S470,
+      DVBWorld DVB-S2 2005
+    * adds en28xx support for Gadmei TVR200
+    * adds gspca support for Creative Live! Cam Notebook Ultra (VC0130),
+      Aiptek PenCam VGA+, Genius iLook 111
+    * add zr364xx support for Aiptek DV T300
+- update patch DM51: v4l-dvb snapshot buildfixes
+- update patch DS01: Alsa 1.0.19+ snapshot 2009-02-07
+    * bugfixes, updates
+    * adds support for Turtle Beach MultiSound Classic, Tahiti, Monterey,
+      and Pinnacle/Fiji soudcards
+    * adds support for Tyan Thunder n6650W (S2915-E)
+- update patch DS02: alsa snapshot buildfixes
+- drop patch DS04: Sony Vaio VGN FZ18M quirk (fixed differently upstream)
+- update patch DS10: Alsa unstable addons snapshot 2009-02-07
+- add patch DS11: Alsa SB X-Fi support (broken out from unstable snapshot)
+- redo patch KP01: TuxOnIce 3.0-rc8 for 2.6.27.15 from a clean git clone
+- drop patch KP02: TuxOnIce buildfix (not needed anymore)
+- update create_configs script for TuxOnIce update
+- update defconfigs
+
 * Sat Feb  7 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.15-1mdv
 - update to 2.6.27.15:
     * http://www.eu.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.15
