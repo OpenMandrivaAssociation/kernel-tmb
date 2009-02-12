@@ -641,8 +641,10 @@ SaveDevel() {
 	%ifarch %{ix86} x86_64
 		cp -fR arch/x86/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/x86/kernel/
 		cp -fR arch/x86/kernel/asm-offsets_{32,64}.c $TempDevelRoot/arch/x86/kernel/
+		cp -fR arch/x86/include $TempDevelRoot/arch/x86/
 	%else
 		cp -fR arch/%{_arch}/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/%{_arch}/kernel/
+		cp -fR arch/%{_arch}/include $TempDevelRoot/arch/%{_arch}/
 	%endif
 	cp -fR kernel/bounds.c $TempDevelRoot/kernel/
 	cp -fR .config Module.symvers $TempDevelRoot
@@ -715,7 +717,6 @@ $DevelRoot/include/Kbuild
 $DevelRoot/include/acpi
 $DevelRoot/include/asm
 $DevelRoot/include/asm-generic
-$DevelRoot/include/asm-um
 %ifarch %{ix86} x86_64
 $DevelRoot/include/asm-x86
 %endif
@@ -733,6 +734,7 @@ $DevelRoot/include/rdma
 $DevelRoot/include/rxrpc
 $DevelRoot/include/scsi
 $DevelRoot/include/sound
+$DevelRoot/include/trace
 $DevelRoot/include/video
 $DevelRoot/include/xen
 $DevelRoot/init
@@ -1036,7 +1038,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/Kbuild
 %{_kerneldir}/include/acpi
 %{_kerneldir}/include/asm-generic
-%{_kerneldir}/include/asm-um
 %ifarch %{ix86} x86_64
 %{_kerneldir}/include/asm-x86
 %endif
@@ -1053,6 +1054,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/rxrpc
 %{_kerneldir}/include/scsi
 %{_kerneldir}/include/sound
+%{_kerneldir}/include/trace
 %{_kerneldir}/include/video
 %{_kerneldir}/include/xen
 %{_kerneldir}/init
@@ -1137,6 +1139,7 @@ rm -rf %{buildroot}
     * AA01: add missing memcontrol include to mm_config.h
     * FR02: reiser4 buildfix
     * MC42: fsc_btns buildfix
+- fix -devel and -source filelists and content
 - enable staging tree
 - make HID core modular
 - drop sparc64 support
