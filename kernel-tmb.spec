@@ -3,17 +3,17 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	27
+%define sublevel	29
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		0
-%define kgit		0
-%define kstable		15
+%define kpatch		rc4
+%define kgit		1
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -83,7 +83,7 @@
 %define build_desktop586	1
 %endif
 
-# Build mm (i686 / 4GB) / x86_64 / sparc64 sets
+# Build mm (i686 / 4GB) / x86_64
 %define build_desktop		1
 
 # Build laptop (i686 / 4GB)/ x86_64
@@ -91,10 +91,10 @@
 %define build_laptop		1
 %endif
 
-# Build realtime (i686 / 4GB)/x86_64 / sparc64 sets
+# Build realtime (i686 / 4GB)/x86_64
 %define build_realtime		0
 
-# Build server (i686 / 64GB)/x86_64 / sparc64 sets
+# Build server (i686 / 64GB)/x86_64
 %define build_server		1
 
 # End of user definitions
@@ -131,10 +131,6 @@
 	&& RPM_BUILD_NCPUS="`/usr/bin/getconf _NPROCESSORS_ONLN`"; \\\
 	[ "$RPM_BUILD_NCPUS" -gt 1 ] && echo "-P $RPM_BUILD_NCPUS")
 
-# Sparc arch wants sparc64 kernels
-%define target_arch    %(echo %{_arch} | sed -e "s/sparc/sparc64/")
-
-
 #
 # SRC RPM description
 #
@@ -144,7 +140,7 @@ Version: 	%{kversion}
 Release: 	%{rpmrel}
 License: 	GPLv2
 Group: 	 	System/Kernel and hardware
-ExclusiveArch: 	%{ix86} x86_64 sparc64
+ExclusiveArch: 	%{ix86} x86_64
 ExclusiveOS: 	Linux
 URL: 		http://wiki.mandriva.com/en/Docs/Howto/Mandriva_Kernels#kernel-tmb
 
@@ -564,7 +560,7 @@ cd %src_dir
 %define debug --no-debug
 %endif
 
-%{patches_dir}/scripts/create_configs %debug --user_cpu="%{target_arch}"
+%{patches_dir}/scripts/create_configs %debug --user_cpu="%{_arch}"
 
 # make sure the kernel has the sublevel we know it has...
 LC_ALL=C perl -p -i -e "s/^SUBLEVEL.*/SUBLEVEL = %{sublevel}/" Makefile
@@ -592,18 +588,10 @@ PrepareKernel() {
 	echo "Make dep for kernel $extension"
 	%smake -s mrproper
 
-	if [ "%{target_arch}" == "i386" -o "%{target_arch}" == "x86_64" ]; then
-	    if [ -z "$name" ]; then
-		cp arch/x86/configs/%{target_arch}_defconfig-desktop .config
-	    else
-		cp arch/x86/configs/%{target_arch}_defconfig-$name .config
-	    fi
+	if [ -z "$name" ]; then
+		cp arch/x86/configs/%{_arch}_defconfig-desktop .config
 	else
-	    if [ -z "$name" ]; then
-		cp arch/%{target_arch}/defconfig-desktop .config
-	    else
-		cp arch/%{target_arch}/defconfig-$name .config
-	    fi
+		cp arch/x86/configs/%{_arch}_defconfig-$name .config
 	fi
 	
 	# make sure EXTRAVERSION says what we want it to say
@@ -628,11 +616,7 @@ BuildKernel() {
 	install -m 644 System.map %{temp_boot}/System.map-$KernelVer
 	install -m 644 .config %{temp_boot}/config-$KernelVer
 
-	%ifarch sparc sparc64
-		gzip -9c vmlinux > %{temp_boot}/vmlinuz-$KernelVer
-	%else
-		cp -f arch/%{target_arch}/boot/bzImage %{temp_boot}/vmlinuz-$KernelVer
-	%endif
+	cp -f arch/%{_arch}/boot/bzImage %{temp_boot}/vmlinuz-$KernelVer
 
 	# modules
 	install -d %{temp_modules}/$KernelVer
@@ -658,9 +642,8 @@ SaveDevel() {
 		cp -fR arch/x86/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/x86/kernel/
 		cp -fR arch/x86/kernel/asm-offsets_{32,64}.c $TempDevelRoot/arch/x86/kernel/
 	%else
-		cp -fR arch/%{target_arch}/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/%{target_arch}/kernel/
+		cp -fR arch/%{_arch}/kernel/asm-offsets.{c,s} $TempDevelRoot/arch/%{_arch}/kernel/
 	%endif
-	cp -fR arch/x86/kernel/sigframe.h $TempDevelRoot/arch/x86/kernel/
 	cp -fR kernel/bounds.c $TempDevelRoot/kernel/
 	cp -fR .config Module.symvers $TempDevelRoot
 	cp -fR 3rdparty/mkbuild.pl $TempDevelRoot/3rdparty/
@@ -679,7 +662,7 @@ SaveDevel() {
 	cp -fR drivers/media/dvb/frontends/lgdt330x.h $TempDevelRoot/drivers/media/dvb/frontends/
                                                                         			
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k \
-		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 v850 xtensa; do
+		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 sparc v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
 	done
@@ -688,13 +671,6 @@ SaveDevel() {
 		rm -rf $TempDevelRoot/arch/x86
 		rm -rf $TempDevelRoot/include/asm-x86
 	%endif
-	%ifnarch sparc sparc64
-		rm -rf $TempDevelRoot/arch/sparc
-		rm -rf $TempDevelRoot/arch/sparc64
-		rm -rf $TempDevelRoot/include/asm-sparc
-		rm -rf $TempDevelRoot/include/asm-sparc64
-	%endif
-
 	# disable removal of asm-offsets.h and bounds.h
 	patch -p1 -d $TempDevelRoot -i %{SOURCE6}
 
@@ -726,10 +702,6 @@ cat > $kernel_devel_files <<EOF
 $DevelRoot/3rdparty
 $DevelRoot/Documentation
 $DevelRoot/arch/Kconfig
-%ifarch sparc sparc64
-$DevelRoot/arch/sparc
-$DevelRoot/arch/sparc64
-%endif
 $DevelRoot/arch/um
 %ifarch %{ix86} x86_64
 $DevelRoot/arch/x86
@@ -743,10 +715,6 @@ $DevelRoot/include/Kbuild
 $DevelRoot/include/acpi
 $DevelRoot/include/asm
 $DevelRoot/include/asm-generic
-%ifarch sparc sparc64
-$DevelRoot/include/asm-sparc
-$DevelRoot/include/asm-sparc64
-%endif
 $DevelRoot/include/asm-um
 %ifarch %{ix86} x86_64
 $DevelRoot/include/asm-x86
@@ -987,7 +955,7 @@ chmod -R a+rX %{target_source}
 # we remove all the source files that we don't ship
 # first architecture files
 for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k \
-	 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 v850 xtensa; do
+	 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 sparc v850 xtensa; do
 	rm -rf %{target_source}/arch/$i
 	rm -rf %{target_source}/include/asm-$i
 done
@@ -995,12 +963,6 @@ done
 %ifnarch %{ix86} x86_64
 	rm -rf %{target_source}/arch/x86
 	rm -rf %{target_source}/include/asm-x86
-%endif
-%ifnarch sparc sparc64
-	rm -rf %{target_source}/arch/sparc
-	rm -rf %{target_source}/arch/sparc64
-	rm -rf %{target_source}/include/asm-sparc
-	rm -rf %{target_source}/include/asm-sparc64
 %endif
 
 # other misc files
@@ -1062,10 +1024,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/3rdparty
 %{_kerneldir}/Documentation
 %{_kerneldir}/arch/Kconfig
-%ifarch sparc sparc64
-%{_kerneldir}/arch/sparc
-%{_kerneldir}/arch/sparc64
-%endif
 %{_kerneldir}/arch/um
 %ifarch %{ix86} x86_64
 %{_kerneldir}/arch/x86
@@ -1078,10 +1036,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/Kbuild
 %{_kerneldir}/include/acpi
 %{_kerneldir}/include/asm-generic
-%ifarch sparc sparc64
-%{_kerneldir}/include/asm-sparc
-%{_kerneldir}/include/asm-sparc64
-%endif
 %{_kerneldir}/include/asm-um
 %ifarch %{ix86} x86_64
 %{_kerneldir}/include/asm-x86
@@ -1137,6 +1091,57 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Feb 12 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc4.1.1mdv
+- update to 2.6.29-rc4-git1
+- drop patches merged upstream:
+    * AA01: md: device limit fix
+    * AX01, AX02: Amd 0x11 nb support    
+    * AX05: Amd Fam10h APIC workaround
+    * AX10: more pcore fsbs for cpufreq
+    * AX15: Intel Core i7 cache descriptors
+    * DA01-DA09: ACPICA 20080926 uppdate    
+    * DA40: Promise PDC42819 AHCI support
+    * DA45: Intel Ibex Peak device ids
+    * DC01: Intel G41 agp support
+    * DN02: bonding ethtool support
+    * DN10: r8169 update
+    * DN15-DN16: Intel e1000e 82567xx support
+    * DN20: atl2 support
+    * DN30: Jmicron gigabit ethernet
+    * DN40: amd8111e bugfix
+    * DN41: Atheros AR8021 support
+    * DN42: SM LAN921-5-7-8 support
+    * DN43: p54usb device is updates
+    * FS02: security_inode_permission symbol export
+    * FS10-FS15: ext4 updates
+    * MB20: squashfs 3.4 (squashfs 4 is now upstream)
+    * MC33-MC35: drbd buildfixes
+    * MC60: 3rdparty at76_usb (is now in upstream staging tree)
+    * MD10-MD13: 3rdparty prism25 (is now in upstream staging tree)
+- update pathes:
+    * CE02: acpi-dsdt-initrd v0.9c-2.6.28
+    * DM10: dm-raid45 for 2.6.29-rc
+    * DM50: v4l-dvb snapshot 2009-02-07
+    * DS01: Alsa 1.0.19+ snapshot 2009-02-07
+    * FR01: reiser4 support
+    * FS01: unionfs 2.5.1
+    * MB02: 3rdparty merge
+    * MC30-MC32: drbd 8.3.0
+    * NI15: ipt_psd
+- disable patches:
+    * DB32: sis5513-965 ide fix
+    * DH01: multilaser usbhid fix
+    * DM10, DM13: dm-raid45 (broken build)
+    * KP01: TuxOnIce 3.0-rc8 (broken build)
+- add patches:
+    * AA01: add missing memcontrol include to mm_config.h
+    * FR02: reiser4 buildfix
+    * MC42: fsc_btns buildfix
+- enable staging tree
+- make HID core modular
+- drop sparc64 support
+- update defconfigs
+                                   
 * Sun Feb  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.15-2mdv
 - add patch AX05: fix boot with AMD Fam10h CPUs on systems with broken
   or missing MP table
