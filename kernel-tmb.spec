@@ -8,8 +8,8 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc4
-%define kgit		1
+%define kpatch		rc5
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
@@ -1093,6 +1093,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb 14 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.1mdv
+- update to 2.6.29-rc5
+- add patches NI07, NI08: ipset apifixes for 2.6.29 (Herton, from main kernel)
+- update defconfigs
+
 * Thu Feb 12 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc4.1.1mdv
 - update to 2.6.29-rc4-git1
 - drop patches merged upstream:
