@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -218,7 +218,7 @@ Use these kernels at your own risk !!
 %define requires3 	sysfsutils >= 1.3.0-%mkrel 1 module-init-tools >= 3.2-0.pre8.%mkrel 2
 %define requires4	kernel-firmware >= 2.6.27-1mmb
 
-%define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 86
+%define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 88
 
 BuildRoot: 		%{_tmppath}/%{kname}-%{kversion}-%{_arch}-build
 %define buildroot	%{_tmppath}/%{kname}-%{kversion}-%{_arch}-build
@@ -1093,6 +1093,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Feb 15 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.2mdv
+- enable TASKSTATS, TASK_DELAY_ACCT, TASK_XACCT, TASK_IO_ACCOUNTING (#47818)
+- update and enable patch KP01: TuxOnIce 3.0-rc8 2009-02-14
+- add patch DG01: disable GEM on i8xx gpu
+- add patch DI01: lirc support
+- add patch DP01: Force write-buffer flush capability on Intel Mobile 4 
+  chipset as it needs it to work properly
+- update defconfigs
+
 * Sat Feb 14 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.1mdv
 - update to 2.6.29-rc5
 - add patches NI07, NI08: ipset apifixes for 2.6.29 (Herton, from main kernel)
