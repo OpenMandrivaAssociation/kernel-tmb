@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1093,6 +1093,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.3mdv
+- add patches to fix netfilter crash (thanks Herton)
+    * NI12: ipt_IFWLOG buildfix
+    * NI17: ipt_psd buildfix
+
 * Sun Feb 15 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.2mdv
 - enable TASKSTATS, TASK_DELAY_ACCT, TASK_XACCT, TASK_IO_ACCOUNTING (#47818)
 - update and enable patch KP01: TuxOnIce 3.0-rc8 2009-02-14
