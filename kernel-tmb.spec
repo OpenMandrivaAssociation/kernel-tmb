@@ -1093,10 +1093,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Tue Feb 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.3mdv
+* Wed Feb 18 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.3mdv
 - add patches to fix netfilter crash (thanks Herton)
     * NI12: ipt_IFWLOG buildfix
     * NI17: ipt_psd buildfix
+- add patch DG02: drm: modesetting for radeon
+- add patch DG03: drm: nouveau driver
+- add patch DG04: drm: intel-next
+-update defconfigs
 
 * Sun Feb 15 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.2mdv
 - enable TASKSTATS, TASK_DELAY_ACCT, TASK_XACCT, TASK_IO_ACCOUNTING (#47818)
