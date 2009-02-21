@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1093,6 +1093,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb 21 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.4mdv
+- - update patches:
+    * DM50: v4l-dvb snapshot 2009-02-18
+    * DM51: v4l-dvb snapshot buildfix
+    * DS01: Alsa 1.0.19+ snapshot 2009-02-18
+    * DS02: Alsa snapshot buildfix
+    * DS10: Alsa unstable addons 2009-02-18
+- add patches:
+    * DN02: split bonding for ipv6 to separate module, to allow disabling
+	    of ipv6 at runtime without breaking bonding for ipv4
+- update defconfigs
+    
 * Wed Feb 18 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.3mdv
 - add patches to fix netfilter crash (thanks Herton)
     * NI12: ipt_IFWLOG buildfix
