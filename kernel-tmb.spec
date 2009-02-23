@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc5
+%define kpatch		rc6
 %define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -328,7 +328,7 @@ latest %{kname}-%{1}-devel installed...			\
 %if %build_desktop586
 %define summary_desktop586 Linux kernel for desktop use with i586 & 4GB RAM
 %define info_desktop586 This kernel is compiled for desktop use, single or \
-multiple i586 processor(s)/core(s) and less than 4GB RAM, using voluntary \
+multiple i586 processor(s)/core(s) and less than 4GB RAM, using full \
 preempt, CFS cpu scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
@@ -345,7 +345,7 @@ processor mode, use the "nosmp" boot parameter.
 %ifarch %{ix86}
 %define summary_desktop Linux Kernel for desktop use with i686 & 4GB RAM
 %define info_desktop This kernel is compiled for desktop use, single or \
-multiple i686 processor(s)/core(s) and less than 4GB RAM, using voluntary \
+multiple i686 processor(s)/core(s) and less than 4GB RAM, using full \
 preempt, CFS cpu scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
@@ -353,7 +353,7 @@ processor mode, use the "nosmp" boot parameter.
 %else
 %define summary_desktop Linux Kernel for desktop use with %{_arch}
 %define info_desktop This kernel is compiled for desktop use, single or \
-multiple %{_arch} processor(s)/core(s), using voluntary preempt, CFS cpu \
+multiple %{_arch} processor(s)/core(s), using full preempt, CFS cpu \
 scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
@@ -662,6 +662,9 @@ SaveDevel() {
 	# Needed for external dvb tree (#41418)
 	cp -fR drivers/media/dvb/dvb-core/*.h $TempDevelRoot/drivers/media/dvb/dvb-core/
 	cp -fR drivers/media/dvb/frontends/lgdt330x.h $TempDevelRoot/drivers/media/dvb/frontends/
+	
+	# add acpica header files, needed for fglrx build
+	cp -fR drivers/acpi/acpica/*.h $TempDevelRoot/drivers/acpi/acpica/
                                                                         			
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k \
 		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 sparc v850 xtensa; do
@@ -1093,6 +1096,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Feb 23 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc6.1mdv
+- update to 2.6.29-rc6:
+    * http://www.eu.kernel.org/pub/linux/kernel/v2.6/testing/ChangeLog-2.6.29-rc6
+- rediff patches:
+    * DG02: radeon modesetting
+    * DM50: v4l-dvb snapshot
+    * DS01: Alsa snapshot
+    * KP01: TuxOnIce
+- add patches:
+    * DG06: intel-gfx: fix kms S3 resume
+    * DG07: drm: fix pciids when using radeon modesetting
+    * DG08: fix radeon modesetting build
+    * KP02: tuxonice fix for bio_rw_sync change
+    * MC33: drbd: adapt for bio_rw_sync change (Herton, main kernel)
+- drop patches:
+    * DG04: intel-next (merged ustream)
+    * DP01: Intel Mobile 4 write buffer flush capacity fix (merged upstream)
+- enable full PREEMPT on -desktop(586) kernels to see what breaks
+- add drivers/acpi/acpica header files to -devel rpms, needed by fglrx
+- update defconfigs
+    
 * Sat Feb 21 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.4mdv
 - - update patches:
     * DM50: v4l-dvb snapshot 2009-02-18
