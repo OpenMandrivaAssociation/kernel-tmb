@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Feb 25 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc6.1.3mdv
+- update patches:
+    * DG02: radeon modesetting support
+- drop patches:
+    * DG07: radeon modesetting pciid
+    * DG08: radeon modesetting buildfix
+- Enable DRM_RADEON_KMS, DRM_I915_KMS
+    
 * Tue Feb 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc6.1.2mdv
 - update to 2.6.29-rc6-git1
 - update defconfigs
