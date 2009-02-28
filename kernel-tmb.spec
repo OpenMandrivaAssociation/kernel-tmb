@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		1
+%define kgit		5
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,22 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc6.5.4mdv
+- update to 2.6.29-rc6-git5
+- add patches:
+    * AA02: fix build of drm i915 due to missing symbols
+- update patches:
+    * DM50: v4l-dvb snapshot 20090228
+    * DN02: bonding_ipv6 split, v2 adds autoloading of the ipv6 part
+    * DS01: Alsa 1.0.19+ snapshot 20090228
+    * DS10: Alsa 1.0.19+ unstable snapshot 20090228
+- rediff patches:
+    * DG02: radeon modesetting
+- drop patches:
+    * DM51: v4l-dvb snapshot buildfix
+- enable DMAR_DEFAULT_ON, SONYPI_COMPAT
+- update defconfigs
+
 * Wed Feb 25 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc6.1.3mdv
 - update patches:
     * DG02: radeon modesetting support
