@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		5
+%define kgit		7
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		5
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,22 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Mar  3 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc6.7.5mdv
+- update to 2.6.29-rc6-git7
+- drop patches:
+    * AA02: fix build of drm i915 due to missing symbols (merged upstream)
+- add patches:
+    * DG00: drm-next (adds ati r600 support)
+    * DM60: Hauppauge HD DVR support
+- update patches:
+    * DG02: drm: radeon modesetting
+    * DG03: drm: nouveau
+    * DI01: lirc
+- rediff patches:
+    * DS01: Alsa 1.0.19+ snapshot
+- enable in defconfigs:
+    * PM_DEBUG, IWLWIFI_DEBUG, IWL3945_DEBUG, DRM_NOUVEAU_KMS
+
 * Sat Feb 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc6.5.4mdv
 - update to 2.6.29-rc6-git5
 - add patches:
