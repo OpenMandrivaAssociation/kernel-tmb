@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,22 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Mar  7 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.2mdv
+- update patches:
+    * DG02: drm: radeon modesetting
+    * DG03: drm: nouveau support
+    * DI01: lirc support
+    * DM50: v4l-dvb snapshot 20080307
+    * DS01: Alsa 1.0.19+ snapshot 20080307
+    * DS10: Alsa 1.0.19+ unstable addons snapshot 10080307
+    * KP01: TuxOnIce 3.0-rc8 20090305
+- add patches:
+    * DG07: drm: fix setmaster deadlock
+    * DG08: drm: add radeon PM support
+- drop patches:
+    * KP02: TuxOnIce buildfix (merged upstream)
+- update defconfigs
+    
 * Wed Mar  4 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.1mdv
 - update to 2.6.29-rc7
 
