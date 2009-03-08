@@ -1096,7 +1096,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Sat Mar  7 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.2mdv
+* Sun Mar  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.2mdv
 - update patches:
     * DG02: drm: radeon modesetting
     * DG03: drm: nouveau support
@@ -1106,6 +1106,7 @@ rm -rf %{buildroot}
     * DS10: Alsa 1.0.19+ unstable addons snapshot 10080307
     * KP01: TuxOnIce 3.0-rc8 20090305
 - add patches:
+    * DA41: ahci: add support for nVidia MCP89
     * DG07: drm: fix setmaster deadlock
     * DG08: drm: add radeon PM support
 - drop patches:
