@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		0
+%define kgit		3
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Mar 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.3.1mdv
+- update to 2.6.29-rc7-git3
+- rediff patches:
+    * DS01: Alsa 1.0.19+ snapshot
+- drop patches merged upstream:
+    * DA41: nVidia MCP89 support
+    * DG07: drm setmaster deadlock fix
+- drop patches fixed differently upstream:
+    * DN02: bonding_ipv6 split:
+	* Correct way to disable ipv6 support now is to add:
+	  "options ipv6 disable=1" to /etc/modprobe.conf
+
 * Sun Mar  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.2mdv
 - update patches:
     * DG02: drm: radeon modesetting
