@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		3
+%define kgit		5
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,7 +1096,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Wed Mar 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.3.1mdv
+* Fri Mar 13 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.5.4mdv
+- update to 2.6.29-rc7-git5
+- update patches:
+    * DG00: drm: drm-next update
+    * DG02: drm: radeon modesetting support
+    * DG03: drm: nouveau support
+- add patches:
+    * DG10: drm: fix flushing on i855, i865g
+    * DS15: Alsa: hda_intel preallocate 4mb dmabuffer
+    * DN10: ipv6: fix BUG when disabled ipv6 module is unloaded
+    * FE01: ext4: extent-header check fix
+    * FS10: squashfs: fix page-aligned data
+    
+* Wed Mar 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.3.3mdv
 - update to 2.6.29-rc7-git3
 - rediff patches:
     * DS01: Alsa 1.0.19+ snapshot
