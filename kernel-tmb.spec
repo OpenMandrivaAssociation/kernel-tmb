@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc7
-%define kgit		5
+%define kpatch		rc8
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Mar 13 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc8.1mdv
+- update to 2.6.29-rc8
+- drop patches merged upstream:
+    * FS10: squashfs page-aligned data fix
+- update defconfigs
+
 * Fri Mar 13 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.5.4mdv
 - update to 2.6.29-rc7-git5
 - update patches:
