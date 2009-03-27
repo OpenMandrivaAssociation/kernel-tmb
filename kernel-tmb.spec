@@ -8,7 +8,7 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc8
+%define kpatch		0
 %define kgit		0
 %define kstable		0
 
@@ -1096,6 +1096,28 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Mar 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-1mdv
+- update to 2.6.29 final
+- add patches:
+    * FE02-FE04: ext4 delayed allocation fixes (from main kernel)
+    * DN10: GRO: Disable GRO on legacy netif_rx path (from main kernel)
+- update patches:
+    * DG00: drm-next update
+    * DG02: radeon modesetting update
+    * DG03: nouveau update
+    * DM50: v4l-dvb snapshot 20090327
+    * DS01: Alsa 1.0.19+ snapshot 20090327
+    * DS10: Alsa 1.0.19+ unstable addons snapshot 20090327
+    * KP01: TuxOnIce 3.0-rc8 20090313
+- drop patches merged upstream:
+    * DM60: Hauppauge hdpvr (merged in v4l-dvb snapshot)
+    * DN10: ipv6 module unload bug
+    * FE01: ext4: extent-header check fix
+- disable in defconfigs:
+    * SYS_DEPRECATED(_V2), USB_DEVICE_CLASS, WIRELESS_OLD_REGULATORY
+    * SND_SUPPORT_OLD_API
+- update defconfigs
+
 * Fri Mar 13 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc8.1mdv
 - update to 2.6.29-rc8
 - drop patches merged upstream:
