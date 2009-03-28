@@ -1100,6 +1100,7 @@ rm -rf %{buildroot}
 - update to 2.6.29 final
 - add patches:
     * FE02-FE04: ext4 delayed allocation fixes (from main kernel)
+    * DM51: v4l-dvb staging go7007 buildfix
     * DN10: GRO: Disable GRO on legacy netif_rx path (from main kernel)
 - update patches:
     * DG00: drm-next update
