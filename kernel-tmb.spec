@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Mar 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-2mdv
+- update patches:
+    * DG00: drm-next update
+    * DG02: radeon modesetting update
+    * DG03: nouveau update
+    * DI01: lirc update
+    * KP01: TuxOnIce for 3.0-rc8 for 2.6.29
+- add patches:
+    * DH15: Asus atk0110 acpi hwmon support
+- update configs
+    
 * Sat Mar 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-1mdv
 - update to 2.6.29 final
 - add patches:
