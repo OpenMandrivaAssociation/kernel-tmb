@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,23 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Apr  3 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-1mdv
+- update to 2.6.29.1
+    * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.29.1
+- drop patches merged upstream:
+    * DN10: Disable GRO on legacy netif_rx path
+    * MC33: drbd bio_rw_sync fix (merged in drbd 8.3.1)
+- add patches:
+    * AX01: pat fixes to allow GTT maps to work on intel
+    * DG11: drm: radeon: reorder busmaster vs. modeset
+    * DG12: add "gem_enable" module option to i915
+- update patches:
+    * DG03: drm: nouveau update
+    * MC30: drbd 8.3.1
+- rediff patches:
+    * DM50: v4l-dvb snapshot
+    * MC31: drbd buildfixes
+    
 * Mon Mar 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-2mdv
 - update patches:
     * DG00: drm-next update
