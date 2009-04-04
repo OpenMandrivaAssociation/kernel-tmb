@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Apr  5 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-2mdv
+- rollback Alsa patches to earlier snapshot as current upstream
+  is broken: (fixes #49385, #49536)
+    * DS01: Alsa 1.0.19+ 2009-03-07
+    * DS10: Alsa 1.0.19+ unstable addons 2009-03-07
+- update patches:
+    * FR01: Reiser4 for 2.6.29
+    * KP01: TuxOnIce 3.0 Final
+- drop patches:
+    * FR02: Reiser4 buildfix
+
 * Fri Apr  3 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-1mdv
 - update to 2.6.29.1
     * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.29.1
