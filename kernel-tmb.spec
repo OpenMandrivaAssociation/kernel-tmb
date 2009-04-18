@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,32 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Apr 18 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-3mdv
+- add patches:
+    * DG13: drm: ignore LVDS on intel graphics systems that lie about having it
+    * DG14: drm: i915 allow tiled front buffers on 965+ (#50032)
+    * DH20: hid: wacom bluetooth support
+    * DI10: input: wacom intuos4 support (from main)
+    * DM20: fix oops in md raid1
+    * DU01: usb: add support for Qualcom usb modems
+- update patches:
+    * DG00: drm: drm-next
+    * DG02: drm: radeon modesetting
+    * DG03: drm: nouveau
+    * DG06: drm: i915 resume force mode
+    * KP01: TuxOnIce 3.0.1
+    * NI01: net: netfilter ipset 2.4.9 (from main)
+    * NI10: net: netfilter IFWLOG (from main)
+    * NI11: net: netfilter IFWLOG mdv fixes (from main)
+    * NI15: net: netfilter psd (from main)
+    * NI16: net: netfilter psd mdv fixes (from main)
+- drop patches:
+    * DG11: drm: radeon: reorder busmaster vs. modeset (merged in DG02)
+    * NI02-NI08: netfilter ipset buildfixes (not needed anymore)
+    * NI12: netfilter IFWLOG buildfixes (not needed anymore)
+    * NI17: netfilter psd buildfixes (not needed anymore)
+- update defconfigs
+
 * Sun Apr  5 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-2mdv
 - rollback Alsa patches to earlier snapshot as current upstream
   is broken: (fixes #49385, #49536)
