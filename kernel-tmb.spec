@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Apr 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-4mdv
+- dm-raid45 target is finally back:
+    * DM10: dm-raid45 20090424 for 2.6.29.1
+    * DM13: add dm-raid4-5 modalias
+- update defconfigs
+
 * Sat Apr 18 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-3mdv
 - add patches:
     * DG13: drm: ignore LVDS on intel graphics systems that lie about having it
