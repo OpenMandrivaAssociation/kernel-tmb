@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		1
+%define kstable		2
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,36 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Apr 27 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.2-1mdv
+- update to 2.6.29.2: CVE-2009-1192, CVE-2009-0795
+    * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.29.2
+- drop patch AA00: 2.6.29.2-rc1
+- add patches from stable queue:
+    * AA02: mac80211: fix bug in getting rx status for frames 
+	    pending in reorder buffer
+    * AA03: b43: poison rx buffers
+    * AA04: b43: refresh rx poison on buffer recycling
+    * AA05: thinkpad-acpi: fix led blinking through timer trigger
+    * AA06: mac80211: fix basic rate bitmap calculation
+    * AA07: kvm-mmu: fix off by one calculating large page count
+    * AA08: kvm-mmu: disable global page optimization
+    * AA09: kvm: fix overlapping check for memory slot
+    * AA10: kvm: x86 release time_page on vcpu destruction
+    * AA11: usb: unusual device support for gold mp3 player energy
+    * AA12: virtio-rng: remove false bug for spurious callbacks
+
+* Fri Apr 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-5mdv
+- add patches from stable queue:
+    * AA00: 2.6.29.2-rc1
+    * AA01: forcedeth: fix resume from hibernation regression
+- rediff patches:
+    * DG00: drm-next
+    * DM50: v4l-dvb snapshot
+    * DS01: alsa snapshot
+- drop patches merged upstream:
+    * AX01: pat fixes to allow GTT maps to work on intel
+    * DM20: fix oops in md raid1
+
 * Fri Apr 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.1-4mdv
 - dm-raid45 target is finally back:
     * DM10: dm-raid45 20090424 for 2.6.29.1
