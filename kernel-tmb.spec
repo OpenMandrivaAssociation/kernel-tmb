@@ -13,7 +13,7 @@
 %define kstable		2
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri May  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.2-3mdv
+- add patch DA01: ACPI: Revert conflicting workaround for BIOS with 
+  mangled PRT entries (mdv bz #46222)
+
 * Fri May  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.2-2mdv
 - add patches from stable queue
     * AA13: b44: use kernel dma addresses for the kernel dma api
