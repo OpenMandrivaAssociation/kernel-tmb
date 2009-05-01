@@ -13,7 +13,7 @@
 %define kstable		2
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri May  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.2-2mdv
+- add patches from stable queue
+    * AA13: b44: use kernel dma addresses for the kernel dma api
+    * AA14: block: include empty disks in proc diskstats
+    * AA15: crypto: ixp4xx: fix handling of chained sg buffers
+    * AA16: exit_notify: kill the wrong capable check (CVE-2009-1337)
+    * AA17: pci: fix incorrect mask of pm no_soft_reset bit
+    * AA18: unreached code in selinux_ip_postroute_iptables_compat (CVE-2009-1184)
+
 * Mon Apr 27 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.2-1mdv
 - update to 2.6.29.2: CVE-2009-1192, CVE-2009-0795
     * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.29.2
