@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		2
+%define kstable		4
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,31 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed  May 20 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-1mdv
+- update to 2.6.29.4 (CVE-2009-1184, CVE-2009-1337)
+    * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.29.4
+    * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.29.3
+- add patches:
+    * DG15: drm: intel tiling transition
+    * DG16: drm: intel-next
+    * DS04: fix usb gadget gmidi build with updated Alsa
+- update patches:
+    * DG00: drm: drm-next
+    * DG02: drm: radeon modesetting
+    * DG03: drm: nouveau
+    * DM50: v4l-dvb snapshot 2009-05-16
+    * DS01: Alsa 1.0.20+ 2009-05-16
+    * DS02: Alsa 1.0.20+ buildfixes
+    * DS10: selected Alsa unstable addons (maya44 &via vt1732)
+- drop merged patches:
+    * AA01-AA18: Stable Queue patches
+    * DA01: ACPI: revert BIOS mangled PRT bugfix
+    * DG14: drm: i915 allow tiled front buffers on 965
+    * DM51: v4l-dvb snapshot buildfix
+    * DS11: alsa sbxfi emu10k1 support (replaced in DS01 with ctxfi that
+	    supports emu10k1, emu20k1 & emu20k2)
+- update defconfigs
+
 * Fri May  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.2-3mdv
 - add patch DA01: ACPI: Revert conflicting workaround for BIOS with 
   mangled PRT entries (mdv bz #46222)
