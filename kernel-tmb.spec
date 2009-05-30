@@ -13,7 +13,7 @@
 %define kstable		4
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1096,6 +1096,51 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun May 31 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-2mdv
+- stable queue patches:
+    * AA01: xfrm: wrong hash value for temporary sa
+    * AA02: tcp: fix-msg_peek-race-check
+    * AA03: tcp: fix 2 iw selection
+    * AA04: net: fix skb_seq_read returning wrong offset length for page
+	    frag data
+    * AA05: sch_teql: should not dereference skb after ndo_start_xmit
+    * AA06: net: fix length computation in rt_check_expire
+    * AA07: net: fix rtable leak in net ipv4 route.c
+    * AA08: revert rose zero length frame filtering in af_rose.c
+    * AA09: pktgen: do not access flows beyond its length
+    * AA10: myr10ge: again fix lro_gen_skb alignment
+    * AA11: vlan: macvlan: fix-null-pointer-dereferences-in-ethtool-handlers
+    * AA12: mac8390: fix regression caused during net_device_ops conversion
+    * AA13: bonding: fix alb mode locking regression
+    * AA14: bonding: remove debug printk
+    * AA15: r8169: avoid losing msi interrupts
+    * AA16: sparc: fix bus type probing for esp and le devices
+    * AA17: sparc64: fix smp_callin locking
+    * AA18: mm: slub fix reclaim_state
+    * AA19: fix: oops on close of hot unplugged ftdi serial converter
+    * AA20: wimax: fix oops if netlink fails to add attribute
+    * AA21: nfs: fix nfs v4 client handling of may_exec in nfs_permission
+    * AA22: futex: setup writeable mapping for futex ops which modify user
+	    space data
+    * AA22: xen: blkfront allow xenbus state transition to closing closed
+	    when not connected
+    * AA23: tpm: get_event_name stack corruption
+    * AA24: icom: fix rmmod crash
+    * AA25: kvm: make paravirt tlb flush also reload the pae pdptrs
+    * AA26: kvm: fix pdptr reloading on cr4 writes
+    * AA27: cfg80211: fix race between core hint and drivers custom apply
+- add drm patches from fc11.155
+    * DG17: drm: intel include 965gme pci id
+    * DG18: drm: intel i8xx cursors
+    * DG19: drm: intel vmalloc
+- add paches:
+    * DN10: net: revert forcedeth power down phy when interface is down
+    * FE05: ext4: really print warning once
+    * FE06: ext4: prealloc fixes
+    * FE07: ext4: fake delalloc bno
+    * FE08: ext4: clear unwritten flag
+    * FE09: ext4: fix i_cached_extent race
+
 * Wed  May 20 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-1mdv
 - update to 2.6.29.4 (CVE-2009-1184, CVE-2009-1337)
     * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.29.4
