@@ -13,7 +13,7 @@
 %define kstable		4
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -600,7 +600,7 @@ PrepareKernel() {
 	%else
 		LC_ALL=C perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = -$extension/" Makefile
 	%endif
-	
+
 	%smake oldconfig
 }
 
@@ -649,29 +649,29 @@ SaveDevel() {
 	cp -fR kernel/bounds.c $TempDevelRoot/kernel/
 	cp -fR .config Module.symvers $TempDevelRoot
 	cp -fR 3rdparty/mkbuild.pl $TempDevelRoot/3rdparty/
-	
+
 	# Needed for truecrypt build (Danny)
 	cp -fR drivers/md/dm.h $TempDevelRoot/drivers/md/
-	
+
 	# Needed for lguest
 	cp -fR drivers/lguest/lg.h $TempDevelRoot/drivers/lguest/
-	
+
 	# Needed for lirc_gpio (Anssi Hannula, #39004)
 	cp -fR drivers/media/video/bt8xx/bttv{,p}.h $TempDevelRoot/drivers/media/video/bt8xx/
 
 	# Needed for external dvb tree (#41418)
 	cp -fR drivers/media/dvb/dvb-core/*.h $TempDevelRoot/drivers/media/dvb/dvb-core/
 	cp -fR drivers/media/dvb/frontends/lgdt330x.h $TempDevelRoot/drivers/media/dvb/frontends/
-	
+
 	# add acpica header files, needed for fglrx build
 	cp -fR drivers/acpi/acpica/*.h $TempDevelRoot/drivers/acpi/acpica/
-                                                                        			
+
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k \
 		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 sparc v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
 	done
-	
+
 	%ifnarch %{ix86} x86_64
 		rm -rf $TempDevelRoot/arch/x86
 		rm -rf $TempDevelRoot/include/asm-x86
@@ -684,19 +684,19 @@ SaveDevel() {
 	pushd $TempDevelRoot >/dev/null
 		%smake -s prepare scripts clean
 	popd >/dev/null
-	
+
 	rm -f $TempDevelRoot/.config.old
-	
+
 	# fix permissions
 	chmod -R a+rX $TempDevelRoot
-	
+
 	# disable mrproper in -devel rpms
 	patch -p1 -d $TempDevelRoot -i %{SOURCE2}
 	# disable the rest of the scripts in -devel rpms
 	patch -p1 -d $TempDevelRoot -i %{SOURCE3}
 
 	kernel_devel_files=../kernel_devel_files.$devel_flavour
-	
+
 
 ### Create the kernel_devel_files.*
 cat > $kernel_devel_files <<EOF
@@ -785,9 +785,10 @@ EOF
 
 CreateFiles() {
 	kernel_flavour=$1
-	
+
 	kernel_files=../kernel_files.$kernel_flavour
-	
+
+
 ### Create the kernel_files.*
 cat > $kernel_files <<EOF
 %defattr(-,root,root)
@@ -1096,6 +1097,25 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jun  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-3mdv
+- resync drm patches with Fedora 2.6.29.4-167.fc11
+    * DG01: drm: no gem on i8xx
+    * DG03: drm: nouveau
+    * DG10: drm: i915: apply a big hammer to 865 gem object
+    * DG20: drm: copyback ioctl data to userspace regardless of retcode
+    * DG21: drm: i915: fix tiling pitch
+    * DG22: drm: intel: set domain on fault
+- enable in defconfigs:
+    * PCSPKR_PLATFORM, X86_CHECK_BIOS_CORRUPTION, EFI, IPV6_ROUTER_PREF,
+    * IPV6_ROUTE_INFO, IPV6_OPTIMISTIC_DAD, IPV6_MROUTE, IPV6_PIMSM_V2,
+    * IP_VS_IPV6, SCTP_HMAC_MD5, SERIAL_8250_RSA, CIFS_EXPERIMENTAL,
+    * CIFS_DFS_UPCALL
+- disable in defconfigs:
+    * CONFIG_SYSFS_DEPRECATED_V2, KALLSYMS_EXTRA_PASS, SCTP_HMAC_NONE,
+    * WIRELESS_OLD_REGULATORY
+- set as module in defconfigs
+    * IDE
+
 * Sun May 31 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-2mdv
 - stable queue patches:
     * AA01: xfrm: wrong hash value for temporary sa
