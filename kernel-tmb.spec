@@ -13,7 +13,7 @@
 %define kstable		4
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		5
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1097,6 +1097,22 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jun  9 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-5mdv
+- add patches:
+    * AA00: 2.6.29.5-rc1
+    * LG01: add note about latencytop bloat in Kconfig.debug
+- drop patches merged upstream:
+    * AA01-AA27: Stable Queue patches
+    * FE02-FE09: ext4 fixes
+- rediff patches:
+    * DG00: drm-next
+- disable in defconfigs:
+    * LATENCYTOP - it bloats task_struct by effectively quadrupling
+      the size of an otherwise lean task_struct
+
+* Mon Jun  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-4mdv
+- Release to Updates
+
 * Mon Jun  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-3mdv
 - resync drm patches with Fedora 2.6.29.4-167.fc11
     * DG01: drm: no gem on i8xx
