@@ -13,7 +13,7 @@
 %define kstable		4
 
 # this is the releaseversion
-%define kbuild		5
+%define kbuild		7
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1097,6 +1097,31 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jun 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-7mdv
+- add patches:
+    * DN15: net: r8169: fix crash when large packets are received
+    * FS10: fs: jbd: fix race in buffer processing in commit code
+- more defconfig optimizations:
+    * disable in defconfigs:
+	* DETECT_SOFTLOCKUP, EARLY_PRINTK, SCHED_DEBUG, SCHEDSTATS, TIMER_STATS
+	* JFS_STATISTICS, OCFS2_FS_STATS, CIFS_STATS
+    * enable in defconfigs:
+	* SND_HDA_RECONFIG, INTR_REMAP
+
+* Tue Jun  9 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-6mdv
+- more defconfig optimizations:
+    * disable in defconfigs:
+	* AUDIT, AUDITSYSCALL, AUDIT_TREE, AUDIT_GENERIC
+	* PARAVIRT_GUEST, VMI, KVM_CLOCK, KVM_GUEST, LGUEST_GUEST
+    	* PARAVIRT, PARAVIRT_CLOCK, NETLABEL, NETFILTER_DEBUG
+	* IP_NF_SECURITY, IP6_NF_SECURITY, IWLWIFI_DEBUG, IWL3945_DEBUG
+	* HISAX_DEBUG, SECURITY, SECURITY_NETWORK, SECURITY_NETWORK_XFRM
+	* SECURITY_PATH, SECURITY_FILE_CAPABILITIES, SECURITY_DEFAULT_MMAP_MIN_ADDR
+	* NUMA, K8_NUMA, X86_64_ACPI_NUMA, NODES_SPAN_OTHER_NODES, NODES_SHIFT
+	* NEED_MULTIPLE_NODES, MIGRATION, HAVE_ARCH_EARLY_PFN_TO_NID, ACPI_NUMA
+    *  enable in defconfigs:
+	* JFS_SECURITY, DIRECT_GBPAGES
+
 * Tue Jun  9 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-5mdv
 - add patches:
     * AA00: 2.6.29.5-rc1
