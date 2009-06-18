@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		4
+%define kstable		5
 
 # this is the releaseversion
-%define kbuild		7
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -593,7 +593,7 @@ PrepareKernel() {
 	else
 		cp arch/x86/configs/%{_arch}_defconfig-$name .config
 	fi
-	
+
 	# make sure EXTRAVERSION says what we want it to say
 	%if %kstable
 		LC_ALL=C perl -p -i -e "s/^EXTRAVERSION.*/EXTRAVERSION = .%{kstable}-$extension/" Makefile
@@ -1097,6 +1097,23 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jun 18 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.5-1mdv
+- update to 2.6.29.5 (CVE-2009-1630, CVE-2009-1385)
+- drop patches merged upstream:
+    * AA01: 2.6.29.5-rc1
+- add patches:
+    * FS15: ext4: Avoid corrupting the uninitialized bit in the extent
+	    during truncate
+- update patches:
+    * DM50: v4l-dvb snapshot 2009-06-18
+    * DS01: Alsa 1.0.20+ snapshot 2009-06-18
+    * DS02: ALsa snapshot buildfix
+    * DS10: Alsa 1.0.20+ unstable addon: via vt1732 (Envy24-II)
+    * FS01: unionfs 2.5.2
+- rediff patches:
+    * DS05: add Toshiba Pro A210 to quirk table
+- update defconfigs
+
 * Wed Jun 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.4-7mdv
 - add patches:
     * DN15: net: r8169: fix crash when large packets are received
