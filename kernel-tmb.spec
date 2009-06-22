@@ -13,7 +13,7 @@
 %define kstable		5
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1097,6 +1097,44 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jun 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.5-2mdv
+- full resync of drm with Fedora 2.6.29.5-191.fc11:
+    * DG00: drm-next
+    * DG01: drm modesetting radeon
+    * DG02: drm nouveau
+    * DG03: drm no gem on i8xx
+    * DG04: drm i915 resume force mode
+    * DG05: drm intel big hammer
+    * DG06: drm intel lying systems without lvds
+    * DG07: drm intel gen3 fb hack
+    * DG08: drm intel hdmi edid fix
+    * DG09: drm intel tiling transition
+    * DG10: drm intel next
+    * DG11: drm intel debugfs ringbuffer
+    * DG12: drm edid ignore tiny modes
+    * DG13: drm intel include 965gme pci id
+    * DG14: drm intel gem use dma32 on pae
+    * DG15: drm intel i8xx cursors
+    * DG16: drm intel vmalloc
+    * DG17: drm copyback ioctl data to userspace regardless of retcode
+    * DG18: drm i915 apply a big hammer to 865 gem object
+    * DG19: drm i915 fix tiling pitch
+    * DG20: drm intel set domain on fault
+    * DG21: drm modesetting radeon fixes
+    * DG22: drm radeon fix ring commit
+    * DG23: drm radeon new pciids (RV740)
+    * DG24: drm dont frob i2c
+    * DG25: drm connector dpms fix
+    * DG26: drm intel tv fix
+- add patches:
+    * DC01: avoid lockup on OOM with /dev/zero
+    * DN16: r8i16: use family-specific defaults for unknown chips
+    * FN01: nfsd: report short writes count to the client
+    * MM01: set saner vm settings: raise default dirty level, lower swappiness
+- Disable COMEDI_PCI_DRIVERS. At least one module built with  it enabled 
+  (s626) claims the pci id 1131:7146 for all subvendors and subdevice ids.
+  The problem is that this will clash with many media/dvb cards. (#51314)
+
 * Thu Jun 18 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.5-1mdv
 - update to 2.6.29.5 (CVE-2009-1630, CVE-2009-1385)
 - drop patches merged upstream:
