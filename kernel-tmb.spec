@@ -13,7 +13,7 @@
 %define kstable		5
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1097,6 +1097,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jun 26 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.5-3mdv
+- reenable in defconfigs:
+    * TASKSTATS, TASK_DELAY_ACCT, TASK_XACCT, TASK_IO_ACCOUNTING
+    * AUDIT, AUDITSYSCALL, AUDIT_TREE, AUDIT_GENERIC
+
 * Mon Jun 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.5-2mdv
 - full resync of drm with Fedora 2.6.29.5-191.fc11:
     * DG00: drm-next
