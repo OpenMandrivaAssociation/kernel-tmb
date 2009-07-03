@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		5
+%define kstable		6
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1097,6 +1097,25 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jul  3 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.6-1mdv
+- update to 2.6.29.6
+- update patches:
+    * DM50: v4l-dvb snapshot 2009-07-03
+    * DM51: v4l-dvb snapshot 2009-07-03 buildfix
+    * DS01: Alsa 1.0.20+ snapshot 2009-07-03
+    * DS02: Alsa 1.0.20+ snapshot 2009-07-03 buildfix
+    * DS10: Alsa 1.0.20+ unstable 2009-07-03 via-vt1732
+- add patches:
+    * DS11: Alsa 1.0.20+ unstable 2009-07-03 cirrus-cs420x
+- drop patches merged upstream:
+    * DN15: net: r8169: fix crash when large packets are received
+    * FS10: fs: jbd: fix race in buffer processing in commit code
+- re-enable in 64bit server kernels:
+    * NUMA, K8_NUMA, X86_64_ACPI_NUMA, NODES_SPAN_OTHER_NODES
+    * NODES_SHIFT=6, NEED_MULTIPLE_NODES, MIGRATION
+    * HAVE_ARCH_EARLY_PFN_TO_NID, ACPI_NUMA
+- update defconfigs
+
 * Fri Jun 26 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.5-3mdv
 - reenable in defconfigs:
     * TASKSTATS, TASK_DELAY_ACCT, TASK_XACCT, TASK_IO_ACCOUNTING
