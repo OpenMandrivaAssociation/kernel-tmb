@@ -3,14 +3,14 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	29
+%define sublevel	31
 
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		0
-%define kgit		0
-%define kstable		6
+%define kpatch		rc2
+%define kgit		4
+%define kstable		0
 
 # this is the releaseversion
 %define kbuild		1
@@ -666,7 +666,7 @@ SaveDevel() {
 	# add acpica header files, needed for fglrx build
 	cp -fR drivers/acpi/acpica/*.h $TempDevelRoot/drivers/acpi/acpica/
 
-	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k \
+	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 microblaze mips m32r m68k \
 		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 sparc v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 		rm -rf $TempDevelRoot/include/asm-$i
@@ -750,6 +750,7 @@ $DevelRoot/samples
 $DevelRoot/scripts
 $DevelRoot/security
 $DevelRoot/sound
+$DevelRoot/tools
 $DevelRoot/usr
 $DevelRoot/.config
 $DevelRoot/Kbuild
@@ -960,7 +961,7 @@ chmod -R a+rX %{target_source}
 
 # we remove all the source files that we don't ship
 # first architecture files
-for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 mips m32r m68k \
+for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 microblaze mips m32r m68k \
 	 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 sparc v850 xtensa; do
 	rm -rf %{target_source}/arch/$i
 	rm -rf %{target_source}/include/asm-$i
@@ -1071,6 +1072,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/scripts
 %{_kerneldir}/security
 %{_kerneldir}/sound
+%{_kerneldir}/tools
 %{_kerneldir}/usr
 %{_kerneldir}/virt
 %{_kerneldir}/.gitignore
@@ -1097,6 +1099,44 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jul 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc2.4.1mdv
+- update to 2.6.31-rc2-git4
+- drop patches merged upstream:
+    * DC01: avoid oom lockup on /dev/zero
+    * DG06-DG26: drm updates
+    * DH15: asus hwmon atk0110 support
+    * DH20: wacom bluetooth support
+    * DI10: wacom intuos4 support
+    * DN16: r8169: use family-specific defaults for unknown chips
+    * DS02: Alsa buildfixes
+    * DU01: qcserial support
+    * FN01: nfsd: report short writes
+    * FS15: ext4: Avoid corrupting the uninitialized bit in the extent 
+	    during truncate
+- update patches:
+    * DG02: drm: nouveau (rh 2.6.31-0.42.rc2.fc12)
+    * DG03: drm: no gem on i8xx (rh 2.6.31-0.42.rc2.fc12)
+    * DG04: drm: i915 resume force mode (rh 2.6.31-0.42.rc2.fc12)
+    * DG05: drm: intel big hammer (rh 2.6.31-0.42.rc2.fc12)
+    * DI01: input: lirc (rh 2.6.31-0.42.rc2.fc12)
+    * CE02: Acpi DSDT support (from main)
+    * DM50: v4l-dvb snapshot 2009-07-09
+    * DS01: Alsa 1.0.20+ snapshot 2009-07-09
+    * FR01: Reiser4 support
+    * MB10-MB13: Ndiswrapper 1.55 (from main)
+    * MC30-MC34: Drbd 8.3.2 (from main)
+- drop unneeded patches:
+    * DN01: bonding module alias
+    * DN10: net: revert forcedeth power down phy when interface is down
+    * DS04: sound: usb-gadget gmidi buildfix with updated alsa
+- disable broken patches:
+    * DG00: drm: drm-next
+    * DG01: drm: radeon modesetting
+    * FS01: unionfs 2.5.2
+    * KP01: tuxonice 3.0.1
+    * MM01: saner vm settings
+- update defconfigs
+
 * Fri Jul  3 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.6-1mdv
 - update to 2.6.29.6
 - update patches:
@@ -1152,7 +1192,7 @@ rm -rf %{buildroot}
     * DG26: drm intel tv fix
 - add patches:
     * DC01: avoid lockup on OOM with /dev/zero
-    * DN16: r8i16: use family-specific defaults for unknown chips
+    * DN16: r8169: use family-specific defaults for unknown chips
     * FN01: nfsd: report short writes count to the client
     * MM01: set saner vm settings: raise default dirty level, lower swappiness
 - Disable COMEDI_PCI_DRIVERS. At least one module built with  it enabled 
