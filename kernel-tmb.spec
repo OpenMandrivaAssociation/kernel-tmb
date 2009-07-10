@@ -1114,17 +1114,20 @@ rm -rf %{buildroot}
     * FS15: ext4: Avoid corrupting the uninitialized bit in the extent 
 	    during truncate
 - update patches:
-    * DG02: drm: nouveau (rh 2.6.31-0.42.rc2.fc12)
-    * DG03: drm: no gem on i8xx (rh 2.6.31-0.42.rc2.fc12)
-    * DG04: drm: i915 resume force mode (rh 2.6.31-0.42.rc2.fc12)
-    * DG05: drm: intel big hammer (rh 2.6.31-0.42.rc2.fc12)
-    * DI01: input: lirc (rh 2.6.31-0.42.rc2.fc12)
     * CE02: Acpi DSDT support (from main)
+    * DG02: drm: nouveau (2.6.31-0.42.rc2.fc12)
+    * DG03: drm: no gem on i8xx (2.6.31-0.42.rc2.fc12)
+    * DG04: drm: i915 resume force mode (2.6.31-0.42.rc2.fc12)
+    * DG05: drm: intel big hammer (2.6.31-0.42.rc2.fc12)
+    * DI01: input: lirc (2.6.31-0.42.rc2.fc12)
+    * DM10: dm-raid45 support
     * DM50: v4l-dvb snapshot 2009-07-09
     * DS01: Alsa 1.0.20+ snapshot 2009-07-09
     * FR01: Reiser4 support
     * MB10-MB13: Ndiswrapper 1.55 (from main)
     * MC30-MC34: Drbd 8.3.2 (from main)
+- add patches:
+    * MB33: acerhk proc_dir_entry owner buildfix (from main)
 - drop unneeded patches:
     * DN01: bonding module alias
     * DN10: net: revert forcedeth power down phy when interface is down
@@ -1135,6 +1138,8 @@ rm -rf %{buildroot}
     * FS01: unionfs 2.5.2
     * KP01: tuxonice 3.0.1
     * MM01: saner vm settings
+- disable in defconfigs:
+    * LIRC_I2C, LIRC_ZILOG, STLC45XX, VT6655 (broken)
 - update defconfigs
 
 * Fri Jul  3 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.6-1mdv
