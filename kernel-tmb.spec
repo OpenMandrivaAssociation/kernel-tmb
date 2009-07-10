@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc2
-%define kgit		4
+%define kgit		5
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jul 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc2.5.2mdv
+- update to 2.6.31-rc2-git5
+
 * Fri Jul 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc2.4.1mdv
 - update to 2.6.31-rc2-git4
 - drop patches merged upstream:
