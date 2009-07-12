@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc2
-%define kgit		5
+%define kgit		8
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jul 12 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc2.8.3mdv
+- update to 2.6.31-rc2-git8
+- rediff patch DS01: Alsa 1.0.20+ snapshot
+- disable broken patch:
+    * CE02: Acpi DSDT initrd support (breaks boot on x86_64)
+- enable in defconfigs:
+    * DMAR_BROKEN_GFX_WA, RFKILL_INPUT
+- disable in defconfigs:
+    * DMAR_DEFAULT_ON
+
 * Fri Jul 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc2.5.2mdv
 - update to 2.6.31-rc2-git5
 
