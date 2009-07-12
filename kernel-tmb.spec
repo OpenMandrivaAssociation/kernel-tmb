@@ -1102,6 +1102,8 @@ rm -rf %{buildroot}
 * Sun Jul 12 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc2.8.3mdv
 - update to 2.6.31-rc2-git8
 - rediff patch DS01: Alsa 1.0.20+ snapshot
+- add patch:
+    * MB14: fix ndiswrapper to build on ix86 with recent cmpxchg8b changes
 - disable broken patch:
     * CE02: Acpi DSDT initrd support (breaks boot on x86_64)
 - enable in defconfigs:
