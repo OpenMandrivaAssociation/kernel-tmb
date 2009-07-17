@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc3
-%define kgit		0
+%define kgit		3
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jul 16 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc3.3.2mdv
+- update to 2.6.31-rc3-git3
+- add patches:
+    * DP01: fix acer-wmi reversed rfkill
+    * NR01: rfkill: fix rfkill_set_states to set the hw state
+
+* Tue Jul 14 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc3.1mdv
+- update to 2.6.31-rc3
+- update defconfigs
+
 * Sun Jul 12 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc2.8.3mdv
 - update to 2.6.31-rc2-git8
 - rediff patch DS01: Alsa 1.0.20+ snapshot
