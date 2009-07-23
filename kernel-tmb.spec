@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc3
-%define kgit		4
+%define kpatch		rc4
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jul 23 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.1mdv
+- update to 2.6.31-rc4
+- add patch DH02: make hid-ntrig ignore HID_DG_INRANGE (O. Thauvin)
+- update defconfigs
+
 * Mon Jul 20 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc3.4.3mdv
 - update to 2.6.31-rc3-git4
 
