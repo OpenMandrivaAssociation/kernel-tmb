@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jul 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.2mdv
+- update patches:
+    * DG02: nouveau support
+    * DM50: v4l-dvb snapshot 2009-07-24
+    * DS01: Alsa 1.0.20+ snapshot 2009-07-24
+    * DS10: Alsa 1.0.20+ unstable via-vt1732
+    * DS11: Alsa 1.0.20+ unstable cirrus-cs420x
+    * KP01: TuxOnIce 3.0.1 (fixed, and re-enabled in laptop kernel)
+- disable SND_PCSP (F. Himpe, #52432)
+- update defconfigs
+
 * Thu Jul 23 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.1mdv
 - update to 2.6.31-rc4
 - add patch DH02: make hid-ntrig ignore HID_DG_INRANGE (O. Thauvin)
