@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jul 25 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.3mdv
+-  add patch KP10: re-export find_task_by_vpid symbol for fglrx
+
 * Fri Jul 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.2mdv
 - update patches:
     * DG02: nouveau support
