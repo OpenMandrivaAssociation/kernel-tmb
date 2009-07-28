@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jul 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.4mdv
+- add patches:
+    AA00: 2.6.31-rc4-git1
+    DM51: dvb: af9015: avoid magically sized temporary buffer in eeprom_dump
+    DP02: dell-laptop: Fix rfkill state setting
+- drop merged patches:
+    * DP01: acer-wmi reversed rfkill fix
+    * NR01: rfkill_set_states fix
+- rediff patches:
+    * DM50: v4l-dvb snapshot
+    * DS01: Alsa 1.0.20+ snapshot
+
 * Sat Jul 25 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.3mdv
 -  add patch KP10: re-export find_task_by_vpid symbol for fglrx
 
