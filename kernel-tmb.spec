@@ -1102,6 +1102,7 @@ rm -rf %{buildroot}
 * Thu Jul 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.4.5mdv
 - update to 2.6.31-rc4-git4
 - drop patch AA00: 2.6.31-rc4-git1
+- add patch DG10: fix nouveau build
 
 * Tue Jul 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.4mdv
 - add patches:
