@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc4
-%define kgit		4
+%define kpatch		rc5
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		5
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,19 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Aug  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.1mdv
+- update to 2.6.31-rc5
+- update patches:
+    * DG02: nouveau git 2009-08-01
+    * DM50: v4l-dvb snapshot 2009-07-31
+    * DS01: Alsa 1.0.20+ snapshot 2009-07-31
+    * DS10: Alsa 1.0.20+ unstable Via vt1732 (Envy24-II)
+- drop patches:
+    * DG10: nouveau buildfix
+    * DM51: dvb: af9015 eeprom_dump temp buffer fix (merged in DM50)
+    * DS11: Alsa 1.0.20+ unstable cirrus cs420x (merged in DS01)
+- update defconfigs
+
 * Thu Jul 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc4.4.5mdv
 - update to 2.6.31-rc4-git4
 - drop patch AA00: 2.6.31-rc4-git1
