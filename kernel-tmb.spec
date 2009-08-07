@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc5
-%define kgit		0
+%define kgit		3
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,30 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug  7 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.3.4mdv
+- add patches:
+    DG01: drm: radeon rs880 pci ids, radeon kms TTM patch,
+	  radeon kms suspend/resume fix.
+    NC01: fix lockdep bug in net core
+- update patches:
+    DG02: drm: nouveau git 2009-08-07
+
+* Wed Aug  5 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.3.3mdv
+- update to 2.6.31-rc5-git3
+- update patches:
+    * KP01: TuxOnIce 3.0.1+ for 2.6.31-rc5
+    * MC40: fsc_btns 2.1.0
+- rediff patches:
+    * DS01: Alsa 1.0.20+ update
+    * MC41: fsc_btns Kconfig & Makefile fix
+- drop patches:
+    * MB30-MB33: acerhk in 3rdparty, as everything it can is now
+		 supported by acer-wmi + rfkill utility
+    * MC42: fsc_btns buildfix
+
+* Tue Aug  4 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.2.2mdv
+- update to 2.6.31-rc5-git2
+
 * Sat Aug  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.1mdv
 - update to 2.6.31-rc5
 - update patches:
