@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc5
-%define kgit		3
+%define kgit		9
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		7
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,13 +1099,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Aug 13 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.9.7mdv
+- update to 2.6.31-rc5-git9
+- update patch:
+    * DG02: drm: nouveau git 2009-08-12
+
+* Tue Aug 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.7.6mdv
+- update to 2.6.31-rc5-git7
+
+* Sat Aug  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.5.5mdv
+- update to 2.6.31-rc5-git5
+- drop merged patches:
+    * DG01: drm: radeon updates
+    * NC01: net: core lockdep bug
+
 * Fri Aug  7 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.3.4mdv
 - add patches:
-    DG01: drm: radeon rs880 pci ids, radeon kms TTM patch,
+    * DG01: drm: radeon rs880 pci ids, radeon kms TTM patch,
 	  radeon kms suspend/resume fix.
-    NC01: fix lockdep bug in net core
+    * NC01: fix lockdep bug in net core
 - update patches:
-    DG02: drm: nouveau git 2009-08-07
+    * DG02: drm: nouveau git 2009-08-07
 
 * Wed Aug  5 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc5.3.3mdv
 - update to 2.6.31-rc5-git3
