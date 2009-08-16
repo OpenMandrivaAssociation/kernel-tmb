@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Aug 16 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc6.2mdv
+- update patches:
+    * DM50: v4l-dvb snapshot 2009-08-15
+    * DS01: Alsa 1.0.20+ snapshot 2009-08-15
+    * DS10: Alsa 1.0.20+ unstable Via vt1732 (Envy24-II)
+- disable MAC80211_DEFAULT_PS (powersaving) as it's known to cause 
+  instabilities and performance regressions on atleast iwlwifi drivers.
+
 * Fri Aug 14 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc6.1mdv
 - update to 2.6.31-rc6
 
