@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc6
+%define kpatch		rc7
 %define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,26 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Aug 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc7.1mdv
+- update to 2.6.31-rc7
+- drop merged patces:
+    * DS05: Toshiba Pro A210 ids in Alsa hda codec
+- update patches:
+    * DM50: v4l-dvb snapshot 2009-08-22
+    * DS01: Alsa 1.0.20+ 2009-08-22
+- add patches:
+    * DP10: add workaround for broken bioses on vt-d enabled hardware
+    * DN10: ath9k: downgrade ASSERT in ath_clone_txbuf
+    * DN11: ath9k: manipulate and report the correct RSSI
+    * DN12: ath9k: RX stucks during heavy traffic in HT40 mode
+    * DN13: ath9k: handle tx desc shortage more appropriately
+    * DN14: ath9k: trivial fix in Kconfig
+    * DN15: ath9k: update beacon RSSI
+    * DN16: ath9k: fix bug in PCI resume
+    * DN17: ath9k: set HW state properly
+    * DN18: ath9k: fix bug in retrieving average beacon rssi
+- enable ATH5K_DEBUG, ATH9K_DEBUG
+
 * Sun Aug 16 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc6.2mdv
 - update patches:
     * DM50: v4l-dvb snapshot 2009-08-15
