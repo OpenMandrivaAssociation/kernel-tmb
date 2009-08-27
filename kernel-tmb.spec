@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		0
+%define kgit		5
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Aug 27 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc7.5.2mdv
+- update to 2.6.31-rc7-git5
+- add patch AA00: rc7-git-current
+- update defconfigs:
+    support 16 physical/virtual processors/cores on -desktop kernel
+    unset UEVENT_HELPER_PATH
+    make AGP builtin
+    disable a lot of non-x86 drivers
+
 * Sat Aug 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc7.1mdv
 - update to 2.6.31-rc7
 - drop merged patces:
