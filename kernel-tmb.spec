@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.3mdv
+- add patches:
+    * FN02: inotify: fix length reporting and size checking
+    * FN03: inotify: update the group mask on mark addition
+
 * Fri Aug 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.2mdv
 - add patches:
     * FC01: implement __[un]register_chrdev support
