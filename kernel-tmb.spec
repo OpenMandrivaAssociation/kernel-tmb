@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,26 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.2mdv
+- add patches:
+    * FC01: implement __[un]register_chrdev support
+    * FN01: fix inotify regression in -rc8 causing boot hang/failure
+- update patches:
+    * DI01: lirc support
+    * DM50: v4l-dvb snapshot 2009-08-28
+    * DS01: Alsa 1.0.20+ snapshot 2009-08-28
+- resync drm tree with fedora 2.6.31-rc7-git6
+    * DG01: drm-next
+    * DG02: drm-r600-kms
+    * DG03: drm-rv710-ucode-fix
+    * DG04: drm-nouveau
+    * DG05: drm-i915-resume-force-mode
+    * DG06: drm-intel-big-hammer
+    * DG07: drm-page-flip
+    * DG08: drm-intel-next
+    * DG09: drm-intel-pm
+- update defconfigs
+
 * Fri Aug 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.1mdv
 - update to 2.6.31-rc8
 - drop patch AA00: rc7-git-current
