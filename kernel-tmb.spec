@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Aug 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.4mdv
+- add patches:
+    * AA01: 2.6.31-rc8-git1
+    * AX01: detect stack protector support for i386 builds on x86_64
+    * FR02: reiser4: add missing parenthesis to avoid compiler confusion
+- drop patches:
+    * FN01-FN03: inotify fixes, merged upstream
+
 * Fri Aug 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.3mdv
 - add patches:
     * FN02: inotify: fix length reporting and size checking
