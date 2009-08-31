@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		5
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Aug 31 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.5mdv
+- bump release to get past BS (rc8.4mdv only partially uploaded)
+
 * Sun Aug 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.4mdv
 - add patches:
     * AA01: 2.6.31-rc8-git1
