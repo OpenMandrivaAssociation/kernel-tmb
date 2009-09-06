@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc8
+%define kpatch		rc9
 %define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		5
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Sep  6 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc9.1mdv
+- update to 2.6.31-rc9
+- drop merged patches:
+    * AA01: 2.6.21-rc8-git1
+    * DG08: drm-intel-next
+- update patches:
+    * DM50: v4l-dvb snapshot 2009-09-06
+    * DS01: Alsa 1.0.21+ snapshot 2009-09-06
+- update defconfigs
+
 * Mon Aug 31 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc8.5mdv
 - bump release to get past BS (rc8.4mdv only partially uploaded)
 
