@@ -8,7 +8,7 @@
 # kernel Makefile extraversion is substituted by 
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc9
+%define kpatch		0
 %define kgit		0
 %define kstable		0
 
@@ -1099,6 +1099,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Sep 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-1mdv
+- update to 2.6.31 final
+
 * Sun Sep  6 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc9.1mdv
 - update to 2.6.31-rc9
 - drop merged patches:
