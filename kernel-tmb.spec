@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Sep 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-2mdv
+- update patches:
+    * DG01: drm-next
+    * DG07: drm-page-flip
+- drop patches:
+    * DG02: drm-r600-kms (merged in DG01)
+    * DG03: drm-rv710-ucode-fix (merged in DG01)
+    * DG09: drm-intel-pm (broken)
+- add patches:
+    * DG10: drm-vga-arb
+- update defconfigs
+
 * Thu Sep 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-1mdv
 - update to 2.6.31 final
 
