@@ -1107,8 +1107,6 @@ rm -rf %{buildroot}
     * DG02: drm-r600-kms (merged in DG01)
     * DG03: drm-rv710-ucode-fix (merged in DG01)
     * DG09: drm-intel-pm (broken)
-- add patches:
-    * DG10: drm-vga-arb
 - update defconfigs
 
 * Thu Sep 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-1mdv
