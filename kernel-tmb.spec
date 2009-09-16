@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1099,6 +1099,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-3mdv
+- add patches:
+    * AA01: 2.6.31.1-rc1
+    * DA01: ahci: Add AMD SB900 SATA/IDE controller support
+    * DG10: intel agp/drm: Fix the pre-9xx chipset flush
+- update patches:
+    * DG04: drm-nouveau
+    * DI01: lirc 2009-09-03
+- disable radeon kernel modesetting as userspace cant handle it
+
 * Fri Sep 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-2mdv
 - update patches:
     * DG01: drm-next
