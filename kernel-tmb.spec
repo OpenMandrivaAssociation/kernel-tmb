@@ -5,8 +5,8 @@
 %define patchlevel	6
 %define sublevel	31
 
-# kernel Makefile extraversion is substituted by 
-# kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch), 
+# kernel Makefile extraversion is substituted by
+# kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
@@ -50,7 +50,7 @@
 %endif
 %define kverrel   	%{kversion}-%{rpmrel}
 
-# used for not making too long names for rpms or search paths 
+# used for not making too long names for rpms or search paths
 %if %kpatch
 %if %kgit
 %define buildrpmrel     0.%{kpatch}.%{kgit}.%{kbuild}%{rpmtag}
@@ -78,7 +78,7 @@
 %define build_devel 		1
 %define build_debug 		0
 
-# Build desktop i586 / 1GB
+# Build desktop i586 / 4GB
 %ifarch %{ix86}
 %define build_desktop586	1
 %endif
@@ -210,12 +210,12 @@ The %{ktag} kernels is an experimental kernel based on the kernel.org	\
 kernels with added patches. Some of them may/will never end up in	\
 the main kernels due to their experimental nature. Some refer to	\
 this kernel as a 'hackkernel' ...					\
-Use these kernels at your own risk !!					
+Use these kernels at your own risk !!
 
 ### Global Requires/Provides
 %define requires1 	mkinitrd >= 6.0.92-12mnb
-%define requires2 	bootloader-utils >= 1.12-%mkrel 1
-%define requires3 	sysfsutils >= 1.3.0-%mkrel 1 module-init-tools >= 3.2-0.pre8.%mkrel 2
+%define requires2 	bootloader-utils >= 1.12-1
+%define requires3 	sysfsutils >= 1.3.0-1 module-init-tools >= 3.2-0.pre8.2
 %define requires4	kernel-firmware >= 20090604-3mnb2
 
 %define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 88
@@ -223,7 +223,7 @@ Use these kernels at your own risk !!
 BuildRoot: 		%{_tmppath}/%{kname}-%{kversion}-%{_arch}-build
 %define buildroot	%{_tmppath}/%{kname}-%{kversion}-%{_arch}-build
 Autoreqprov: 		no
-BuildRequires: 		gcc >= 4.0.1-%mkrel 5 module-init-tools >= 3.2-0.pre8.%mkrel 2
+BuildRequires: 		gcc >= 4.0.1-5 module-init-tools >= 3.2-0.pre8.2
 
 %description
 %common_description_kernel
@@ -251,6 +251,7 @@ Group:		System/Kernel and hardware		\
 							\
 %common_description_info				\
 							\
+%if %build_devel					\
 %package -n	%{kname}-%{1}-devel-%{buildrel}		\
 Version:	%{fakever}				\
 Release:	%{fakerel}				\
@@ -269,6 +270,7 @@ If you want to build your own kernel, you need to install the full \
 %{kname}-source-%{buildrel} rpm.			\
 							\
 %common_description_info				\
+%endif							\
 							\
 %package -n %{kname}-%{1}-latest			\
 Version:	%{kversion}				\
@@ -286,6 +288,7 @@ latest %{kname}-%{1} installed...			\
 							\
 %common_description_info				\
 							\
+%if %build_devel					\
 %package -n %{kname}-%{1}-devel-latest			\
 Version:	%{kversion}				\
 Release:	%{rpmrel}				\
@@ -301,13 +304,16 @@ This package is a virtual rpm that aims to make sure you always have the \
 latest %{kname}-%{1}-devel installed...			\
 							\
 %common_description_info				\
+%endif							\
 							\
 %post -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1}-post \
 %preun -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1}-preun \
 %postun -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1}-postun \
 							\
+%if %build_devel					\
 %post -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{1}-post \
 %preun -n %{kname}-%{1}-devel-%{buildrel} -f kernel_devel_files.%{1}-preun \
+%endif							\
 							\
 %files -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1} \
 %files -n %{kname}-%{1}-latest				\
@@ -320,11 +326,10 @@ latest %{kname}-%{1}-devel installed...			\
 %endif
 
 
-%ifarch %{ix86}
 #
 # kernel-desktop586: i586, smp-alternatives, 4GB
 #
-
+%ifarch %{ix86}
 %if %build_desktop586
 %define summary_desktop586 Linux kernel for desktop use with i586 & 4GB RAM
 %define info_desktop586 This kernel is compiled for desktop use, single or \
@@ -340,7 +345,6 @@ processor mode, use the "nosmp" boot parameter.
 #
 # kernel-desktop: i686, smp-alternatives, 4 GB / x86_64
 #
-
 %if %build_desktop
 %ifarch %{ix86}
 %define summary_desktop Linux Kernel for desktop use with i686 & 4GB RAM
@@ -365,7 +369,6 @@ processor mode, use the "nosmp" boot parameter.
 #
 # kernel-laptop: i686, smp-alternatives, 4GB / x86_64
 #
-
 %if %build_laptop
 %ifarch %{ix86}
 %define summary_laptop Linux kernel for laptop use with i686-up/smp-4GB
@@ -417,7 +420,6 @@ processor mode, use the "nosmp" boot parameter.
 #
 # kernel-server: i686, smp-alternatives, 64 GB /x86_64
 #
-
 %if %build_server
 %ifarch %{ix86}
 %define summary_server Linux Kernel for server use with i686 & 64GB RAM
@@ -442,11 +444,12 @@ processor mode, use the "nosmp" boot parameter.
 #
 # kernel-source
 #
+%if %build_source
 %package -n %{kname}-source-%{buildrel}
 Version: 	%{fakever}
 Release: 	%{fakerel}
 Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
-Summary: 	The Linux source code for %{kname}-%{buildrel}  
+Summary: 	The Linux source code for %{kname}-%{buildrel}
 Group: 		Development/Kernel
 Autoreqprov: 	no
 Provides: 	kernel-source = %{kverrel}, kernel-devel = %{kverrel}
@@ -456,7 +459,7 @@ Conflicts:	arch(x86_64)
 
 %description -n %{kname}-source-%{buildrel}
 The %{kname}-source package contains the source code files for the %{ktag}
-series Linux kernel. Theese source files are only needed if you want to 
+series Linux kernel. Theese source files are only needed if you want to
 build your own custom kernel that is better tuned to your particular hardware.
 
 If you only want the files needed to build 3rdparty (nVidia, Ati, dkms-*,...)
@@ -467,7 +470,7 @@ drivers against, install the *-devel-* rpm that is matching your kernel.
 %post -n %{kname}-source-%{buildrel}
 for i in /lib/modules/%{kversion}-%{ktag}-*-%{buildrpmrel}; do
         if [ -d $i ]; then
-		if [ ! -L $i/build -a ! -L $i/source ]; then	
+		if [ ! -L $i/build -a ! -L $i/source ]; then
             		ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} $i/build
             		ln -sf /usr/src/%{kversion}-%{ktag}-%{buildrpmrel} $i/source
 		fi
@@ -502,6 +505,7 @@ This package is a virtual rpm that aims to make sure you always have the
 latest %{kname}-source installed...
 
 %common_description_info
+%endif
 
 #
 # kernel-doc: documentation for the Linux kernel
@@ -514,14 +518,15 @@ Summary: 	Various documentation bits found in the %{kname} source
 Group: 		Books/Computer books
 
 %description -n %{kname}-doc
-This package contains documentation files from the %{kname} source. 
-Various bits of information about the Linux kernel and the device drivers 
-shipped with it are documented in these files. You also might want install 
-this package if you need a reference to the options that can be passed to 
+This package contains documentation files from the %{kname} source.
+Various bits of information about the Linux kernel and the device drivers
+shipped with it are documented in these files. You also might want install
+this package if you need a reference to the options that can be passed to
 Linux kernel modules at load time.
 
 %common_description_info
-%endif #build_doc
+%endif
+
 #
 # End packages - here begins build stage
 #
@@ -544,16 +549,13 @@ cd %src_dir
 %endif
 
 %{patches_dir}/scripts/apply_patches
-
 # PATCH END
-
 
 #
 # Setup Begin
 #
 
 # Prepare all the variables for calling create_configs
-
 %if %build_debug
 %define debug --debug
 %else
@@ -620,7 +622,7 @@ BuildKernel() {
 
 	# modules
 	install -d %{temp_modules}/$KernelVer
-	%smake INSTALL_MOD_PATH=%{temp_root} KERNELRELEASE=$KernelVer modules_install 
+	%smake INSTALL_MOD_PATH=%{temp_root} KERNELRELEASE=$KernelVer modules_install
 
 	# remove /lib/firmware, we use a separate kernel-firmware
 	rm -rf %{temp_root}/lib/firmware
@@ -1013,15 +1015,14 @@ popd
 rm -rf %{buildroot}
 
 
-# We don't want to remove this, the whole reason of its existence is to be 
-# able to do several rpm --short-circuit -bi for testing install 
+# We don't want to remove this, the whole reason of its existence is to be
+# able to do several rpm --short-circuit -bi for testing install
 # phase without repeating compilation phase
-#rm -rf %{temp_root} 
+#rm -rf %{temp_root}
 
 ###
 ### source and doc file lists
 ###
-
 %if %build_source
 %files -n %{kname}-source-%{buildrel}
 %defattr(-,root,root)
@@ -1085,11 +1086,9 @@ rm -rf %{buildroot}
 %{_kerneldir}/REPORTING-BUGS
 %doc README.Mandriva_Linux_%{ktag}
 %doc README.kernel-%{ktag}-sources
-#endif build_source
 
 %files -n %{kname}-source-latest
 %defattr(-,root,root)
-
 %endif
 
 %if %build_doc
@@ -1100,10 +1099,12 @@ rm -rf %{buildroot}
 
 %changelog
 * Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-5mdv
-- require kernel-firmware-20090604-3mnb that has the fixed 
+- require kernel-firmware-20090604-3mnb that has the fixed
   radeon firmware tarball
-- require mkinitrd-6.0.92-12mnb wich har fixed hotplug firmware
+- require mkinitrd-6.0.92-12mnb wich has fixed hotplug firmware
   loading for radeon drivers
+- fix warnings when not building source/devel rpms (noted by Thierry)
+- spec cleanups
 
 * Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-4mdv
 - add patches:
@@ -1220,7 +1221,7 @@ rm -rf %{buildroot}
     * DM50: v4l-dvb snapshot 2009-08-15
     * DS01: Alsa 1.0.20+ snapshot 2009-08-15
     * DS10: Alsa 1.0.20+ unstable Via vt1732 (Envy24-II)
-- disable MAC80211_DEFAULT_PS (powersaving) as it's known to cause 
+- disable MAC80211_DEFAULT_PS (powersaving) as it's known to cause
   instabilities and performance regressions on atleast iwlwifi drivers.
 
 * Fri Aug 14 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-0.rc6.1mdv
@@ -1353,7 +1354,7 @@ rm -rf %{buildroot}
     * DS02: Alsa buildfixes
     * DU01: qcserial support
     * FN01: nfsd: report short writes
-    * FS15: ext4: Avoid corrupting the uninitialized bit in the extent 
+    * FS15: ext4: Avoid corrupting the uninitialized bit in the extent
 	    during truncate
 - update patches:
     * CE02: Acpi DSDT support (from main)
@@ -1442,7 +1443,7 @@ rm -rf %{buildroot}
     * DN16: r8169: use family-specific defaults for unknown chips
     * FN01: nfsd: report short writes count to the client
     * MM01: set saner vm settings: raise default dirty level, lower swappiness
-- Disable COMEDI_PCI_DRIVERS. At least one module built with  it enabled 
+- Disable COMEDI_PCI_DRIVERS. At least one module built with  it enabled
   (s626) claims the pci id 1131:7146 for all subvendors and subdevice ids.
   The problem is that this will clash with many media/dvb cards. (#51314)
 
@@ -1594,7 +1595,7 @@ rm -rf %{buildroot}
 - update defconfigs
 
 * Fri May  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.2-3mdv
-- add patch DA01: ACPI: Revert conflicting workaround for BIOS with 
+- add patch DA01: ACPI: Revert conflicting workaround for BIOS with
   mangled PRT entries (mdv bz #46222)
 
 * Fri May  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29.2-2mdv
@@ -1611,7 +1612,7 @@ rm -rf %{buildroot}
     * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.29.2
 - drop patch AA00: 2.6.29.2-rc1
 - add patches from stable queue:
-    * AA02: mac80211: fix bug in getting rx status for frames 
+    * AA02: mac80211: fix bug in getting rx status for frames
 	    pending in reorder buffer
     * AA03: b43: poison rx buffers
     * AA04: b43: refresh rx poison on buffer recycling
@@ -1695,7 +1696,7 @@ rm -rf %{buildroot}
 - rediff patches:
     * DM50: v4l-dvb snapshot
     * MC31: drbd buildfixes
-    
+
 * Mon Mar 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-2mdv
 - update patches:
     * DG00: drm-next update
@@ -1706,7 +1707,7 @@ rm -rf %{buildroot}
 - add patches:
     * DH15: Asus atk0110 acpi hwmon support
 - update configs
-    
+
 * Sat Mar 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-1mdv
 - update to 2.6.29 final
 - add patches:
@@ -1748,7 +1749,7 @@ rm -rf %{buildroot}
     * DN10: ipv6: fix BUG when disabled ipv6 module is unloaded
     * FE01: ext4: extent-header check fix
     * FS10: squashfs: fix page-aligned data
-    
+
 * Wed Mar 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.3.3mdv
 - update to 2.6.29-rc7-git3
 - rediff patches:
@@ -1777,7 +1778,7 @@ rm -rf %{buildroot}
 - drop patches:
     * KP02: TuxOnIce buildfix (merged upstream)
 - update defconfigs
-    
+
 * Wed Mar  4 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc7.1mdv
 - update to 2.6.29-rc7
 
@@ -1820,7 +1821,7 @@ rm -rf %{buildroot}
     * DG07: radeon modesetting pciid
     * DG08: radeon modesetting buildfix
 - Enable DRM_RADEON_KMS, DRM_I915_KMS
-    
+
 * Tue Feb 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc6.1.2mdv
 - update to 2.6.29-rc6-git1
 - update defconfigs
@@ -1845,9 +1846,9 @@ rm -rf %{buildroot}
 - enable full PREEMPT on -desktop(586) kernels to see what breaks
 - add drivers/acpi/acpica header files to -devel rpms, needed by fglrx
 - update defconfigs
-    
+
 * Sat Feb 21 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.4mdv
-- - update patches:
+- update patches:
     * DM50: v4l-dvb snapshot 2009-02-18
     * DM51: v4l-dvb snapshot buildfix
     * DS01: Alsa 1.0.19+ snapshot 2009-02-18
@@ -1857,7 +1858,7 @@ rm -rf %{buildroot}
     * DN02: split bonding for ipv6 to separate module, to allow disabling
 	    of ipv6 at runtime without breaking bonding for ipv4
 - update defconfigs
-    
+
 * Wed Feb 18 2009 Thomas Backlund <tmb@mandriva.org> 2.6.29-0.rc5.3mdv
 - add patches to fix netfilter crash (thanks Herton)
     * NI12: ipt_IFWLOG buildfix
@@ -1872,7 +1873,7 @@ rm -rf %{buildroot}
 - update and enable patch KP01: TuxOnIce 3.0-rc8 2009-02-14
 - add patch DG01: disable GEM on i8xx gpu
 - add patch DI01: lirc support
-- add patch DP01: Force write-buffer flush capability on Intel Mobile 4 
+- add patch DP01: Force write-buffer flush capability on Intel Mobile 4
   chipset as it needs it to work properly
 - update defconfigs
 
@@ -1889,7 +1890,7 @@ rm -rf %{buildroot}
     * AX05: Amd Fam10h APIC workaround
     * AX10: more pcore fsbs for cpufreq
     * AX15: Intel Core i7 cache descriptors
-    * DA01-DA09: ACPICA 20080926 uppdate    
+    * DA01-DA09: ACPICA 20080926 uppdate
     * DA40: Promise PDC42819 AHCI support
     * DA45: Intel Ibex Peak device ids
     * DC01: Intel G41 agp support
@@ -1932,7 +1933,7 @@ rm -rf %{buildroot}
 - make HID core modular
 - drop sparc64 support
 - update defconfigs
-                                   
+
 * Sun Feb  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.27.15-2mdv
 - add patch AX05: fix boot with AMD Fam10h CPUs on systems with broken
   or missing MP table
@@ -2048,13 +2049,13 @@ rm -rf %{buildroot}
 - update to 2.6.27.7 (CVE-2008-5033)
   * http://www.kernel.org/pub/linux/kernel/v2.6/ChangeLog-2.6.27.7
 - update patch DM50: v4l-dvb snapshot 2008-12-20
-  * adds support for: 
+  * adds support for:
     Phytec VD-012, Compro VideoMate E650F, Sattrade ST4200 DVB-S/S2,
     TBS 8910 DVB-S, Prof 6200 DVB-S, Pinnacle PCTV HD Mini,
     Hauppauge WinTV HVR 850, Kworld Plus TV Analog Lite PCI
-  * adds gspca support for: 
+  * adds gspca support for:
     Hercules Blog Webcam, Hercules Dualpix HD Weblog, Hercules Classic Silver,
-    Genius Eye 312, Microdia Audio, Microdia Sonix PC Camera, 
+    Genius Eye 312, Microdia Audio, Microdia Sonix PC Camera,
     Sony HD Eye for PS3 (SLEH 00201), Trust WB-1300N, HP 2.0 Megapixel rz406aa
 - drop patch AA01: fix broken ownership of proc sys files (merged upstream)
 - rediff patch DA01: acpica 20080926 update
@@ -2129,7 +2130,7 @@ rm -rf %{buildroot}
 - rediff patch DC01: Intel G41 AGP support
 - add patch DM01: fix raid10 recovery bug
 - update patch DM50: v4l-dvb snapshot 2008-11-07
-  * adds STB0899, STB6100, Philips TDA8261, LG LGDT3304, 
+  * adds STB0899, STB6100, Philips TDA8261, LG LGDT3304,
     Sharp S921 dvb support
   * adds Finepix, SunPlus usb webcam support
 - add patch DM51: revert dvb changes not supported by 2.6.27 kernel
@@ -2176,9 +2177,9 @@ rm -rf %{buildroot}
 - update to 2.6.27.1
   * disables CONFIG_DYNAMIC_FTRACE due to possible memory corruption
     on module unload (this  is the reason e1000e cards broke)
-      
+
 * Sat Oct 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.27-2mdv
-- drop patches DA10-DA12: tc1100-wmi, all needed support is 
+- drop patches DA10-DA12: tc1100-wmi, all needed support is
   already in 2.6.27
 - drop old patch DA30: acpi ec 2.1 (merged in updated ACPICA)
 - add patch DA30: ACPI and ACPICA 2008-07-29 update
@@ -2257,7 +2258,7 @@ rm -rf %{buildroot}
   * disable OCFS2_DEBUG_MASKLOG, CIFS_STATS2, KEYS_DEBUG_PROC_KEYS
   * change NR_CPUS to 16
   * enable MD_FAULTY, DM_DELAY, FIREWIRE, FIREWIRE_OHCI, FIREWIRE_SBP2
-  * enable FIREWIRE_OHCI_REMOTE_DMA, TULIP_MMIO, TULIP_NAPI, 
+  * enable FIREWIRE_OHCI_REMOTE_DMA, TULIP_MMIO, TULIP_NAPI,
   * enable TULIP_NAPI_HW_MITIGATION, SUNDANCE_MMIO, VIA_RHINE_MMIO
   * enable HIPPI, ROADRUNNER, VIDEO_VIVI, DVB_USB_DIBUSB_MB_FAULTY
   * enable AUTOFS_FS, KARMA_PARTITION, DETECT_SOFTLOCKUP, EARLY_PRINTK
@@ -2299,8 +2300,8 @@ rm -rf %{buildroot}
 - drop patch DS03: Nec Versa S9100 support (merged upstream)
 - update patch FS10: ext4 support: 2.6.26-ext4-7
 - make TuxOnIce builtin and default on -laptop flavour
-- add patch KS01: really disable CONFIG_SCHED_HRTICK as it's known to 
-  cause boot problems with at least Intel GMA cards, as noted on LKML 
+- add patch KS01: really disable CONFIG_SCHED_HRTICK as it's known to
+  cause boot problems with at least Intel GMA cards, as noted on LKML
   and kernel.org BugZilla #10892
 - update defconfigs
 
@@ -2448,7 +2449,7 @@ rm -rf %{buildroot}
 - fix sigframe.h in -devel rpms
 - add /firmware to -devel and -source rpms
 - add kernel/bounds.c to -devel rpms
-- fix disable-mrpoper patch to apply cleanly 
+- fix disable-mrpoper patch to apply cleanly
 - drop spec fix for #29744, #29074 (not needed anymore)
 
 * Sun Jul 20 2008 Thomas Backlund <tmb@mandriva.org> 2.6.25.11-2mdv
@@ -2580,7 +2581,7 @@ rm -rf %{buildroot}
 - update patch KP01: TuxOnIce 3.0-rc7
 - update defconfigs
 - fix -doc filelist
-- do not remove modules.* before calling depmod in install 
+- do not remove modules.* before calling depmod in install
   (fixes missing modules.order file, noted by Anssi)
 - dont ship mn10300 arch files
 - add arch/Kconfig to -devel and -source rpms
@@ -2590,7 +2591,7 @@ rm -rf %{buildroot}
 * Sat Jun 21 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.7-3mdv
 - fix build with disabled -doc
 - fix -doc versioning
-- update patch DA50: Ahci ICH10 MCP7B Marvell ids 
+- update patch DA50: Ahci ICH10 MCP7B Marvell ids
 - add patch DA51: add ich10 support to ata_piix
 - add patch DA52: add Tecra M4/M6 and Satellite R20 to piix_broken_suspend
 - add patch DN40: fix forcedeth locking bug
@@ -2662,7 +2663,7 @@ rm -rf %{buildroot}
 - fix license
 
 * Sun Mar  9 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-4mdv
-- override system buildroot definition on 2008 systems to 
+- override system buildroot definition on 2008 systems to
   get back correct BuildRoot behaviour
 - add patches from upstream stable queue:
   * AA01: ipcomp-disable-bh-on-output-when-using-shared-tfm
@@ -2693,7 +2694,7 @@ rm -rf %{buildroot}
 - add patch FF01: fix timestamps on fat partitions (#26819)
 
 * Wed Mar  5 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-3mdv
-- add patch DV01: bootsplash 3.1.6 
+- add patch DV01: bootsplash 3.1.6
 - add Provides should-restart = system
 - add patch DH02: fix for wacom serial devices when usbhid are loaded (#35201)
 - update patch DN30: full usb-rndis-lite svn rev 3305 checkout (#30128)
@@ -2710,7 +2711,7 @@ rm -rf %{buildroot}
 * Sun Mar  2 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.3-2mdv
 - update patch DI10: wacom tablet 0.7.9-8 (#37073)
   * bugfixes, adds support for Wacom Cintiq 20WSX
-- add patch DH01: add usb hid quirk for Multilaser USB-PS/2 
+- add patch DH01: add usb hid quirk for Multilaser USB-PS/2
   keyboard adapter (#36870)
 - add fixes from Alsa HG tree:
   * DS53: hda-codec adapt eeepc p701 mixer for virtual master control
@@ -2779,7 +2780,7 @@ rm -rf %{buildroot}
 - update patch MC30: drbd v8.0.11 (from main)
 - update patches MD00-MD01: uvc r173 (from main)
 - update defconfigs
-    
+
 * Mon Feb 11 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24.2-1mdv
 - quick update to 2.6.24.2 stable: (CVE-2008-0600)
 
@@ -2841,7 +2842,7 @@ rm -rf %{buildroot}
 - update to 2.6.24-rc7-git4
 - add patch DA01: acpi-release-20070126-2.6.24-rc7, acpi regression
   fixes (should fix #36711)
-- disable XEN Guuest support on all but server kernels as it 
+- disable XEN Guuest support on all but server kernels as it
   breaks AGP support (#36458)
 
 * Thu Jan 10 2008 Thomas Backlund <tmb@mandriva.org> 2.6.24-0.rc7.3mdv
@@ -2962,7 +2963,7 @@ rm -rf %{buildroot}
 * Sun Dec  2 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23.9-2mdv
 - add patches AA01-AA08 from stable queue:
   * libertas: properly account for queue commands
-  * NET: random : secure_tcp_sequence_number should not assume 
+  * NET: random : secure_tcp_sequence_number should not assume
     CONFIG_KTIME_SCALAR
   * NETFILTER: Fix NULL pointer dereference in nf_nat_move_storage()
   * ramdisk: fix data corruption on memory pressure
@@ -3025,7 +3026,7 @@ rm -rf %{buildroot}
 - re-enable CONFIG_INPUT_TABLET as it got disabled by mistake
 - set -laptop kernels to HZ_300 as HZ_100 is known to cause audio skips
   as noted during testing of main kernel
-- disable mrproper target on -devel rpms to stop 3rdparty installers from 
+- disable mrproper target on -devel rpms to stop 3rdparty installers from
   wiping out needed files and thereby breaking builds
   (based on an initial patch by Danny used in kernel-multimedia series)
 - update defconfigs
@@ -3037,11 +3038,11 @@ rm -rf %{buildroot}
 - rediff patch AX10: hrt/tickless support
 
 * Sun Sep 23 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc7.2mdv
-- add patch AA01: x86_64 zero extend all registers after ptrace in 
+- add patch AA01: x86_64 zero extend all registers after ptrace in
   32bit entry path (CVE-2007-4573)
-- add patch SA48: fix AppArmor return-code and rejected_mask 
+- add patch SA48: fix AppArmor return-code and rejected_mask
   (from John Johansen @ suse)
-- add patch FS03: unionfs: do not update mtime if there is no upper 
+- add patch FS03: unionfs: do not update mtime if there is no upper
   branch for the inode (blino@mandriva.com)
 
 * Thu Sep 20 2007 Thomas Backlund <tmb@mandriva.org> 2.6.23-0.rc7.1mdv
@@ -3096,7 +3097,7 @@ rm -rf %{buildroot}
 - update/add patches FR01-FR22: ReiserFS4 from 2.6.23-rc4-mm1
 - update patch FS01: unionfs 2.1.2 for 2.6.23-rc3
 - rediff patch FS02: unionfs AppArmor buildfix
-- drop patches FS04, FS05: ext3/4 orphan list debug support and 
+- drop patches FS04, FS05: ext3/4 orphan list debug support and
   corruption fix, merged upstream
 - disable patch KP01: suspend2 support, as upstream needs to catch up
 - update patch MB10: ndiswrapper 1.48-rc2
@@ -3192,7 +3193,7 @@ rm -rf %{buildroot}
 - update patch FS01: unionfs 2.1
 - redo patch FS02: fix unionfs to build with AppArmor
 - update defconfigs
-  
+
 * Fri Aug 10 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22.2-1mdv
 - update to kernel.org 2.6.22.2:
   * fixes: CVE-2007-3851 and other bugs
@@ -3284,7 +3285,7 @@ rm -rf %{buildroot}
 
 * Mon Jun 25 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc6.1mdv
 - update to kernel.org 2.6.22-rc6
-- rediff patch AX10: High Resolution Timer Support & Tickless System 
+- rediff patch AX10: High Resolution Timer Support & Tickless System
 - update patch CF01: Ingo Molnar's CFS-v18 Scheduler for 2.6.22-rc6
 
 * Sun Jun 24 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc5.2mdv
@@ -3311,7 +3312,7 @@ rm -rf %{buildroot}
 
 * Sun Jun 17 2007 Thomas Backlund <tmb@mandriva.org> 2.6.22-0.rc5.1mdv
 - update to kernel.org 2.6.22-rc5
-- update patch AX10: High Resolution Timer Support & Tickless System 
+- update patch AX10: High Resolution Timer Support & Tickless System
   2.6.22-rc5-hrt1
 - add patches DS01,DS02: Alsa pcspeaker support on ix86 (pkarlsen, #31058)
 - disable CONFIG_SND_PCSP, still broken
@@ -3409,7 +3410,7 @@ rm -rf %{buildroot}
 - update defconfigs
 
 * Fri May 18 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21.1-2mdv
-- gzip kernel (and thereby rename it consistently to vmlinuz) 
+- gzip kernel (and thereby rename it consistently to vmlinuz)
   on sparc too (peroyvind)
 - add patch CK24: Swap Prefetch bugfixes and optimizations,
   brings the code to 2.6.21-ck2 level (Con Kolivas)
@@ -3446,8 +3447,8 @@ rm -rf %{buildroot}
 - drop patch AA00: 2.6.21-rc7-git6, merged upstream
 - make devel trees read-only (like in kernel-multimedia series),
   to try and work around broken dkms & co
-- add /arch/s390/crypto/Kconfig to -devel and -source trees, fixes 
-  MDV bugs #29744, #29074 (reported against kernel-linus, but affects 
+- add /arch/s390/crypto/Kconfig to -devel and -source trees, fixes
+  MDV bugs #29744, #29074 (reported against kernel-linus, but affects
   all post 2.6.20-rc3 series kernels, will be removed if/when fixed upstream
 
 * Wed Apr 25 2007 Thomas Backlund <tmb@mandriva.org> 2.6.21-0.rc7.1mdv
@@ -3714,7 +3715,7 @@ rm -rf %{buildroot}
 
 * Thu Jan 25 2007 Thomas Backlund <tmb@mandriva.org> 2.6.20.0.rc5-1mdv
 - update to kernel.org: 2.6.20-rc5
-- add patch AA01: fix export of profile_hits, needed for KVM on UP 
+- add patch AA01: fix export of profile_hits, needed for KVM on UP
 - update patches CK01-CK26 to CK01-CK22: Con Kolivas 2.6.20-rc5-ck1
 - rediff patch CE02: acpi dsdt initrd support
 - rediff patch CR01: BadRAM support
@@ -3904,7 +3905,7 @@ rm -rf %{buildroot}
 - update defconfigs for 2.6.19 series
 - add patch100: revert ACPI_SCI_interrupt_source_override, will be removed
   when 2.6.19.1 is released...
-  
+
 * Sat Dec  2 2006 Thomas Backlund <tmb@mandriva.org> 2.6.18.5-1mdv
 - update to kernel.org 2.6.18.5:
     - pcmcia: fix 'rmmod pcmcia' with unbound devices
@@ -3930,11 +3931,11 @@ rm -rf %{buildroot}
     - x86 microcode: don't check the size
     - scsi: clear garbage after CDBs on SG_IO
     - IPV6: Fix address/interface handling in UDP and DCCP, according to the scoping architecture
-    
+
 * Fri Dec  1 2006 Thomas Backlund <tmb@mandriva.org> 2.6.18.4-1mdv
 - update to kernel.org 2.6.18.4:
     - bridge: fix possible overflow in get_fdb_entries (CVE-2006-5751)
-    
+
 * Tue Nov 21 2006 Thomas Backlund <tmb@mandriva.org> 2.6.18.3-2mdv2007.1
 - redo patch DN10: update ipw2200 to 1.2.0
 - re-enable ipw2200 in defconfigs
@@ -4048,7 +4049,7 @@ rm -rf %{buildroot}
 - disable patch CK18: mm-prio_dependant_scan-1 as it conflicts with the
   chnges in the stable .2
 - rediff patches CK14, CK15, CK23
-- update patch FS01: unionfs to 1.4  
+- update patch FS01: unionfs to 1.4
 
 * Mon Oct 23 2006 Thomas Backlund <tmb@mandriva.org> 2.6.18.1-1mdv2007.0
 - update to kernel.org 2.6.18.1
@@ -4193,7 +4194,7 @@ rm -rf %{buildroot}
 - youri.devel screwed up the mirrors even more as it didn't build x86_64
   contrary to what was said, so as a last resort, try youri.queue from
   seggie as a last resort...
-  
+
 * Wed Sep 13 2006 Thomas Backlund <tmb@mandriva.org> 2.6.17.13-2mdv2007.0
 - a simple rebuild to see if youri.devel can get the tmb kernels
   on the mirrors...
@@ -4242,7 +4243,7 @@ rm -rf %{buildroot}
     - INET: Use pskb_trim_unique when trimming paged unique skbs
     - spectrum_cs: Fix firmware uploading errors
     - TEXTSEARCH: Fix Boyer Moore initialization bug
-- drpo patch DN60: merged upstream
+- drop patch DN60: merged upstream
 
 * Wed Sep  6 2006 Thomas Backlund <tmb@mandriva.org> 2.6.17.11-3mdv2007.0
 - mostly a rebuild to try and get the kernels on the mirrors...
@@ -4327,7 +4328,7 @@ rm -rf %{buildroot}
     * If network interface name changes (through udev, ifrename etc),
       ndiswrapper notices it and changes entry in procfs
 - update defconfigs
-      
+
 * Fri Aug 11 2006 Thomas Backlund <tmb@mandriva.org> 2.6.17.8-2mdv2007.0
 - spec cleanup
 - update defconfigs
@@ -4410,7 +4411,7 @@ rm -rf %{buildroot}
 * Tue Jul 25 2006 Thomas Backlund <tmb@mandriva.org> 2.6.17.7-1mdv2007.0
 - update to kernel.org 2.6.17.7 final
 - drop patches AB01-AB45: merged upstream, or fixed differently
-- disable patch FS06: (update symlinks to 10) for now as it may bring 
+- disable patch FS06: (update symlinks to 10) for now as it may bring
   stack issues, need to be checked (Thierry)
 
 * Mon Jul 24 2006 Thomas Backlund <tmb@mandriva.org> 2.6.17.6-2mdv2007.0
@@ -4510,11 +4511,11 @@ rm -rf %{buildroot}
 - add patch DV11: remove unused VIDIOC_S_CTRL_OLD check from matroxfb_base ioctl
 - add patch FS11: fixes bad nfs file handle triggering ext3_error
 - update patch MB10: ndiswrapper to 1.21
-  * Calls to Miniport functions with serialized drivers (such as RT2500) 
+  * Calls to Miniport functions with serialized drivers (such as RT2500)
     are serialized, so they should work with SMP.
-  * Enable interrupts in IRQ handler; otherwise, some drivers (e.g., 
+  * Enable interrupts in IRQ handler; otherwise, some drivers (e.g.,
     Marvell 8335) don't work.
-  * Kernel crash with changing mac address (with 'ifconfig hw ether ...') 
+  * Kernel crash with changing mac address (with 'ifconfig hw ether ...')
     fixed.
   * Fixes to 64-bit drivers; TI 1450 (used in AVM Fritz) is supported 
     with 64-bit.
@@ -4526,8 +4527,8 @@ rm -rf %{buildroot}
 - update to kernel.org 2.6.17.5
   * Fix nasty /proc vulnerability (CVE-2006-3626)
 - Add Patch AA01: Relax /proc fix a bit as it broke hal for some 
-  users (Linus Torvalds)  
-  
+  users (Linus Torvalds)
+
 * Thu Jul 13 2006 Thomas Backlund <tmb@mandriva.org> 2.6.17.4-1mdv2007.0
 - update to kernel.org 2.6.17.4
   * fix prctl privilege escalation and suid_dumpable (CVE-2006-2451)
@@ -4777,7 +4778,7 @@ rm -rf %{buildroot}
 - update requires on mkinitrd to 4.2.17-19mdk
   * makes ide-controller statement in modprobe.conf optional when
     installing a kernel with ide support built-in
-  
+
 * Tue  May 16 2006 Thomas Backlund <tmb@mandriva.org> 2.6.16.16-4mdk
 - fix PrepareKernel and create_configs breakage due to versioning change
 - change CONFIG_EDD from module to builtin
@@ -5049,7 +5050,7 @@ rm -rf %{buildroot}
 
 * Wed Jul 07 2004 Thomas Backlund <tmb@mandrake.org> 2.6.7-2.tmb.1mdk
 - full restart from main 2.6.7.2mdk to get back in sync with main
-  (meaning it may have less hw support and features than my 2.6.5 
+  (meaning it may have less hw support and features than my 2.6.5
    series now in the beginning until I have synced up with sds15...)
 - first tmb kernel to be uploaded to amd64 contribs
 - build kernels with preempt
@@ -5382,7 +5383,6 @@ rm -rf %{buildroot}
   * blacklist Compaq ProLiant DL360 (acpi=off).
   * ipmi v30 (erwan request).
 - fixed configs for alpha and sparc64 (Stefan)
--
 
 * Tue Feb 24 2004 Thomas Backlund <tmb@mandrake.org> 2.6.3-2.tmb.1mdk
 - sync with main 2.6.3-2mdk
@@ -5528,7 +5528,7 @@ rm -rf %{buildroot}
   * enable them in the scripts
   * please tell me what you want changed in the configs,
     as I don't have the h/w myself...
-- drop loop related patches DB21-DB27 gotten from -mm as they 
+- drop loop related patches DB21-DB27 gotten from -mm as they
   are broken (svetljo)
 - gzip modules to minimize needed space for installed kernel
 - make apm support builtin, not as module
