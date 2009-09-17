@@ -213,7 +213,7 @@ this kernel as a 'hackkernel' ...					\
 Use these kernels at your own risk !!					
 
 ### Global Requires/Provides
-%define requires1 	mkinitrd >= 4.2.17-%mkrel 52
+%define requires1 	mkinitrd >= 6.0.92-12mnb
 %define requires2 	bootloader-utils >= 1.12-%mkrel 1
 %define requires3 	sysfsutils >= 1.3.0-%mkrel 1 module-init-tools >= 3.2-0.pre8.%mkrel 2
 %define requires4	kernel-firmware >= 20090604-3mnb2
@@ -1102,6 +1102,8 @@ rm -rf %{buildroot}
 * Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-5mdv
 - require kernel-firmware-20090604-3mnb that has the fixed 
   radeon firmware tarball
+- require mkinitrd-6.0.92-12mnb wich har fixed hotplug firmware
+  loading for radeon drivers
 
 * Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-4mdv
 - add patches:
