@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -216,7 +216,7 @@ Use these kernels at your own risk !!
 %define requires1 	mkinitrd >= 4.2.17-%mkrel 52
 %define requires2 	bootloader-utils >= 1.12-%mkrel 1
 %define requires3 	sysfsutils >= 1.3.0-%mkrel 1 module-init-tools >= 3.2-0.pre8.%mkrel 2
-%define requires4	kernel-firmware >= 2.6.27-1mmb
+%define requires4	kernel-firmware >= 20090604-2mnb2
 
 %define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 88
 
@@ -1099,6 +1099,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-4mdv
+- add patches:
+    * DG11: drm/radeon/kms: Move radeon_get_clock_info() call
+	    out of radeon_clocks_init() (Thierry)
+    * DH11: hwmon: add Intel Lynnfield support to coretemp
+- require kernel-firmware >= 20090604-2mnb to get the radeon
+  firmware that is now splitted out in drm-next
+
 * Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-3mdv
 - add patches:
     * AA01: 2.6.31.1-rc1
