@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		5
+%define kbuild		6
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -216,7 +216,7 @@ Use these kernels at your own risk !!
 %define requires1 	mkinitrd >= 6.0.92-12mnb
 %define requires2 	bootloader-utils >= 1.12-1
 %define requires3 	sysfsutils >= 1.3.0-1 module-init-tools >= 3.2-0.pre8.2
-%define requires4	kernel-firmware >= 20090604-3mnb2
+%define requires4	kernel-firmware >= 20090604-4mnb2
 
 %define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 88
 
@@ -1098,13 +1098,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-5mdv
+* Sat Sep 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-6mdv
+- update patches:
+    * DG01: drm-next 2009-09-18
+    * KP01: TuxOnIce 3.0.1 for 2.6.31
+- drop patches:
+    * DG11: drm/radeon/kms: radeon_get_clock_info() call move,
+	    merged in the updated drm-next checkout
+- require kernel-firmware-20090604-4mnb that has the firmware
+  from drm-next 2009-09-18
+
+* Sat Sep 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-5mdv
 - require kernel-firmware-20090604-3mnb that has the fixed
   radeon firmware tarball
 - require mkinitrd-6.0.92-12mnb wich has fixed hotplug firmware
   loading for radeon drivers
 - fix warnings when not building source/devel rpms (noted by Thierry)
 - spec cleanups
+- update patches:
+    * DM50: v4l-dvb snapshot 2009-09-19
+    * DS01: Alsa 1.0.21+ snapshot 2009-09-19
+- update defconfigs
 
 * Thu Sep 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-4mdv
 - add patches:
