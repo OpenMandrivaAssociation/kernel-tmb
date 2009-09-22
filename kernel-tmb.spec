@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		6
+%define kbuild		8
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1098,6 +1098,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Sep 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-8mdv
+- update patches:
+    * DH12: hwmon: add Asus P7P55D support to asus_atk0110 v2
+
+* Sun Sep 20 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-7mdv
+- add patches:
+    * DA10: ACPICA Release 20090903 + ACPI 4.0 support
+    * DH12: hwmon: add Asus P7P55D support to asus_atk0110
+- update defconfigs
+
 * Sat Sep 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-6mdv
 - update patches:
     * DG01: drm-next 2009-09-18
