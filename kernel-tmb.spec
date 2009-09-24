@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		8
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1098,6 +1098,19 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Sep 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-1mdv
+- update to 2.6.31.1 final
+- drop patches:
+    * AA01: 2.6.31.1-rc1
+- update patches:
+    * FS01: unionfs 2.5.3
+- Disable otus staging driver: ar9170 in wireless tree should
+  already handle it. Also Kconfig otus description states that it
+  needs a special wpa_supplicant. (Herton, main kernel)
+- Disable build of aedsp16 oss driver: the snd-sc6000 alsa driver
+  should now handle all support for same cards it supports, as
+  stated in kernel changelog. (Herton, main kernel)
+
 * Tue Sep 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31-8mdv
 - update patches:
     * DH12: hwmon: add Asus P7P55D support to asus_atk0110 v2
