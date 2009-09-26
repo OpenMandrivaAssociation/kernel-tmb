@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1098,6 +1098,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Sep 26 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-2mdv
+- drop patches:
+    * DH10: old Atom coretemp support
+    * DH11: old Lynnfield coretemp support
+- add patches:
+    * DA11: fixes to ACPICA Release 20090903
+    * DC01: driver core: add new device to bus's list before probing
+    * DH10: hwmon: coretemp: enable the Intel Atom support
+    * DH11: hwmon: coretemp: Fix Atom CPUs support
+    * DH12: hwmon: coretemp: Add support for Penryn mobile CPUs
+    * DH13: hwmon: coretemp: Add Lynnfield CPU support
+    * KS01: sched: Introduce SCHED_RESET_ON_FORK scheduling policy
+    * KS02: sched: Clean up SCHED_RESET_ON_FORK
+    * KS03: sched: Add SCHED_RESET_ON_FORK functionality for nice
+    * KS10: sched: Disable NEW_FAIR_SLEEPERS
+- update patches:
+    * KP01: TuxOnIce 3.0.1 for 2.6.31.1
+    * NB10: clean ndiswrapper tarball (remove headers generated at buildtime)
+- rename patches:
+    * DH12 is now DH20: Asus P7P55D support
+
 * Thu Sep 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-1mdv
 - update to 2.6.31.1 final
 - drop patches:
