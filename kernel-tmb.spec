@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1098,6 +1098,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Sep 26 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-3mdv
+- update patches:
+    * DM50: v4l-dvb snapshot 2009-09-26
+    * DS01: Alsa 1.0.21+ snapshot 2009-09-26
+    * DS10: Alsa 1.0.21+ unstable Via vt1732 (Envy24-II)
+- update defconfigs
+
 * Sat Sep 26 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-2mdv
 - drop patches:
     * DH10: old Atom coretemp support
