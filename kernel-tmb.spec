@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1098,6 +1098,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Sep 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-4mdv
+- add patches:
+    * DA12: more fixes to ACPICA Release 20090903
+    * DA21: sony-laptop: remove device_ctrl and the SPIC mini drivers
+    * DA22: sony-laptop: SPIC unset IRQF_SHARED, set IRQF_DISABLED
+    * DA23: sony-laptop: remove _INI call at init time
+    * DA24: sony-laptop: Dont unregister the SPIC driver if it wasnt registered
+- drop patches:
+    * KS10: disable NEW_FAIR_SLEEPERS, as it does not play nice with
+	    quad core systems...
+
 * Sat Sep 26 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-3mdv
 - update patches:
     * DM50: v4l-dvb snapshot 2009-09-26
