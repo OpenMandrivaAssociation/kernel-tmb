@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		6
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -166,8 +166,8 @@ Source5: 	README.Mandriva_Linux_%{ktag}
 # This is for keeping asm-offsets.h and bounds.h in -devel rpms
 Source6: 	kbuild-really-dont-remove-bounds-asm-offsets-headers.patch
 
-Source100: 	linux-%{patch_ver}.tar.bz2
-Source101: 	linux-%{patch_ver}.tar.bz2.sign
+Source100: 	linux-%{patch_ver}.tar.xz
+Source101: 	linux-%{patch_ver}.tar.xz.asc
 Source102: 	%{kname}.patchlist
 
 ####################################################################
@@ -980,26 +980,17 @@ rm -f %{target_source}/{.config.old,.config.cmd,.mailmap,.missing-syscalls.d,arc
 #endif %build_source
 %endif
 
-# gzipping modules
-find %{target_modules} -name "*.ko" | %kxargs gzip -9
-
 # We used to have a copy of PrepareKernel here
 # Now, we make sure that the thing in the linux dir is what we want it to be
 for i in %{target_modules}/*; do
     rm -f $i/build $i/source
 done
 
-# sniff, if we gzipped all the modules, we change the stamp :(
-# we really need the depmod -ae here
+# Create modules.description
 pushd %{target_modules}
 for i in *; do
-	/sbin/depmod -u -ae -b %{buildroot} -r -F %{target_boot}/System.map-$i $i
-	echo $?
-done
-
-for i in *; do
 	pushd $i
-	echo "Creating module.description for $i"
+	echo "Creating modules.description for $i"
 	modules=`find . -name "*.ko.gz"`
 	echo $modules | %kxargs /sbin/modinfo \
 	| perl -lne 'print "$name\t$1" if $name && /^description:\s*(.*)/; $name = $1 if m!^filename:\s*(.*)\.k?o!; $name =~ s!.*/!!' > modules.description
@@ -1098,6 +1089,24 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Sep 29 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-6mdv
+- add patches:
+    * DA14: acpi: ec: Restart command even if no interrupts from ec
+
+* Tue Sep 29 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-5mdv
+- switch to xz compressed patch tarball
+- add patches:
+    * DA13: acpi: ec: rewrite dmi checks
+    * SM01: compress kernel modules on 'make modules_install' instead
+      of after (in spec), as it makes the kernel build require less
+      disk space, and also benefits people building their own kernels
+      from source (#54028)
+- update patches:
+    * DH20: hwmon: add Asus P7P55D support to asus_atk0110 v3
+- enable in defconfigs:
+    * PRINTK_TIME (for easier debugging)
+    * TIMER_STATS (for powertop)
+
 * Mon Sep 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-4mdv
 - add patches:
     * DA12: more fixes to ACPICA Release 20090903
