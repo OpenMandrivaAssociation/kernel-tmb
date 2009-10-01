@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		6
+%define kbuild		8
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,34 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Oct  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-8mdv
+- add patches:
+    * DA02: ahci: restore pci_intx handling
+    * FC10: cifs: re-enable lanman security
+- revert patches:
+    * DH20: hwmon: add Asus P7P55D support to asus_atk0110 v4 -> v3
+
+* Thu Oct  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-7mdv
+- add patches:
+    * AX02: x86: increase min_gap to include randomized stack
+    * DA50: pata_amd: do not filter out valid modes in nv_mode_filter
+    * DG11: drm: i915: remove restore in resume
+    * DG12: drm: i915: only destroy a constructed mmap offset
+    * DG13: drm: i915: prevent fifo calculation overflows on 32 bits with 
+	    high dotclocks
+    * DG14: drm: i915: add buffer to inactive list immediately during fault
+    * DG15: drm: i915: check that the relocation points to within the target
+    * DG16: drm: i915: fix typo for wrong lvds clock setting on igdng
+    * DG17: drm: i915: fix ssc frequence for igdng
+    * DG18: drm: i915: remove dac disable in crt force detect on igdng
+    * DG19: drm: i915: fix lvds panel fitting on arrandale
+    * DP03: acerhdf: Limit modalias matching to supported boards
+    * DV01: fbcon: only unbind from console if successfully registered
+    * FI01: fs: make sure data stored into inode is properly seen before
+	    unlocking new inode
+- update patches:
+    * DH20: hwmon: add Asus P7P55D support to asus_atk0110 v4
+
 * Tue Sep 29 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-6mdv
 - add patches:
     * DA14: acpi: ec: Restart command even if no interrupts from ec
