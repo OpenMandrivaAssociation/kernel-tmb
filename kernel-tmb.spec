@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		8
+%define kbuild		10
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,45 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Oct  2 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-10mdv
+- revert patches:
+    * DH20: hwmon: add Asus P7P55D support to asus_atk0110 v5 -> v3
+
+* Fri Oct  2 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-9mdv
+- add patches:
+    * AA01: 2.6.31.2-rc1
+    * DM51: v4l-dvb snapshot buildfix
+    * DS02: Alsa snapshot buildfix
+- update patches:
+    * DG01: drm-next 2009-10-02
+    * DG04: drm-nouveau 2009-10-02
+    * DH20: hwmon: add Asus P7P55D support to asus_atk0110 v5
+    * DM50: v4l-dvb snapshot 2009-10-02
+    * DP03: acerhdf: Limit modalias matching to supported boards
+    * DS01: Alsa 1.0.21+ snapshot 2009-10-02
+    * DS10: Alsa 1.0.21+ unstable Via vt1732 (Envy24-II)
+- refiff patches:
+    * DA10: acpica 20090903
+- drop patches merged in 2.6.31.2-rc1
+    * AX02: x86: increase min_gap to include randomized stack
+    * DA02: ahci: restore pci_intx handling
+    * DA50: pata_amd: do not filter out valid modes in nv_mode_filter
+    * DC01: driver core: add new device to bus's list before probing
+    * DG11: drm: i915: remove restore in resume
+    * DG12: drm: i915: only destroy a constructed mmap offset
+    * DG13: drm: i915: prevent fifo calculation overflows on 32 bits with 
+	    high dotclocks
+    * DG14: drm: i915: add buffer to inactive list immediately during fault
+    * DG15: drm: i915: check that the relocation points to within the target
+    * DG16: drm: i915: fix typo for wrong lvds clock setting on igdng
+    * DG17: drm: i915: fix ssc frequence for igdng
+    * DG18: drm: i915: remove dac disable in crt force detect on igdng
+    * DG19: drm: i915: fix lvds panel fitting on arrandale
+    * DV01: fbcon: only unbind from console if successfully registered
+    * FC10: cifs: re-enable lanman security
+    * FI01: fs: make sure data stored into inode is properly seen before
+	    unlocking new inode
+
 * Thu Oct  1 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-8mdv
 - add patches:
     * DA02: ahci: restore pci_intx handling
