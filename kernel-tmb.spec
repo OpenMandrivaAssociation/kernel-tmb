@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		10
+%define kbuild		11
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Oct  3 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-11mdv
+- update patches:
+    * DA13: acpi: ec: rewrite dmi checks
+    * DA15: acpi: ec: restart command even if no interrupts from ec
+- add patches:
+    * DA14: acpi: ec: dont parse DSDT for EC early init on Compal
+    * DA16: acpi: get rid of registered as cooling_deviceX messages
+    * DA17: acpi: kill overly verbose throttling states log messages
+    * DN01: net: e1000e jumbo frames no longer work
+    * KH01: hrtimer: eliminate needless reprogramming of clock events
+    * NI20: net: splice from tcp to pipe should take into account O_NONBLOCK
+
 * Fri Oct  2 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-10mdv
 - revert patches:
     * DH20: hwmon: add Asus P7P55D support to asus_atk0110 v5 -> v3
