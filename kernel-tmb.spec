@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		1
+%define kstable		2
 
 # this is the releaseversion
-%define kbuild		11
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,47 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Oct  5 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.2-1mdv
+- update to 2.6.31.2 final
+- drop patches:
+    * AA01: 2.6.31.2-rc1
+- add patches:
+    * AX20: kernel: e820: pad ram_alignment at 64MB (mdv #54137, kbz #13940)
+    * DC01: cpuidle: fix the menu governor to boost io performance
+    * DC02: cpuidle: menu governor: reduce latency on exit
+    * DC03: cpuidle: always return with interrupts enabled
+- redo the wireless ath9k patches based on fixes merged in 2.6.32-rc1 (#52739)
+    * DN10: ath9k: downgrade ASSERT in ath_clone_txbuf
+    * DN11: ath9k: make sure we configure a non-zero beacon interval
+    * DN12: ath9k: differentiate quality reporting between legacy and HT conf
+    * DN13: ath9k: remove unnecessary STATION mode check
+    * DN14: ath9k: stop ani when the STA gets disconnected
+    * DN15: ath9k: fix race condition in SCANNING state check during ANI calibration
+    * DN16: ath9k: handle different TX and RX streams properly
+    * DN17: ath9k: downgrade assert in rc.c for invalid rate
+    * DN18: ath9k: manipulate and report the correct RSSI
+    * DN19: ath9k: fix RX stucks during heavy traffic in HT40 mode
+    * DN20: ath9k: fix TX hang issue with Atheros chipsets
+    * DN21: ath9k: remove bogus assert in ath_clone_txbuf
+    * DN22: ath9k: handle tx desc shortage more appropriately
+    * DN23: ath9k: do not stop the queues in driver stop
+    * DN24: ath9k: trivial fix in Kconfig
+    * DN25: ath9k: update beacon RSSI
+    * DN26: ath9k: fix bug in PCI resume
+    * DN27: ath9k: set HW state properly
+    * DN28: ath9k: fix TX poll cancelling
+    * DN29: ath9k: fix bug in retrieving average beacon rssi
+    * DN30: ath9k: fix read buffer overflow
+    * DN31: ath9k: claim irq for ath9k not ath for pci
+    * DN32: ath9k: fix bug in ANI channel handling
+    * DN33: ath9k: do a full reset for AR9280
+    * DN34: ath9k: disable autosleep feature by default
+    * DN35: ath9k: fix RFKILL bugs
+
+* Mon Oct  5 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-12mdv
+- update patches:
+    * DH20: hwmon: add Asus P7P55D support to asus_atk0110 v6
+
 * Sat Oct  3 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.1-11mdv
 - update patches:
     * DA13: acpi: ec: rewrite dmi checks
