@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		2
+%define kstable		3
 
 # this is the releaseversion
 %define kbuild		1
@@ -1089,6 +1089,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Oct  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.3-1mdv
+- update to 2.6.31.3 (tty_port bug)
+
 * Mon Oct  5 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.2-1mdv
 - update to 2.6.31.2 final
 - drop patches:
