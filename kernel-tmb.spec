@@ -13,7 +13,7 @@
 %define kstable		3
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,53 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Oct 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.3-2mdv
+- add patches:
+    * AA01: 2.6.31.4-rc2 (CVE-2009-2903)
+    * DA13: more fixes to ACPICA 20090903 release
+    * DS21: alsa hda via: remove unused IS_VT17xxVENDORID macro
+    * DS22: alsa hda via: change get_codec_type argument to hda_codec-type
+    * DS23: alsa hda via: add VT1708B-CE codec support
+    * DS24: alsa hda via: limit VT1702 AA Path-max volume
+    * DS25: alsa hda via: add VIA_CTL_WIDGET_ANALOG_MUTE control type
+    * DS26: alsa hda via: add low current mode for power saving
+    * DS27: alsa hda via: remove unused argument of via_new_analog_input
+    * DS28: alsa hda via: change VT1708S & VT1702 hp mode controls
+    * DS29: alsa hda via: rewrite via_independent_hp_put
+    * DS30: alsa hda via: add smart5.1 function
+    * DS31: alsa hda via: when changing input source, update power state
+    * DS32: alsa hda via: add VIA_JACK_EVENT process in via_unsol_event
+    * DS33: alsa hda via: refresh front playback mute in via_hp_automute
+    * DS34: alsa hda via: add jack detect feature for VT1708
+    * DS35: alsa hda via: modify vt1708_set_pinconfig_connect function
+    * DS36: alsa hda via: replace via_playback_pcm_prepare cleanup
+    * DS37: alsa hda via: add 2nd SPDIF out for VT1708S and VT1702
+    * DS38: alsa hda via: modify vt1708_auto_create_multi_out_ctls
+    * DS39: alsa hda via: modify vt1709_auto_create_multi_out_ctls
+    * DS40: alsa hda via: replace MIC_BOOST_VOLUME
+    * DS41: alsa hda via: move backdoor verbs to vt17xx_volume_init_verb
+    * DS42: alsa hda via: add VT1718S support
+    * DS43: alsa hda via: add VT1828S and VT2020 support
+    * DS44: alsa hda via: add VT1716S support
+    * DS45: alsa hda via: add VT2002P support
+    * DS46: alsa hda via: add VT1812 support
+    * DS47: alsa hda via: rename vt1708_control_templates
+    * DS48: alsa hda via: change PW4 connect select default to MW0
+    * DS49: alsa hda via: comments update copyright changeset etc
+    * DS50: alsa hda via: only cosmetic changes
+- rediff patches:
+    * DA12: acpica 20090903 part3
+    * DS01: alsa 1.0.21+ snapshot
+- drop patches merged in the new DA13:
+    * DA13: acpi: ec: rewrite dmi checks
+    * DA14: acpi: ec: dont parse DSDT for EC early init on Compal
+    * DA15: acpi: ec: restart command even if no interrupts from ec
+    * DA17: acpi: kill overly verbose throttling states log messages
+    * DA21: sony-laptop: remove device_ctrl and the SPIC mini drivers
+    * DA22: sony-laptop: SPIC unset IRQF_SHARED, set IRQF_DISABLED
+    * DA23: sony-laptop: remove _INI call at init time
+    * DA24: sony-laptop: Dont unregister the SPIC driver if it wasnt registered
+
 * Thu Oct  8 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.3-1mdv
 - update to 2.6.31.3 (tty_port bug)
 
