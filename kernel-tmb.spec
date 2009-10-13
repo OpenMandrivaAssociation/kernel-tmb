@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		3
+%define kstable		4
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Oct 13 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.4-1mdv
+- update to 2.6.31.4 final
+- drop merged patches:
+    * AA01: 2.6.31.4-rc2
+- drop patch:
+    * DH20: asus_atk0110 Asus p7p55d support
+	(replaced by DH20, DH21 that got merged upstream)
+- add patches:
+    * DH20: hwmon: asus_atk0110: Refactor the code
+    * DH21: hwmon: asus_atk0110: enable the EC
+
 * Sun Oct 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.3-2mdv
 - add patches:
     * AA01: 2.6.31.4-rc2 (CVE-2009-2903)
