@@ -13,7 +13,7 @@
 %define kstable		4
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Oct 15 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.4-2mdv
+- add patches:
+    * DA14: acpi: more fixes to ACPICA Release 20090903
+    * DA17: acpi: silence _BIF warning
+    * DS51: alsa hda via: Remove 48k sample rate limit for spdif
+
 * Tue Oct 13 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.4-1mdv
 - update to 2.6.31.4 final
 - drop merged patches:
