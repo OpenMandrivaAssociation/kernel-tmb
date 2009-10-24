@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		4
+%define kstable		5
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,29 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Oct 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.5-1mdv
+- update to 2.6.31.5 final
+- drop patch AA01: 2.6.31.5-rc1
+
+* Wed Oct 21 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.4-4mdv
+- add patches:
+    * DA20: revert part of DA14: eeepc-laptop: prevent a panic when
+	    disabling RT2860 wireless when associated (it breaks
+	    eeepc-laptop with other wireless hw)
+
+* Sat Oct 17 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.4-3mdv
+- add patches:
+    * AA01: 2.6.31.5-rc1
+    * DA02: ahci: Add the generic nVidia ahci chipset id
+    * DA03: sata_nv: make sure link is brough up online when 
+	    skipping hardreset
+- drop patches merged upstream:
+    * DN01: e1000e jumbo frame fix
+    * DP10: Intel iommu vt-d bugfix
+- rediff patches:
+    * disable-mrproper-in-devel-rpms
+    * disable-prepare-scripts-configs-in-devel-rpms
+
 * Thu Oct 15 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.4-2mdv
 - add patches:
     * DA14: acpi: more fixes to ACPICA Release 20090903
