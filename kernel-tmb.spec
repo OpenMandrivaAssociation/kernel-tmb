@@ -660,6 +660,8 @@ SaveDevel() {
 
 	# Needed for lirc_gpio (Anssi Hannula, #39004)
 	cp -fR drivers/media/video/bt8xx/bttv{,p}.h $TempDevelRoot/drivers/media/video/bt8xx/
+	cp -fR drivers/media/video/bt8xx/bt848.h $TempDevelRoot/drivers/media/video/bt8xx/
+	cp -fR drivers/media/video/btcx-risc.h $TempDevelRoot/drivers/media/video/
 
 	# Needed for external dvb tree (#41418)
 	cp -fR drivers/media/dvb/dvb-core/*.h $TempDevelRoot/drivers/media/dvb/dvb-core/
