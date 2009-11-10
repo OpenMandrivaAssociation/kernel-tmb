@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		5
+%define kstable		6
 
 # this is the releaseversion
 %define kbuild		1
@@ -658,7 +658,7 @@ SaveDevel() {
 	# Needed for lguest
 	cp -fR drivers/lguest/lg.h $TempDevelRoot/drivers/lguest/
 
-	# Needed for lirc_gpio (Anssi Hannula, #39004)
+	# Needed for lirc_gpio (Anssi Hannula, #39004, #54907)
 	cp -fR drivers/media/video/bt8xx/bttv{,p}.h $TempDevelRoot/drivers/media/video/bt8xx/
 	cp -fR drivers/media/video/bt8xx/bt848.h $TempDevelRoot/drivers/media/video/bt8xx/
 	cp -fR drivers/media/video/btcx-risc.h $TempDevelRoot/drivers/media/video/
@@ -1091,6 +1091,25 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Nov 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-1mdv
+- update to 2.6.31.6
+  * CVE-2009-3547, CVE-2009-3612, CVE-2009-3621, CVE-2009-3624
+- include btcx-risc.h and bt848.h in kernel-devel, they are now
+  required by bttvp.h which is already included and required by
+  dkms-lirc-gpio (Anssi, #54907)
+- add patches:
+    * DA15: acpi: more fixes to ACPICA Release 20090903
+    * DN36: wireless: ath9k: fix misplaced semicolon on rate control
+- drop patches merged upstream:
+    * AX20: x86: kernel e820 pad ram_alignment at 64MB
+    * DA03: sata_nv: make sure link is brough up online when
+      skipping hardreset
+    * DA20: acpi: revert 'eeepc laptop prevent a panic when
+      disabling RT2860 wireless when associated'
+    * DC03: cpuidle: always return with interrupts enabled
+- rediff patches:
+    * DA10, DA13, DA14: ACPICA Release 20090903
+
 * Sat Oct 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.5-1mdv
 - update to 2.6.31.5 final
 - drop patch AA01: 2.6.31.5-rc1
