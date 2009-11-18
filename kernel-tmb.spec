@@ -13,7 +13,7 @@
 %define kstable		6
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1091,6 +1091,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Nov 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-3mdv
+- add patches:
+    * DN01: ppp: enlarge upload buffer to cope with HSUPA connections
+    * DP05: add samsung backlight support
+    * FS10: xfs: fix bug in log recover with quota
+    * MC50-MC52: add DazukoFS 3.1.1 (#24333)
+- update patches:
+    * KP01: TuxOnIce 3.0.1 for 2.6.31.6
+
+* Sun Nov 15 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-2mdv
+- Release to updates
+
 * Tue Nov 10 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-1mdv
 - update to 2.6.31.6
   * CVE-2009-3547, CVE-2009-3612, CVE-2009-3621, CVE-2009-3624
