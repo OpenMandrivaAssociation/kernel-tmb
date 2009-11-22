@@ -13,7 +13,7 @@
 %define kstable		6
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1091,6 +1091,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Nov 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-4mdv
+- Release to 2010.0 updates
+- add patches:
+    * DM20: md: add cond_resched to raid1 and raid10
+    * DN50: hostap: Revert a toxic part of the conversion to 
+      net_device_ops (fixes MDV #55805, KBZ #14000)
+- update patches:
+    * FR01: reiser4 for 2.6.31 final
+- drop patches:
+    * FR02: reiser4 compiler fix, merged in FR01
+
 * Thu Nov 19 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-3mdv
 - add patches:
     * DN01: ppp: enlarge upload buffer to cope with HSUPA connections
