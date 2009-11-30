@@ -13,7 +13,7 @@
 %define kstable		6
 
 # this is the releaseversion
-%define kbuild		5
+%define kbuild		6
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1091,6 +1091,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Nov 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-6mdv
+- update patches:
+    * DM50: v4l-dvb snapshot 2009-11-30
+    * DM51: v4l-dvb snapshot buildfix
+    * DS01: Alsa 1.0.21+ snapshot 2009-11-30
+    * DS02: Alsa 1.0.21+ snapshot buildfix
+    * DS10: Alsa 1.0.21+ unstable via-1732 (Envy II) 2009-11-30
+- drop patches:
+    * DS21-DS51: alsa hda via updates (merged in DS01)
+- update defconfigs
+
 * Mon Nov 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-5mdv
 - add patches:
     * DA16: acpi: more fixes to ACPICA Release 20090903
