@@ -13,7 +13,7 @@
 %define kstable		6
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		5
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1091,6 +1091,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Nov 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-5mdv
+- add patches:
+    * DA16: acpi: more fixes to ACPICA Release 20090903
+- update patches:
+    * DI01: lirc updates as of 2009-11-27
+- drop patches:
+    * DA17: acpi: silence _BIF warn (merged in DA16)
+    * DG01: drm-next update (replaced by DG01 from Fedora)
+    * DG04: drm-nouveau (replaced by DG07 from Fedora)
+- sync drm patches with Fedora 12 kernel 2.6.31.6-153
+    * DG01: drm-next 44c83571
+    * DG02: drm: radeon hdp cache flush
+    * DG03: drm: conservative fallback modes
+    * DG04: drm: edid retry
+    * DG05: drm: edid header fixup
+    * DG06: drm: default mode 1024x768
+    * DG07: drm: nouveau
+    * DG08: drm: i915 resume force mode
+    * DG09: drm: intel no tv hotplug
+    * DG10: drm: i915 fix tvmode oops
+
 * Sun Nov 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-4mdv
 - Release to 2010.0 updates
 - add patches:
