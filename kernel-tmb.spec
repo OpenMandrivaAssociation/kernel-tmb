@@ -13,7 +13,7 @@
 %define kstable		6
 
 # this is the releaseversion
-%define kbuild		6
+%define kbuild		7
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1091,6 +1091,25 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Dec  4 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-7mdv
+- add patches:
+    * DM21: md: dont clear endpoint for resync when resync is interrupted
+    * DM22: md: raid5: make sure curr_sync_completes is uptodate when
+	    reshape starts
+    * DM55: bttv: add missing i2c addr to probe for ir (A. Williamson / J.Wilson)
+    * DN02: bonding: modify hash transmit policies to use the packets
+	    source mac address
+    * DN51: b43: work around mac80211 race condition
+    * DN52: iwlwifi: fix issue on file transfer stalled in ht mode
+    * DN53: iwlwifi: use rts-cts as the preferred protection mechanism
+	    for 6000 series
+    * DS20: gdth: prevent negative offsets in ioctl (CVE-2009-3080)
+    * NI21: ipv4: additional update of dev_net dev to struct net in
+	    ip_fragment null ptr oops fix
+    * NM01: mac80211: fix two remote exploits
+    * NM02: mac80211: fix spurious delba handling
+    * NR01: rfkill: fix miscdev ops
+
 * Mon Nov 30 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-6mdv
 - update patches:
     * DM50: v4l-dvb snapshot 2009-11-30
