@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		6
+%define kstable		7
 
 # this is the releaseversion
-%define kbuild		7
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1091,6 +1091,33 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Dec 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.7-1mdv
+- update to 2.6.31.7
+- add patches:
+    * AA01: 2.6.31.8-rc1 (includes a _big_ ext4 update)
+- rediff patches:
+    * DA10: acpi release 20090903
+    * DG01: drm-next
+    * DM50: v4l-dvb 2009-11-30
+    * DS01: Alsa 1.0.21+ 2009-11-30
+- drop merged patches:
+    * DM20: md: add cond_resched to raid1 and raid10
+    * DM21: md: dont clear endpoint for resync when resync is interrupted
+    * DM22: md: raid5: make sure curr_sync_completes is uptodate when
+	    reshape starts
+    * DN02: bonding: modify hash transmit policies to use the packets
+	    source mac address
+    * DN51: b43: work around mac80211 race condition
+    * DN52: iwlwifi: fix issue on file transfer stalled in ht mode
+    * DN53: iwlwifi: use rts-cts as the preferred protection mechanism
+	    for 6000 series
+    * DS20: gdth: prevent negative offsets in ioctl (CVE-2009-3080)
+    * NI21: ipv4: additional update of dev_net dev to struct net in
+	    ip_fragment null ptr oops fix
+    * NM01: mac80211: fix two remote exploits
+    * NM02: mac80211: fix spurious delba handling
+    * NR01: rfkill: fix miscdev ops
+
 * Fri Dec  4 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.6-7mdv
 - add patches:
     * DM21: md: dont clear endpoint for resync when resync is interrupted
