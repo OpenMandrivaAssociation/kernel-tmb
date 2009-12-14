@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		7
+%define kstable		8
 
 # this is the releaseversion
 %define kbuild		1
@@ -1091,6 +1091,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Dec 14 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.8-1mdv
+- update to 2.6.31.8 final
+- drop patches:
+    * AA01: 2.6.31.8-rc1
+- update patches:
+    * MC50: DazukoFS 3.1.2
+
 * Fri Dec 11 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.7-1mdv
 - update to 2.6.31.7
 - add patches:
