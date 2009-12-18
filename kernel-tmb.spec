@@ -3,14 +3,14 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	31
+%define sublevel	33
 
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		0
+%define kpatch		rc1
 %define kgit		0
-%define kstable		8
+%define kstable		0
 
 # this is the releaseversion
 %define kbuild		1
@@ -637,7 +637,7 @@ SaveDevel() {
 
 	mkdir -p $TempDevelRoot
 	for i in $(find . -name 'Makefile*'); do cp -R --parents $i $TempDevelRoot;done
-	for i in $(find . -name 'Kconfig*' -o -name 'Kbuild*'); do cp -R --parents $i $TempDevelRoot;done
+	for i in $(find . -name 'Kconfig*' -o -name 'Kbuild*' -o -name config.mk); do cp -R --parents $i $TempDevelRoot;done
 	cp -fR include $TempDevelRoot
 	cp -fR scripts $TempDevelRoot
 	%ifarch %{ix86} x86_64
@@ -671,14 +671,12 @@ SaveDevel() {
 	cp -fR drivers/acpi/acpica/*.h $TempDevelRoot/drivers/acpi/acpica/
 
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 microblaze mips m32r m68k \
-		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 sparc v850 xtensa; do
+		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 score sparc v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
-		rm -rf $TempDevelRoot/include/asm-$i
 	done
 
 	%ifnarch %{ix86} x86_64
 		rm -rf $TempDevelRoot/arch/x86
-		rm -rf $TempDevelRoot/include/asm-x86
 	%endif
 	# disable removal of asm-offsets.h and bounds.h
 	patch -p1 -d $TempDevelRoot -i %{SOURCE6}
@@ -722,14 +720,11 @@ $DevelRoot/firmware
 $DevelRoot/fs
 $DevelRoot/include/Kbuild
 $DevelRoot/include/acpi
-$DevelRoot/include/asm
 $DevelRoot/include/asm-generic
-%ifarch %{ix86} x86_64
-$DevelRoot/include/asm-x86
-%endif
 $DevelRoot/include/config
 $DevelRoot/include/crypto
 $DevelRoot/include/drm
+$DevelRoot/include/generated
 $DevelRoot/include/keys
 $DevelRoot/include/linux
 $DevelRoot/include/math-emu
@@ -756,6 +751,7 @@ $DevelRoot/security
 $DevelRoot/sound
 $DevelRoot/tools
 $DevelRoot/usr
+$DevelRoot/virt
 $DevelRoot/.config
 $DevelRoot/Kbuild
 $DevelRoot/Makefile
@@ -966,14 +962,12 @@ chmod -R a+rX %{target_source}
 # we remove all the source files that we don't ship
 # first architecture files
 for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 microblaze mips m32r m68k \
-	 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 sparc v850 xtensa; do
+	 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 score sparc v850 xtensa; do
 	rm -rf %{target_source}/arch/$i
-	rm -rf %{target_source}/include/asm-$i
 done
 
 %ifnarch %{ix86} x86_64
 	rm -rf %{target_source}/arch/x86
-	rm -rf %{target_source}/include/asm-x86
 %endif
 
 # other misc files
@@ -1037,9 +1031,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/Kbuild
 %{_kerneldir}/include/acpi
 %{_kerneldir}/include/asm-generic
-%ifarch %{ix86} x86_64
-%{_kerneldir}/include/asm-x86
-%endif
 %{_kerneldir}/include/crypto
 %{_kerneldir}/include/drm
 %{_kerneldir}/include/keys
@@ -1091,6 +1082,52 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Dec 18 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc1.1mdv
+- update to 2.6.33-rc1
+- update spec file
+    * dont ship score arch in -source and -devel rpms
+    * add /virt and /include/generated to -devel rpms
+    * add config.mk to -devel rpms
+- update defconfigs
+    * desktop kernel now supports 24 cores/siblings
+    * server kernel now supports 48 cores/siblings
+- update patches:
+    * DM10: dmraid45 support for 2.6.33-rc1 (disabled for now, as its broken)
+    * FR01: reiser4 for 2.6.33-rc1 (from mmotm)
+    * FS01: unionfs 2.5.3 for 2.6.33-rc1
+    * KP01: tuxonice 3.0.99.43 for 2.6.33-rc1
+    * MB14: ndiswrapper cmpxchg8b fix (from main)
+- add patches:
+    * FR02-FR26: reiser4 fixes from mmotm tree
+    * KP02: fix tuxonice build
+- rediff patches
+    * DP05: samsung backlight support
+    * MB02: 3rdparty merge
+- drop patches merged upstream:
+    * AX01: stack protetctor detection
+    * DA01: AMD SB900 support
+    * DA02: nVidia AHCI generic support
+    * DA10-DA17: ACPICA 20090903
+    * DC01-DC02: cpuidle fixes
+    * DG01-DG10: drm updates and nouveau
+    * DH02: ingnore HID_DG_INRANGE
+    * DH10-DH13: coretemp atom/penryn/lynnfield support
+    * DG20-DG21: asus_atk0110 update
+    * DM50-DM51: v4l-dvb snapshot
+    * DM55: bttv ir fix
+    * DN01: ppp HSUPA support
+    * DN10-DN36: ath9k fixes
+    * DN50: hostap fix
+    * DP02: dell-laptop rfkill fix
+    * DP05: samsung backlight support
+    * DS01-DS02: Alsa 1.0.21+ snapshot
+    * FC01: chrdev update
+    * FS10: xfs bugfix
+    * KH01: hrtimer update
+    * KS01-KS03: kernel sched updates
+    * MC30-MC34 drbd
+    * NI20: net splice fix
+
 * Mon Dec 14 2009 Thomas Backlund <tmb@mandriva.org> 2.6.31.8-1mdv
 - update to 2.6.31.8 final
 - drop patches:
