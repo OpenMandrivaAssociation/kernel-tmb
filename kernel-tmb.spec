@@ -1084,6 +1084,9 @@ rm -rf %{buildroot}
 %changelog
 * Thu Dec 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc1.4.3mdv
 - update to 2.6.33-rc1-git4
+- add patches:
+    * DI02: lirc buildfix
+    * FS02: unionfs buildfix
 
 * Tue Dec 22 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc1.2.2mdv
 - update to 2.6.33-rc1-git2
