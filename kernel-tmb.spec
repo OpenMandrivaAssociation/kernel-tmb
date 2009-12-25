@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc1
-%define kgit		4
+%define kpatch		rc2
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Dec 25 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc2.1mdv
+- update to 2.6.33-rc2
+
 * Thu Dec 24 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc1.4.3mdv
 - update to 2.6.33-rc1-git4
 - add patches:
