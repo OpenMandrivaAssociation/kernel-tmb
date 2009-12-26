@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Dec 26 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc2.2mdv
+- add patches:
+    * DP01: acpi revert: wmi: free the allocated acpi objects through
+	    wmi_get_event_data (fixes non-booting hp and dell laptops)
+    * DS05: alsa: hda: disable trigger at pin sensing on AD codecs
+	    (fixes constant load on HP laptops with AD codec)
+
 * Fri Dec 25 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc2.1mdv
 - update to 2.6.33-rc2
 
