@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Dec 28 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc2.3mdv
+- add patches:
+    * DM50: v4l-dvb snapshot 2009-12-28
+    * DS01: Alsa 1.0.22+ snapshot 2009-12-28
+- update patches:
+    * DI01: lirc for 2.6.33-rc2
+    * DS10: Alsa unstable Via 1732
+    * KP01: tuxonice 3.0.99.44 for-2.6.33-rc2
+- drop patches:
+    * DI02: lirc buildfix (merged in DI01)
+    * DS05: alsa hda ad codec fix (merged in DS01)
+    * KP02: tuxonice buildfix
+- update defconfigs
+
 * Sat Dec 26 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc2.2mdv
 - add patches:
     * DP01: acpi revert: wmi: free the allocated acpi objects through
