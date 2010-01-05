@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc2
-%define kgit		0
+%define kgit		6
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		5
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jan 05 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc2.6.5mdv
+- update to 2.6.33-rc2-git6
+- drop patches:
+    * AA01: 2.6.33-rc2-git2
+- add patches:
+    * AX01: fix un-bootable dell systems due to unactivated iommu
+    * DS50: add Broadcom CrystalHD support
+    * FS10: squashfs lzma support
+- update defconfigs
+
 * Thu Dec 31 2009 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc2.4mdv
 - add patches:
     * AA01: 2.6.33-rc2-git2
