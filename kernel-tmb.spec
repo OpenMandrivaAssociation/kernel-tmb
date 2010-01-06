@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc2
-%define kgit		6
+%define kpatch		rc3
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		5
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jan 06 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.1mdv
+- update to 2.6.33-rc3
+- add patches:
+    * NM01, NM02: fix mac80211 skb buffering performance regression
+
 * Tue Jan 05 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc2.6.5mdv
 - update to 2.6.33-rc2-git6
 - drop patches:
