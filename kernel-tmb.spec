@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jan 07 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.3mdv
+- update patches:
+    * NM01-NM03: mac80211 skb buffering performance fixes
+      - sync with updated patches merged in wireless-2.6.git
+- add patches:
+    * MC90-MC92: video4linux vloopback support
+    
 * Thu Jan 07 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.2mdv
 - add patches:
     * AA01: 2.6.33-rc3+ git 2c1f1895ef2aa8f0e5497893eff71304aef332e1
