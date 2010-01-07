@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jan 07 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.2mdv
+- add patches:
+    * AA01: 2.6.33-rc3+ git 2c1f1895ef2aa8f0e5497893eff71304aef332e1
+      - a lot of drm fixes
+    * NM03: mac80211 skb buffering buildfix (fixes oops on boot)
+
 * Wed Jan 06 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.1mdv
 - update to 2.6.33-rc3
 - add patches:
