@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,13 +1082,23 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 11 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.4mdv
+- update patch:
+    * AA01: 2.6.33-rc3+ git 1b4d40a517e0657a081d5d63518c4badd31c60ea
+      - even more drm fixes
+- add patch:
+    * FS11: fix lzo compressed kernels support (due to squashfs-lzma changes)
+- drop merged patch:
+    * DP02: hp-wmi: remove double kfree
+- update defconfigs
+
 * Thu Jan 07 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.3mdv
 - update patches:
     * NM01-NM03: mac80211 skb buffering performance fixes
       - sync with updated patches merged in wireless-2.6.git
 - add patches:
     * MC90-MC92: video4linux vloopback support
-    
+
 * Thu Jan 07 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.2mdv
 - add patches:
     * AA01: 2.6.33-rc3+ git 2c1f1895ef2aa8f0e5497893eff71304aef332e1
