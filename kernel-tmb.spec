@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc3
-%define kgit		0
+%define kgit		5
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		5
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jan 12 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.5.5mdv
+- update to 2.6.33-rc3-git5
+- drop patch:
+    * AA01: 2.6.33-rc3+ git snapshot
+
 * Mon Jan 11 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc3.4mdv
 - update patch:
     * AA01: 2.6.33-rc3+ git 1b4d40a517e0657a081d5d63518c4badd31c60ea
