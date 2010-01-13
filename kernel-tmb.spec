@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jan 13 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.2mdv
+- defconfig changes:
+    * enable NAMESPACES support (like main kernel, noted by Thierry)
+    * enable EXT3_DEFAULTS_TO_ORDERED as data=writeback is a security
+      issue and makes a mess on system crash
+- add patches:
+    * DG01: radeon kms updates
+
 * Wed Jan 13 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.1mdv
 - update to 2.6.33-rc4
 - rediff patch:
