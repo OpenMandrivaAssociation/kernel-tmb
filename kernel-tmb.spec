@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc4
-%define kgit		0
+%define kgit		2
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jan 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.2.3mdv
+- update to 2.6.33-rc4-git2
+- update patches:
+    * DM50: v4l-dvb snapshot 2010-01-15
+    * DS01: Alsa 1.0.22+ snapshot 2010-01-15
+- add patches:
+    * DG02: drm: i915: disable LVDS downclock by default (fixes flickering)
+    * DG03: drm: radeon kms: Fix r600 blit cleanup path
+	    (fixes oops if rlc firmware is missing)
+    * DM51: v4l-dvb snapshot buildfix
+- drop merged patches:
+    * DG01: radeon kms updates
+    * NM01-NM03: mac80211 skb buffering performance fixes
+
 * Wed Jan 13 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.2mdv
 - defconfig changes:
     * enable NAMESPACES support (like main kernel, noted by Thierry)
