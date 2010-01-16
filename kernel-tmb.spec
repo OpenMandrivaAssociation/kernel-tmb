@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc4
-%define kgit		2
+%define kgit		3
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,31 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jan 16 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.3.4mdv
+- update to 2.6.33-rc4-git3
+- add patches:
+    * DA01: EC: Accelerate query execution
+    * DA02: acpi_pad: fix error checks
+    * DA03: ACPI video: Prune dupe video devices, unless "video.allow_duplicates"
+    * DA04: x86, ACPI: delete acpi_boot_table_init() return value
+    * DA05: drm_i915: Add HP nx9020_Samsung SX20S to ACPI LID quirk list
+    * DA06: ACPI: SBS: Move SBS HC callback to faster Notify queue
+    * DA07: ACPI: EC: Add wait for irq storm
+    * DA08: ACPI: Advertise to BIOS in _OSC: _OST on _PPC changes
+    * DA09: ACPI: Remove unnecessary cast
+    * DA10: ACPI: don't cond_resched if irq is disabled
+    * DA11: eeepc-laptop: disable cpu speed control on EeePC 701
+    * DA12: eeepc-laptop: dmi blacklist to disable pci hotplug code
+    * DA13: eeepc-laptop: switch to using sparse keymap library
+    * DA14: eeepc-laptop: add hotplug_disable parameter
+    * DA15: eeepc-laptop: disable wireless hotplug for 1201N
+    * DA16: ACPI: Fix section mismatch error for acpi_early_processor_set_pdc()
+    * DG01: drm-intel updates
+    * DN01: iwlwifi: Fix throughput stall issue in HT mode for 5000 series
+    * DP06: sony-laptop: fix using of uninitialized variable
+- drop merged patch:
+    * DG02: drm: i915: disable LVDS downclock by default
+
 * Fri Jan 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.2.3mdv
 - update to 2.6.33-rc4-git2
 - update patches:
