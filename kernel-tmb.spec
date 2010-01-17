@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc4
-%define kgit		3
+%define kgit		4
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		5
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jan 17 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.4.5mdv
+- update to 2.6.33-rc4-git4
+- drop merged patch:
+    * DG01: drm-intel updates
+
 * Sat Jan 16 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.3.4mdv
 - update to 2.6.33-rc4-git3
 - add patches:
