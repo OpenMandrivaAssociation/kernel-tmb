@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc4
-%define kgit		4
+%define kgit		7
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		5
+%define kbuild		6
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jan 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.7.6mdv
+- update to 2.6.33-rc4-git7
+- add patches from git queue:
+    * AA01: core fixes
+    * AA02: usb fixes
+    * AA03: staging fixes
+- update patches:
+    * DM50: v4l-dvb snapshot 2010-01-21
+    * DS01: Alsa 1.0.22+ snapshot 2010-01-21
+    * KP01: TuxOnIce 3.0.99.45 for 2.6.33-rc4
+
 * Sun Jan 17 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.4.5mdv
 - update to 2.6.33-rc4-git4
 - drop merged patch:
