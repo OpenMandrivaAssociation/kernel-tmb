@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc4
-%define kgit		7
+%define kpatch		rc5
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		6
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jan 22 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc5.1mdv
+- update to 2.6.33-rc5
+- drop merged patches:
+    * AA01-AA03: core, usb, staging fixes
+    * DA01-DA16: acpi updates
+    * DP06: sony-laptop fix
+
 * Thu Jan 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc4.7.6mdv
 - update to 2.6.33-rc4-git7
 - add patches from git queue:
