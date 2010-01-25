@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 25 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc5.2mdv
+- add patches:
+    * DC01: x86/agp: fix agp_amd64_init regression
+    * DG01: drm: fixes from airlied git queue for 2.6.33
+    * KT01: clockevent: Dont remove broadcast device when cpu is dead
+- drop patch:
+    * DG03: drm: radeon kms: Fix r600 blit cleanup path (merged in DG01)
+
 * Fri Jan 22 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc5.1mdv
 - update to 2.6.33-rc5
 - drop merged patches:
