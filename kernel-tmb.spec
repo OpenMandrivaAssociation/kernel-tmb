@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc5
+%define kpatch		rc6
 %define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jan 30 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.1mdv
+- update to 2.6.33-rc6
+- drop merged patches:
+    * AX01: x86: pci intel ioh bus num reg accessing fix (ioh dropped as broken)
+    * DG01: drm fixes from airlied git
+    * DN01: iwlwifi: Fix throughput stall issue in HT mode for 5000 series
+    * KT01: clockevent: Dont remove broadcast device when cpu is dead
+- update patches:
+    * DM50: v4l-dvb snapshot 2010-01-30
+    * DS01: Alsa 1.0.22+ snapshot 2010-01-30
+- add patches:
+    * FB01: fs: freeze_bdev: dont deactivate successfully frozen MS_RDONLY sb
+      (fixes non-bootable dmraid due to oops (#56768))
+
 * Mon Jan 25 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc5.2mdv
 - add patches:
     * DC01: x86/agp: fix agp_amd64_init regression
