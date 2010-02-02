@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		0
+%define kgit		1
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.1.2mdv
+- update to 2.6.33-rc6-git1
+- drop merged patches:
+    * DC01: x86: agp_amd64_init regression
+- rediff patches:
+    * DS01: Alsa 1.0.22+ snapshot
+
 * Sat Jan 30 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.1mdv
 - update to 2.6.33-rc6
 - drop merged patches:
