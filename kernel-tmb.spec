@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.1.3mdv
+- add patches:
+    * DG01: drm: radeon kms: dont call suspend path before cleaning up GPU
+- enable Radeon KMS by default
+    * NOTE! you need: x11-driver-video-ati-6.12.99-0.20100202mdv2010.1
+      from main/testing to get KMS support (if you get problem, you can
+      disable it with radeon.modeset=0 on kernel command line)
+
 * Tue Feb  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.1.2mdv
 - update to 2.6.33-rc6-git1
 - drop merged patches:
