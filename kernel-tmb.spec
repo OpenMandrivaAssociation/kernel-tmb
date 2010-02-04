@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		1
+%define kgit		4
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		6
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,22 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Feb  4 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.4.6mdv
+- update to 2.6.33-rc6-git4
+- add patch:
+    * LI01: idr: revert misallocation bug fix (it breaks X and drm)
+- rediff patch:
+    * DM50: v4l-dvb snapshot
+- disable Radeon KMS by default again, as the libdrm we have is not
+  new enough
+
+* Wed Feb  3 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.3.5mdv
+- update to 2.6.33-rc6-git3
+- update defconfigs
+
+* Wed Feb  3 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.2.4mdv
+- update to 2.6.33-rc6-git2
+
 * Tue Feb  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.1.3mdv
 - add patches:
     * DG01: drm: radeon kms: dont call suspend path before cleaning up GPU
