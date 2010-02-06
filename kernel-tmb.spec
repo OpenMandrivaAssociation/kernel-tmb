@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		7
+%define kbuild		8
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb  6 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.6.8mdv
+- add patch:
+    * DG01: drm-intel fixes from git
+
 * Sat Feb  6 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.6.7mdv
 - update to 2.6.33-rc6-git6
 - update patches:
