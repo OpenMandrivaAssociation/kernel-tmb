@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		4
+%define kgit		6
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		6
+%define kbuild		7
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb  6 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.6.7mdv
+- update to 2.6.33-rc6-git6
+- update patches:
+    * KP01: TuxOnIce 3.0.99.47 for 2.6.33-rc6
+- drop merged patches:
+    * DG01: drm: radeon-kms: dont call suspend path before cleaning up GPU
+    * LI01: idr: revert misallocation bug fix
+- set CONFIG_SND_HDA_INPUT_BEEP_MODE=2 in defconfigs
+
 * Thu Feb  4 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc6.4.6mdv
 - update to 2.6.33-rc6-git4
 - add patch:
