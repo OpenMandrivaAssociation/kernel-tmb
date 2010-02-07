@@ -9,7 +9,7 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		7
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
