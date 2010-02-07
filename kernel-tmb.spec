@@ -1082,7 +1082,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Sub Feb  7 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc7.1mdv
+* Sun Feb  7 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc7.1mdv
 - update to 2.6.33-rc7
 - drop merged patch:
     * DG01: drm-intel fixes from git
