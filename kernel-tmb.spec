@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		0
+%define kgit		1
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,24 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Feb  8 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc7.1.2mdv
+- update to 2.6.33-rc7-git1
+- drop merged patch:
+    * FB01: fs: freeze_bdev: dont deactivate successfully frozen MS_RDONLY sb
+- add patch:
+    * FC01: fs: compat_ioctl: ignore RAID_VERSION ioctl
+- enable RADEON_KMS again, as it now works:
+    * NOTE!
+      - you need the following rpms installed to get full KMS support:
+        x11-driver-video-ati-6.12.99-0.20100204mdv2010.1 from main/testing
+        radeon-rlc-firmware-1-1mdv2010.1 from non-free/release
+      - if you get problem:
+	    - you might need to remove any splash= or vga= from the
+	      kernel command line
+	    - you might need to add radeon to /etc/modprobe.preload
+      - if you still have problems, you can disable it with radeon.modeset=0
+        on kernel command line
+
 * Sun Feb  7 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc7.1mdv
 - update to 2.6.33-rc7
 - drop merged patch:
