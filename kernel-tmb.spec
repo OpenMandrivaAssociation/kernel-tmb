@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc7
-%define kgit		1
+%define kpatch		rc8
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,23 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb 13 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc8.1mdv
+- update to 2.6.33-rc8
+- add patches:
+    DG01: drm: nouveau: add ctxprogs generator for nv50/nv8x/nv9x
+    (fixes fd.o bug #23198, (Anssi, main kernel))
+    DN10: add support for Atheros AR8151 and AR8152
+    DN20: iwlwifi: fix broken AMSDU Rx functionality
+    NM01: mac80211: fix handling of null-rate control in rate_control_get_rate
+- update patches:
+    * MB10: ndiswrapper 1.56
+    * MB12: ndiswrapper Makefile fix
+- drop merged patches:
+    * DS20: alsa: hda-intel divide-by-zero crash fix
+    * FC01: fs: compat_ioctl: ignore RAID_VERSION ioctl
+- drop unneeded patches:
+    * MB14: ndiswrapper cmpxchg8b fix
+
 * Mon Feb  8 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc7.1.2mdv
 - update to 2.6.33-rc7-git1
 - drop merged patch:
