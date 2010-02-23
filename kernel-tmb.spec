@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc8
-%define kgit		0
+%define kgit		8
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc8.8.3mdv
+- update to 2.6.33-rc8-git8
+- add patch:
+    * DA01: acpi: fixes from 2.6.33 git queue
+    * DG02: drm-staging: fixes from 2.6.33 git queue (nouveau, vmwgfx)
+    * DN20: iwlwifi: fixes from 2.6.33 git queue
+- rediff patch:
+    * DM50: v4l-dvb snapshot
+- drop patch:
+    * KP10: re-export find_task_by_vpid symbol for fglrx
+	    (not needed anymore, confirmed by Anssi)
+
+* Sat Feb 20 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc8.5.2mdv
+- update to 2.6.33-rc8-git5
+- add patches:
+    * AX01: HPET: Drop WARN_ON for mismatch on HPET_Tn_CMP readback
+    * DN15: b43: convert B43_PIO(_FORCE) to a module option (pio=1)
+- drop merged patches:
+    * DN20: iwlwifi: fix broken AMSDU Rx functionality
+    * NM01: mac80211: fix handling of null-rate control in rate_control_get_rate
+
 * Sat Feb 13 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc8.1mdv
 - update to 2.6.33-rc8
 - add patches:
