@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc8
-%define kgit		8
+%define kpatch		0
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Feb 24 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-1mdv
+- update to 2.6.33 final
+- drop merged patches:
+    * DA01: acpi: fixes from 2.6.33 git queue
+    * DG02: drm-staging: fixes from 2.6.33 git queue (nouveau, vmwgfx)
+    * DN20: iwlwifi: fixes from 2.6.33 git queue
+
 * Tue Feb 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-0.rc8.8.3mdv
 - update to 2.6.33-rc8-git8
 - add patch:
