@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -334,7 +334,7 @@ latest %{kname}-%{1}-devel installed...			\
 %define summary_desktop586 Linux kernel for desktop use with i586 & 4GB RAM
 %define info_desktop586 This kernel is compiled for desktop use, single or \
 multiple i586 processor(s)/core(s) and less than 4GB RAM, using full \
-preempt, CFS cpu scheduler and cfq i/o scheduler. \
+preempt, BFS cpu scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
 processor mode, use the "nosmp" boot parameter.
@@ -350,14 +350,14 @@ processor mode, use the "nosmp" boot parameter.
 %define summary_desktop Linux Kernel for desktop use with i686 & 4GB RAM
 %define info_desktop This kernel is compiled for desktop use, single or \
 multiple i686 processor(s)/core(s) and less than 4GB RAM, using full \
-preempt, CFS cpu scheduler and cfq i/o scheduler. \
+preempt, BFS cpu scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
 processor mode, use the "nosmp" boot parameter.
 %else
 %define summary_desktop Linux Kernel for desktop use with %{_arch}
 %define info_desktop This kernel is compiled for desktop use, single or \
-multiple %{_arch} processor(s)/core(s), using full preempt, CFS cpu \
+multiple %{_arch} processor(s)/core(s), using full preempt, BFS cpu \
 scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
@@ -374,7 +374,7 @@ processor mode, use the "nosmp" boot parameter.
 %define summary_laptop Linux kernel for laptop use with i686-up/smp-4GB
 %define info_laptop This kernel is compiled for laptop use, single or \
 multiple i686 processor(s)/core(s) and less than 4GB RAM, using HZ_250 \
-to save battery, voluntary preempt, CFS cpu scheduler, cfq i/o scheduler \
+to save battery, voluntary preempt, BFS cpu scheduler, cfq i/o scheduler \
 and some other laptop-specific optimizations. If you want to sacrifice \
 battery life for performance, you better use the %{kname}-desktop. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
@@ -385,7 +385,7 @@ NOTE! This kernel also uses TuxOnIce by default.
 %define summary_laptop Linux kernel for laptop use with %{_arch}
 %define info_laptop This kernel is compiled for laptop use, single or \
 multiple %{_arch} processor(s)/core(s), using HZ_250 to save battery, \
-voluntary preempt, CFS cpu scheduler, cfq i/o scheduler and some other \
+voluntary preempt, BFS cpu scheduler, cfq i/o scheduler and some other \
 laptop-specific optimizations. If you want to sacrifice battery life for \
 performance, you better use the %{kname}-desktop. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
@@ -401,7 +401,7 @@ NOTE! This kernel also uses TuxOnIce by default.
 %define summary_realtime Linux Kernel for desktop use with i686 & 4GB RAM
 %define info_realtime This kernel is compiled for desktop use, single or \
 multiple i686 processor(s)/core(s) and less than 4GB RAM, using full \
-preempt and realtime, CFS cpu scheduler and cfq i/o scheduler. \
+preempt and realtime, BFS cpu scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
 processor mode, use the "nosmp" boot parameter.
@@ -409,7 +409,7 @@ processor mode, use the "nosmp" boot parameter.
 %define summary_realtime Linux Kernel for desktop use with %{_arch}
 %define info_realtime This kernel is compiled for desktop use, single or \
 multiple %{_arch} processor(s)/core(s), using full preempt and realtime, \
-CFS cpu scheduler and cfq i/o scheduler. \
+BFS cpu scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
 processor mode, use the "nosmp" boot parameter.
@@ -425,14 +425,14 @@ processor mode, use the "nosmp" boot parameter.
 %define summary_server Linux Kernel for server use with i686 & 64GB RAM
 %define info_server This kernel is compiled for server use, single or \
 multiple i686 processor(s)/core(s) and up to 64GB RAM using PAE, using \
-no preempt, CFS cpu scheduler and cfq i/o scheduler. \
+no preempt, BFS cpu scheduler and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
 processor mode, use the "nosmp" boot parameter.
 %else
 %define summary_server Linux Kernel for server use with %{_arch}
 %define info_server This kernel is compiled for server use, single or \
-multiple %{_arch} processor(s)/core(s), using no preempt, CFS cpu scheduler \
+multiple %{_arch} processor(s)/core(s), using no preempt, BFS cpu scheduler \
 and cfq i/o scheduler. \
 This kernel relies on in-kernel smp alternatives to switch between up & smp \
 mode depending on detected hardware. To force the kernel to boot in single \
@@ -1082,6 +1082,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Feb 27 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-2mdv
+- add patches:
+    * CK01: 2.6.33-ck1 patchset (BFS sceduler + optimizations)
+    * DA01: ahci: disable FPDMA auto-activate on nVidia AHCI
+    * FB01: btrfs: fix memory corruption on mount
+    * SI01: security: fix error return path in ima_inode_alloc
+- update patches:
+    * AX01: add HPET Erratum fix for triggering WARN_ON due to
+	    mismatch on HPET_Tn_CMP readback (replaces the earlier
+	    HPET: Drop WARN_ON for mismatch on HPET_Tn_CMP readback)
+
 * Wed Feb 24 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-1mdv
 - update to 2.6.33 final
 - drop merged patches:
