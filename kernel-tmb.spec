@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Mar  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-3mdv
+- add patches:
+    * DA02: ahci: add Intel Cougar Point support
+    * DG02: drm: git snapshot 2010-03-02
+	- nouveau updates
+	- radeon updates, including initial Evergreen support (Radeon HD 5xxx)
+	- intel updates, including initial Sandybridge support
+- drop patch:
+    * DG01: drm: nouveau: add ctxprogs generator for nv50/nv8x/nv9x
+      (merged in DG02)
+
 * Sat Feb 27 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-2mdv
 - add patches:
     * CK01: 2.6.33-ck1 patchset (BFS sceduler + optimizations)
