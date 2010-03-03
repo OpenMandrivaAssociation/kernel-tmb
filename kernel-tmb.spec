@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1082,6 +1082,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Mar  3 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-4mdv
+- disable FB_RADEON as it might interfere with RADEON_KMS
+  (fbcon and radeondrmfb are now the ones doing the work)
+- add patches:
+    * AX05: Add Intel Cougar Point LPC and SMBus support
+    * DU01: Lower USB storage settling delay to 1 sec (down from 5),
+	    gives faster usb storage detection
+
 * Tue Mar  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-3mdv
 - add patches:
     * DA02: ahci: add Intel Cougar Point support
@@ -1089,6 +1097,8 @@ rm -rf %{buildroot}
 	- nouveau updates
 	- radeon updates, including initial Evergreen support (Radeon HD 5xxx)
 	- intel updates, including initial Sandybridge support
+	- initial support for vga_switcheroo (switch between integrated 
+	  and discrete GPU at runtime)
 - drop patch:
     * DG01: drm: nouveau: add ctxprogs generator for nv50/nv8x/nv9x
       (merged in DG02)
