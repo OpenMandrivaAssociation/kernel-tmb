@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		5
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -807,14 +807,6 @@ EOF
 ### Create kernel Post script
 cat > $kernel_files-post <<EOF
 /sbin/installkernel -L %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
-if [ -x /sys/devices/platform/i8042 ]; then
-	grep -q -s "psmouse" /etc/modprobe.preload || \
-	/bin/echo -e "\npsmouse" >> /etc/modprobe.preload
-fi
-%ifarch %{ix86} x86_64
-grep -q -s "pcspkr" /etc/modprobe.preload || \
-/bin/echo -e "\npcspkr" >> /etc/modprobe.preload
-%endif
 pushd /boot > /dev/null
 if [ -L vmlinuz-%{ktag}-$kernel_flavour ]; then
 	rm -f vmlinuz-%{ktag}-$kernel_flavour
@@ -1082,6 +1074,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Mar  7 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-5mdv
+- stop adding pcspkr to /etc/modprobe.preload as it overrides
+  any blacklisting (Requested by Thierry)
+- stop adding psmouse to /etc/modprobe.preload, as it's builtin
+- add patches:
+    * FC01: ceph distributed file system support v0.19
+	    (http://ceph.newdream.net/)
+- update patches:
+    * FR01: reiser4 for 2.6.33
+    * FS01: unionfs 2.5.4 for 2.6.33
+    * KP01: TuxOnIce 3.0.99.49 for 2.6.33
+- drop patches:
+    * FR02-FR26: reiser4 fixes from mmotm tree (mostly merged in FR01)
+    * FS01: unionfs buildfix (not needed anymore)
+
 * Wed Mar  3 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-4mdv
 - disable FB_RADEON as it might interfere with RADEON_KMS
   (fbcon and radeondrmfb are now the ones doing the work)
