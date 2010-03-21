@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		5
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -192,6 +192,12 @@ Source11:	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/
 Patch1:   	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2
 Source10: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2.sign
 %endif
+
+# nouveau for 2010.1 series
+Patch100:	gpu-drm-nouveau-git-20100316.patch
+Patch101:	gpu-drm-nouveau-fix-missing-locking.patch
+# nouveau for 2010.0 backports
+Patch110:	gpu-drm-nouveau-add-nv50-nv8x-nv9x-ctxprogs-generator.patch
 
 #END
 ####################################################################
@@ -549,6 +555,16 @@ cd %src_dir
 %endif
 
 %{patches_dir}/scripts/apply_patches
+
+%if %{mdkversion} > 201000
+# nouveau for 2010.1 series
+%patch100 -p1
+%patch101 -p1
+%else
+# nouveau for 2010.0 backports
+%patch110 -p1
+%endif
+
 # PATCH END
 
 #
@@ -1074,6 +1090,30 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Mar 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33.1-1mdv
+- update to 2.6.33.1
+- update patches:
+    * DM50: v4l-dvb: snapshot 2010-03-21
+    * DS01: Alsa 1.0.22.1+ snapshot 2010-03-21
+    * DS10: Alsa 1.0.22.1+ unstable via 1732
+    * KP01: TuxOnIce 3.1 for 2.6.33
+- drop merged patches:
+    * DA01: ahci: disable FPDMA auto-activate on nVidia AHCI
+    * DM51: v4l-dvb snapshot buildfix
+    * SI01: security: fix error return path in ima_inode_alloc
+- disable patch:
+    * DG02: drm: git snapshot 2010-03-02
+      (introduced regression on some radeons, and broke backports
+       for nouveau users)
+- add nouveau patches as conditional build so backports will work:
+    * for 2010.1:
+	* nouveau: git 2010-03-16 (like main kernel)
+    * for 2010.0 backports
+	* nouveau: add ctxprogs generator for nv50/nv8x/nv9x
+	  (readded as DG02 got disabled)
+- disable CONFIG_USB_PRINTER (like main kernel, #58293)
+- update defconfigs
+
 * Sun Mar  7 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33-5mdv
 - stop adding pcspkr to /etc/modprobe.preload as it overrides
   any blacklisting (Requested by Thierry)
