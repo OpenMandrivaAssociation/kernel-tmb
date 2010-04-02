@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		1
+%define kstable		2
 
 # this is the releaseversion
 %define kbuild		1
@@ -1090,6 +1090,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Apr  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33.2-1mdv
+- update to 2.6.33.2
+- update patches:
+    * DM50: v4l-dvb snapshot 2010-04-02
+    * DM51: v4l-dvb snapshot buildfix
+    * DS01: Alsa 1.0.22.1+ snapshot 2010-04-02
+    * DS02: Alsa 1.0.22.1+ snapshot buildfix
+    * DS10: Alsa 1.0.22.1+ unstable via vt1732 2010-04-02
+- rediff P100 (nouveau update for 2010.1)
+- update defconfigs
+
 * Sun Mar 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33.1-1mdv
 - update to 2.6.33.1
 - update patches:
