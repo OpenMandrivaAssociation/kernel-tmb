@@ -1110,7 +1110,7 @@ rm -rf %{buildroot}
     * DG02: drm: radeon: add new rs880 pci id
     * DG03: drm: remove the edid blob stored in the edid property
 	    when it is disconnected
-    * DG04: drm: radeon kms: never-treat-rs4xx-as-agp.patch
+    * DG04: drm: radeon kms: never treat rs4xx as agp
     * DG05: drm: radeon kms: fix null pointer dereference if memory
 	    allocation failed in a simple way
     * DG06: drm: radeon kms: don't print error on erestartsys
