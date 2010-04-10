@@ -13,7 +13,7 @@
 %define kstable		2
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -198,6 +198,12 @@ Patch100:	gpu-drm-nouveau-git-20100316.patch
 Patch101:	gpu-drm-nouveau-fix-missing-locking.patch
 # nouveau for 2010.0 backports
 Patch110:	gpu-drm-nouveau-add-nv50-nv8x-nv9x-ctxprogs-generator.patch
+
+# netfilter ipset support (http://ipset.netfilter.org)
+# Patch for 2010.1 series
+Patch120:	net-netfilter-ipset-4.2.patch
+# Patch for 2010.0 backports
+Patch125:	net-netfilter-ipset-2.4.9.patch
 
 #END
 ####################################################################
@@ -560,9 +566,13 @@ cd %src_dir
 # nouveau for 2010.1 series
 %patch100 -p1
 %patch101 -p1
+# ipset for 2010.1 series
+%patch120 -p1
 %else
 # nouveau for 2010.0 backports
 %patch110 -p1
+# ipset for 2010.0 backports
+%patch125 -p1
 %endif
 
 # PATCH END
@@ -1090,6 +1100,30 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Apr 10 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33.2-2mdv
+- update ipset conditionally:
+    * update to 4.2 for 2010.1
+    * keep 2.4.9 for 2010.0 backports
+- add patches:
+    * DG01: drm: edid: allow certain bogus edids to hit a fixup path
+	    rather than fail
+    * DG02: drm: radeon: add new rs880 pci id
+    * DG03: drm: remove the edid blob stored in the edid property
+	    when it is disconnected
+    * DG04: drm: radeon kms: never-treat-rs4xx-as-agp.patch
+    * DG05: drm: radeon kms: fix null pointer dereference if memory
+	    allocation failed in a simple way
+    * DG06: drm: radeon kms: don't print error on erestartsys
+    * DG07: drm: radeon kms: fix pal tv-out support on legacy igp chips
+    * DG08: drm: return enodev if the inode mapping changes
+    * DN20: iwlwifi: fix regulatory code
+    * DN21: iwlwifi: counting number of tfds can be free for 4965
+    * DN22: iwlwifi: check for valid qos packet before free on 4965
+    * DN23: iwlwifi: fix range checking issue on 3945
+    * NM01: mac80211: fix preq processing and one small bug
+    * NM02: mac80211: move netdev queue enabling to correct spot
+    * NM03: mac80211: tear down all agg queues when restart reconfig hw
+
 * Fri Apr  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33.2-1mdv
 - update to 2.6.33.2
 - update patches:
