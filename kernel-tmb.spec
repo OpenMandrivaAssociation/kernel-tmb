@@ -13,7 +13,7 @@
 %define kstable		2
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1100,6 +1100,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Apr 17 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33.2-3mdv
+- add patches:
+    * DG09: drm: edid quirks for envision en2028
+    * DG10: drm: radeon: r300-ad only has one quad pipe
+    * DG11: drm: radeon kms: fix washed-out image on legacy tv-dac
+    * DG12: drm: radeon kms: combios: verify dac_adj values are valid
+    * DG13: drm: i915: fix tiling limits for i915 class hw
+    * DM11: dm-raid45 buildfix (and re-enable it on all configs)
+
 * Sat Apr 10 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33.2-2mdv
 - update ipset conditionally:
     * update to 4.2 for 2010.1
