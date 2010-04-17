@@ -3,17 +3,17 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	33
+%define sublevel	34
 
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		0
-%define kgit		0
-%define kstable		2
+%define kpatch		rc4
+%define kgit		4
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -192,12 +192,6 @@ Source11:	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/
 Patch1:   	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2
 Source10: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2.sign
 %endif
-
-# nouveau for 2010.1 series
-Patch100:	gpu-drm-nouveau-git-20100316.patch
-Patch101:	gpu-drm-nouveau-fix-missing-locking.patch
-# nouveau for 2010.0 backports
-Patch110:	gpu-drm-nouveau-add-nv50-nv8x-nv9x-ctxprogs-generator.patch
 
 # netfilter ipset support (http://ipset.netfilter.org)
 # Patch for 2010.1 series
@@ -563,14 +557,9 @@ cd %src_dir
 %{patches_dir}/scripts/apply_patches
 
 %if %{mdkversion} > 201000
-# nouveau for 2010.1 series
-%patch100 -p1
-%patch101 -p1
 # ipset for 2010.1 series
 %patch120 -p1
 %else
-# nouveau for 2010.0 backports
-%patch110 -p1
 # ipset for 2010.0 backports
 %patch125 -p1
 %endif
@@ -1100,6 +1089,35 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Apr 17 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc4.4.1mdv
+- update to 2.6.34-rc4-git4
+- drop merged patches:
+    * Patch100,101,110: Nouveau updates
+    * AX01: HPET erratum fix
+    * AX02, DA02: Intel Cougar Point Support
+    * DG01-DG13: drm fixes
+    * DM50, DM51: v4l-dvb snapshot
+    * DN10: Atheros AR8151x support
+    * DN15: b43 pio at runtime
+    * DN20-DN23: iwlwifi fixes
+    * DS01, DS02: Alsa snapshot
+    * DS50: broadcom crystalhd
+    * DU01: usb settling delay
+    * FB01: btfrs fix
+    * FC01: ceph support
+    * FS10, FS11: squashfs lzma support
+    * NM01-NM03: mac80211 fixes
+- update / add patches:
+    * AA01: 2.6.34-r4-git4+ fixes from git (alsa, xfs, acpi, ...)
+    * CK01, CK02: ck1 patchset (BFS scheduler) + buildfix
+    * DM12: fix dm-raid45 build with 2.6.34
+    * FR01-FR11: reiser4 support (from mmotm)
+    * KP01: TucOnIce 3.1 for 2.6.34-rc4
+    * MC53: dazuko buildfix for 2.6.34
+    * MC83: viahss buildfix for 2.6.34
+    * MC93: vloopback buildfix for 2.6.34
+- update defconfigs
+
 * Sat Apr 17 2010 Thomas Backlund <tmb@mandriva.org> 2.6.33.2-3mdv
 - add patches:
     * DG09: drm: edid quirks for envision en2028
