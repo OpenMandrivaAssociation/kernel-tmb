@@ -8,8 +8,8 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc4
-%define kgit		4
+%define kpatch		rc5
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
@@ -1089,6 +1089,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Apr 20 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc5.1mdv
+- update to 2.6.34-rc5
+- drop merged patch:
+    * AA01: upstream git update
+- enable CONFIG_KSM (mdv #58384)
+
 * Sat Apr 17 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc4.4.1mdv
 - update to 2.6.34-rc4-git4
 - drop merged patches:
