@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Apr 25 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc5.6.3mdv
+- add patch:
+    * AA01: revert: tcp bind() fix when many ports are bound (it breaks boot)
+
 * Sun Apr 25 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc5.6.2mdv
 - update to 2.6.34-rc5-git6
 
