@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc5
-%define kgit		6
+%define kgit		7
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Apr 26 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc5.7.4mdv
+- update to 2.6.34-rc5-git7
+    * fix for ipv6 boot crash
+    * fixes ext4 corruption
+- drop patch:
+    * AA01: revert: tcp bind() fix when many ports are bound (fixed in -git7)
+
 * Sun Apr 25 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc5.6.3mdv
 - add patch:
     * AA01: revert: tcp bind() fix when many ports are bound (it breaks boot)
