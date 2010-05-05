@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		0
+%define kgit		4
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed May  5 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc6.4.2mdv
+- update to 2.6.34-rc6-git4
+
 * Fri Apr 30 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc6.1mdv
 - update to 2.6.34-rc6
 - update defconfigs
