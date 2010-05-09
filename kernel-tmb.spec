@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc6
-%define kgit		4
+%define kgit		6
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat May  8 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc6.6.3mdv
+- update to 2.6.34-rc6-git6
+- disable PRINTK_TIME
+- update defconfigs
+
 * Wed May  5 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc6.4.2mdv
 - update to 2.6.34-rc6-git4
 
