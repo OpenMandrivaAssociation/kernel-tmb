@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc6
-%define kgit		6
+%define kpatch		0
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,36 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon May 17 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-1mdv
+- update to 2.6.34 final
+
+* Sun May 16 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc7.9.5mdv
+- update to 2.6.34-rc7-git9
+- drop merged patches:
+    * AA05: vfs fixes from stable queue
+
+* Sat May 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc7.8.4mdv
+- update to 2.6.34-rc7-git8
+- drop merged patches:
+    * AA01-A04: git fixes for hid, autofs, alsa, network, radeon
+- add patches:
+    * AA05: vfs fixes from stable queue
+    * DN01: iwlwifi: fix internal scan race
+    * DN02: iwlagn: work around rate scaling reset delaY
+
+* Tue May 11 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc7.3mdv
+- add patches:
+    * AA03: git fixes for network queued for final
+    * AA04: git fixes for radeon queued for final
+
+* Mon May 10 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc7.2mdv
+- add patches:
+    * AA01: git fixes for hid, autofs and alsa queued for final
+    * AA02: git fixes for wireless queued for final
+
+* Mon May 10 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc7.1mdv
+- update to 2.6.34-rc7
+
 * Sat May  8 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-0.rc6.6.3mdv
 - update to 2.6.34-rc6-git6
 - disable PRINTK_TIME
