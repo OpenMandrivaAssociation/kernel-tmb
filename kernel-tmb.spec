@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		6
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -222,7 +222,7 @@ Use these kernels at your own risk !!
 %define requires1 	mkinitrd >= 6.0.92-12mnb
 %define requires2 	bootloader-utils >= 1.12-1
 %define requires3 	sysfsutils >= 1.3.0-1 module-init-tools >= 3.2-0.pre8.2
-%define requires4	kernel-firmware >= 20090604-4mnb2
+%define requires4	kernel-firmware >= 20100217-1mnb2
 
 %define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 88
 
@@ -1089,6 +1089,61 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed May 26 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-6mdv
+- add patches:
+    * DN03: iwlwifi: Recover TX flow stall due to stuck queue
+    * DN04: iwl3945: Eenable stuck queue detection on 3945
+    * FS10: readd SquashFS lzma support
+    * NM10: mac80211: Fix robust management frame handling
+- update patches:
+    * FS01: unionfs 2.5.4 for 2.6.34-rc0
+    * KP01: TuxOnIce 3.1 for 2.6.34
+- update defconfigs
+
+* Sun May 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-5mdv
+- add patches:
+    * DG13: radeon/kms: R3XX-R4XX fix GPU reset code
+    * DG14: radeon/kms/atom: autoload hwmon drivers
+
+* Sun May 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-4mdv
+- add patches:
+    * DB10: firmware_class: fix memory leak introduced by the patch 6e03a201bbe:
+    	    firmware: speed up request_firmware()
+    * DG01: radeon/kms: fence cleanup + more reliable GPU lockup detection V4
+    * DG02: radeon/kms: rename gpu_reset to asic_reset
+    * DG03: radeon/kms: simplify & improve GPU reset V2
+    * DG04: radeon/kms: update atombios.h power tables for evergreen
+    * DG05: radeon/kms: add support for evergreen power tables
+    * DG06: radeon/kms/evergreen: add gart support
+    * DG07: radeon/kms/evergreen: add soft reset function
+    * DG08: radeon/kms/evergreen: implement gfx init
+    * DG09: radeon/kms/evergreen: setup and enable the Command Processor
+	    (needs the kernel-firmware-extra >= 20100429-2mnb for evergreen me/pfp firmwares)
+    * DG10: radeon/kms/evergreen: implement irq support
+	    (needs the radeon-rlc-firmware >= 1-3mdv for evergreen rlc firmwares)
+    * DG11: radeon/kms/evergreen: add (hotplug detect) support for digital monitors
+    * DG12: radeon/kms/evergreen: fix cypress firmware typo
+    * DG20: radeon/kms: reset ddc_bus in object header parsing
+    * DG21: radeon/kms/atom: fix typo in LVDS panel info parsing
+    * DG22: drm/edid: fix 1600x1200@75Hz
+    * DG23: drm/edid: Fix 1024x768@85Hz
+    * DG24: drm/i915: Configure the TV sense state correctly on GM45 to make TV  detection reliable
+    * DM20: md: Fix read balancing in RAID1 and RAID10 on drives > 2TB
+    * DM21: md: fix counting of write targets on raid1
+    * DM22: md: avoid possible oops and array stop on linear layout
+    * DP10: pci: disable MSI on Via K8M800 (fixes problems with AHCI)
+    * DP11: pci: disable MSI for MCP55 on P5N32-E SLI (fixes NIC problems)
+
+* Thu May 20 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-3mdv
+- fix patch CK01 to actually contain BFS v318 (and not v317)
+
+* Thu May 20 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-2mdv
+- update patch:
+    * CK01: ck1 patchset for 2.6.34 final (including BFS v318)
+- drop patch:
+    * CK02: ck patchset buildfix
+- enable CGROUPS on all configs (to support systemd, #59345)
+
 * Mon May 17 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-1mdv
 - update to 2.6.34 final
 
