@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		6
+%define kbuild		7
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat May 29 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-7mdv
+- add patch:
+    * DG25: drm/radeon: fix the r100/r200 ums block 0 page fix
+- drop patch:
+    * DG24: drm/i915: Configure the TV sense state correctly on
+	    GM45 to make TV  detection reliable (as it got reverted
+	    upstream in commit: d4b74bf07873da2e94219a7b67a334fc1c3ce649)
+
 * Wed May 26 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-6mdv
 - add patches:
     * DN03: iwlwifi: Recover TX flow stall due to stuck queue
