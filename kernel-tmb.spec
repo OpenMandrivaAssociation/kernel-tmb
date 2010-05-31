@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		7
+%define kbuild		8
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun May 30 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-8mdv
+- add patches:
+    * AX01: x86: Avoid hlt check for newer cpus
+    * AX02: x86: cacheinfo: Turn off L3 cache index disable feature in
+	    virtualized environments, fixes crash on boot on xen.
+    * AX10: x86, cpu: Add AMD core boosting feature flag to /proc/cpuinfo
+    * AX11: powernow-k8: Add core performance boost support
+    * DN10: ath9k_hw: fix hardware deinit panic
+    * FR01: Reiser4 for 2.6.34 final
+    * KP10: panic: call console_verbose() in panic to ensure a directly
+	    called panic will print a backtrace
+    * KP11: posix_timer: Fix error path in timer_create
+- drop patches:
+    * FR02-FR11 reiser4 patches (replaced by FR01)
+
 * Sat May 29 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-7mdv
 - add patch:
     * DG25: drm/radeon: fix the r100/r200 ums block 0 page fix
