@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		8
+%define kbuild		9
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,34 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jun 19 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-9mdv
+- add patches:
+    * DA01: ACPI / EC / PM: Fix race between EC transactions and
+	    system suspend
+    * DA02: ACPI / EC / PM: Fix names of functions that block/unblock
+	    EC transactions
+    * DA03: ACPI: Unconditionally set SCI_EN on resume
+    * DA04: suspend: Move NVS save/restore code to generic suspend
+	    functionality (#59703)
+    * DA05: ACPI: Store NVS state even when entering suspend to RAM (#59703)
+    * DA20: libata: disable ATAPI AN by default
+	    (Fixes issue with ATAPI devices which raise AN when hit by
+	     commands issued by open(). This leads to infinite loop of
+	     AN -> MEDIA_CHANGE uevent -> udev open() to check media -> AN)
+    * DG30: drm/i915: Reject bind_to_gtt() early if object > aperture
+    * DN15: ath5k: consistently use rx_bufsize for RX DMA
+    * DN20: r8169: fix random mdio_write failures (#59723)
+    * DN21: r8169: fix mdio_read and update mdio_write according to hw
+	    specs (#59723)
+    * DS30: staging: vt6655: Fix kernel BUG on driver wpa initialization
+    * FS20: Btrfs: add a permission check for setfacl (CVE-2010-2071)
+    * FS25: ext4: Prevent creation of files larger than RLIMIT_FSIZE using
+	    fallocate (fixes Ext4 Security Bypass Vulnerability)
+    * FS30: GFS2: Fix permissions checking for setflags ioctl (CVE-2010-1641)
+    * NM11: mac80211: give warning if building w/out rate ctrl algorithm
+    * NM12: mac80211: fix rts threshold check
+    * NM13: mac80211: fix handling of 4-address-mode in ieee80211_change_iface
+
 * Sun May 30 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-8mdv
 - add patches:
     * AX01: x86: Avoid hlt check for newer cpus
