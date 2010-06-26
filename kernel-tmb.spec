@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		9
+%define kbuild		10
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,51 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jun 26 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-10mdv
+- add patches:
+    * AX20: x86/amd-iommu: Fix crash when request_mem_region fails
+    * AX21: x86/amd-iommu: Fall back to GART if initialization fails
+    * DA10: acpi/video: fix acpi_backlight=video to correctly enable
+	    ACPI_VIDEO_BACKLIGHT_FORCE_VIDEO
+    * DA25: ahci: add support for for JMicron JMB362
+    * DA30: sata_nv: don't diddle with nIEN on mcp55, as it gets stuck once
+	    set, and mcp55 has its own IRQ masking mechanism so there's no
+	    reason to mess with nIEN in the first place.
+	    (fixes liteon bluray iHOS104-08 error)
+    * DA31: sata_nv: use ata_pci_sff_activate_host() instead of
+	    ata_host_activate() (fixes IRQ assignment failure in legacy mode)
+    * DA35: sata_via: magic vt6421 fix for transmission problems with recent
+	    WD drives
+    * DG26: drm/radeon/kms: don't default display priority to high on rs4xx
+    * DG27: drm/radeon/kms: release AGP bridge at suspend
+    * DG31: drm/i915: Rebind bo if currently bound with incorrect alignment
+    * DG32: drm/i915: Kill dangerous pending-flip debugging
+    * DM23: md: remove unneeded sysfs files more promptly
+    * DM24: md: set mddev readonly flag on blkdev BLKROSET ioctl
+    * DN05: iwlwifi: add missing rcu_read_lock
+    * DN06: iwlwifi: recalculate average tpt if not current
+    * DN16: ath5k: retain promiscuous setting
+    * DN25: ar9170usb: add support for more devices:
+	    * Netgear WNA1000
+	    * Proxim ORiNOCO Dual Band 802.11n USB Adapter
+	    * 3Com Dual Band 802.11n USB Adapter
+	    * H3C Dual Band 802.11n USB Adapter
+	    * WNC Generic 11n USB dongle
+    * DN26: ar9170usb: fix panic triggered by undersized rxstream buffer
+    * DN30: p54usb: Add device ID for Dell WLA3310 USB
+    * DP12: pci: disable msi on AMD rs4xx internal gfx bridges
+    * DS31: Staging: rt2870: add device ID of MelCo.,Inc. WLI-UC-G301N
+    * DU01: usb/option: add PID for ZTE product
+    * DU02: usb/option: OLIVETTI OLICARD100 support
+    * DU05: usb/qcaux: add Samsung U520 device ID
+    * DV10: V4L/DVB: uvcvideo: Prevent division by 0 when control step value is 0
+    * FS26: ext4: check s_log_groups_per_flex in online resize cod
+    * FS27: ext4: Make sure the MOVE_EXT ioctl can't overwrite append-only files
+    * FS35: VFS: fix recent breakage of FS_REVAL_DOT
+    * MM01: tmpfs: insert tmpfs cache pages to inactive list at first
+	    (fixes OOM killer triggering on parallel file copy on tmpfs)
+    * NM14: mac80211: fix deauth before assoc
+
 * Sat Jun 19 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-9mdv
 - add patches:
     * DA01: ACPI / EC / PM: Fix race between EC transactions and
