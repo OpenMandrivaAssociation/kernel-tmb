@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		10
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,37 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Jul 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34.1-2mdv
+- update patch:
+    * DG00: gpu tree from 2.6.35-rc6
+- add patch:
+    * NM10: bridge: fdb cleanup runs too often
+    * NI20: tcp: tcp_synack_options() fix
+    * NI21: tcp: use correct net ns in cookie_v4_check()
+
+* Mon Jul  5 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34.1-1mdv
+- update to 2.6.34.1 final
+- drop patch:
+    * AA01: 2.6.34.1-rc1
+
+* Sun Jul  4 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-12mdv
+- add patch:
+    * DG00: gpu tree from 2.6.35-rc3-git8
+- drop patches:
+    * DG01-DG14, DG22: radeon evergreen patches (merged in DG00)
+
+* Sat Jul  3 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-11mdv
+- add patch:
+    * AA01: 2.6.34.1-rc1
+- rediff patch:
+    * ck1 patchset for 2.6.34 (including BFS)
+- drop merged patches:
+    * AX20, AX21, DA10, DA20, DA25, DA30, DA31, DA35, DG20, DG21, DG23
+    * DG25, DG26, DG27, DG30, DG31, DG32, DM20, DM21, DM22, DM23, DM24
+    * DN01, DN05, DN06, DN10, DN15, DN16, DN25, DN26, DN30, DP11, DP12
+    * DS30, DS31, DU01, DU02, DU05, DV10, FS20, FS26, FS27, FS30, FS35
+    * KP11, MM01, NM10, NM11, NM12, NM13, NM14
+
 * Sat Jun 26 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34-10mdv
 - add patches:
     * AX20: x86/amd-iommu: Fix crash when request_mem_region fails
