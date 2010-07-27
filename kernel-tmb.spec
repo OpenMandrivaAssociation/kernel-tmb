@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1089,6 +1089,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jul 27 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34.1-3mdv
+- add patches:
+    * AX20: x86: Send a SIGTRAP for user icebp traps, fixes Wine apps
+	    breakage (mdv #60067)
+    * DG01: agp tree from 2.6.35-rc6
+    * DG02, DG03: gpu: intel fixes from git
+    * FS30: cifs: fix a malicious redirect problem in the DNS lookup
+	    code (CVE-2010-2524)
+
 * Fri Jul 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34.1-2mdv
 - update patch:
     * DG00: gpu tree from 2.6.35-rc6
