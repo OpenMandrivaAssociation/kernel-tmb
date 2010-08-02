@@ -3,17 +3,17 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	34
+%define sublevel	35
 
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		1
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -156,9 +156,7 @@ Source1: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/
 NoSource: 0
 %endif
 # This is for disabling mrproper in -devel rpms
-Source2: 	disable-mrproper-in-devel-rpms.patch
-# This is for disabling the rest of the scripts in -devel rpms
-Source3:	disable-prepare-scripts-configs-in-devel-rpms.patch
+Source2: 	disable-mrproper-prepare-scripts-configs-in-devel-rpms.patch
 
 Source4: 	README.kernel-%{ktag}-sources
 Source5: 	README.Mandriva_Linux_%{ktag}
@@ -192,12 +190,6 @@ Source11:	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/
 Patch1:   	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2
 Source10: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}/patch-%{kversion}.bz2.sign
 %endif
-
-# netfilter ipset support (http://ipset.netfilter.org)
-# Patch for 2010.1 series
-Patch120:	net-netfilter-ipset-4.2.patch
-# Patch for 2010.0 backports
-Patch125:	net-netfilter-ipset-2.4.9.patch
 
 #END
 ####################################################################
@@ -556,13 +548,6 @@ cd %src_dir
 
 %{patches_dir}/scripts/apply_patches
 
-%if %{mdkversion} > 201000
-# ipset for 2010.1 series
-%patch120 -p1
-%else
-# ipset for 2010.0 backports
-%patch125 -p1
-%endif
 
 # PATCH END
 
@@ -709,8 +694,6 @@ SaveDevel() {
 
 	# disable mrproper in -devel rpms
 	patch -p1 -d $TempDevelRoot -i %{SOURCE2}
-	# disable the rest of the scripts in -devel rpms
-	patch -p1 -d $TempDevelRoot -i %{SOURCE3}
 
 	kernel_devel_files=../kernel_devel_files.$devel_flavour
 
@@ -1089,6 +1072,37 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Aug  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35-1mdv
+- update to 2.6.35
+- drop merged patches:
+    * AX01-AX02, AX10-AX11, AX20, DA01-DA05, DB10, DG00-DG03
+    * DN02-DN04, DN20-DN21, FS25, FS30, KP10, MC52, MC53
+    * NB10, NI20-NI21
+- disable patch:
+    * CK01: BFS scheduler, broken for now
+- update patches:
+    * DI01: lirc for 2.6.35-rc6-git
+    * FR01: Reiser4 for 2.6.35-rc6-git
+    * KP01: TuxOnIce 3.1.1.1 for 2.6.35-rc6-git
+    * MC50: dazukofs 3.1.3
+- rediff patches:
+    * DP05: samsung-backlight driver
+    * FS01: unionfs 2.5.4
+    * FS10: squashfs lzma support
+    * MB02: 3rdparty merge
+    * MC51: dazukofs Kconfig and Makefile
+- add patches:
+    * DP06: samsung-backlight 2.6.35 buildfix
+    * FS02: unionfs 2.6.35 buildfix
+    * FS03: unionfs oops fix (pterjan, main kernel)
+    * MB14: ndiswrapper 2.6.35 buildfix
+    * MC52: dazukofs 2.6.35 buildfix
+    * NI12: netfilter IFWLOG 2.6.35 buildfix
+    * NI17: netfilter psd 2.6.35 buildfix
+    * NI31: netfilter ipset 2.6.35 buildfix
+- merge source2 and source3 to a single patch
+- enable CGROUPS, update defconfigs
+
 * Tue Jul 27 2010 Thomas Backlund <tmb@mandriva.org> 2.6.34.1-3mdv
 - add patches:
     * AX20: x86: Send a SIGTRAP for user icebp traps, fixes Wine apps
