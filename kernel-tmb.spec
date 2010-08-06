@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug  6 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35-2mdv
+- add patches:
+    * AP01: powerpc: fix build breakage with make 3.82 (Sam Ravnborg)
+    * CK01: add back and re-enable BFS v320 scheduler
+    * CK02: sched: add above_background_load function
+    * CK03: sched: add Auto SCHED_ISO for xorg (disabled for now)
+    * CK04: sched: add support for custom rr_interval value,
+	    and set desktop(586) to 3 while laptop and server uses 6
+    * DG01: radeon: add some more evergreen and r7xx pci ids
+    * DM20: dm-crypt: Scale to multiple cpus v2 (Andi Kleen)
+    * DM21: dm-crypt: Use generic private pointer in per-cpu struct (Milan Broz)
+    * KT01: sched: Revert nohz_ratelimit(), as it causes excessive wakeups
+    * MM01: mm: add transparent hugepage support (Andrea Arcangeli)
+- update defconfigs
+
 * Mon Aug  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35-1mdv
 - update to 2.6.35
 - drop merged patches:
