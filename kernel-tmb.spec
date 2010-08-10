@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,19 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Aug 10 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.1-1mdv
+- update to 2.6.35.1
+- add patch:
+    * MD30: md/raid10: fix deadlock with unaligned read during resync
+- update patches:
+    * CK01: Con Colivas ck patchset including BFS v0.323
+    * FR01: Reiser4 for 2.6.35 final
+    * KP01: TuxOnIce 3.1.1.1 for 2.6.35 final
+- drop merged patches:
+     * CK02, DG01
+- disable patch MM01 (transparent hugepages) for now
+- update defconfigs
+
 * Fri Aug  6 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35-2mdv
 - add patches:
     * AP01: powerpc: fix build breakage with make 3.82 (Sam Ravnborg)
