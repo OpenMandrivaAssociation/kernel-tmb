@@ -13,7 +13,7 @@
 %define kstable		2
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Aug 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.2-2mdv
+- revert samsung-backlight and samsung-laptop merge, it needs more work
+    * re-add DP05, DP06
+    * drop DS50
+- add patches:
+    * AA01: mm: fix page table unmap for stack guard page properly
+      (fixes 2.6.35.2 breakage (mostly triggered with PAE / HIGHPTE))
+    * DP02: ideapad: Only allow camera state to be set to 0 or 1
+    * DP03: ideapad: Stop using global variables
+
 * Sat Aug 14 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.2-1mdv
 - update to 2.6.35.2
 - add patches:
