@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		1
+%define kstable		2
 
 # this is the releaseversion
 %define kbuild		1
@@ -1072,6 +1072,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Aug 14 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.2-1mdv
+- update to 2.6.35.2
+- add patches:
+    * DP01: add Lenovo IdeaPad ACPI Laptop Extras support
+    * DS50: merge samsung-backlight with samsung-laptop that got merged upstream
+- drop merged patches:
+    * AP01, DM30, DP10, KT01
+    * DP05. DP06 (replaced by DS50)
+- rediff patches:
+    * CK01, KP01
+- update defconfigs
+
 * Tue Aug 10 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.1-1mdv
 - update to 2.6.35.1
 - add patch:
