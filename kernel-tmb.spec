@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		2
+%define kstable		3
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug 20 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.3-1mdv
+- update to 2.6.35.3
+    * drop merged patch: AA01
+
 * Sun Aug 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.2-2mdv
 - revert samsung-backlight and samsung-laptop merge, it needs more work
     * re-add DP05, DP06
@@ -1083,7 +1087,7 @@ rm -rf %{buildroot}
     * DP03: ideapad: Stop using global variables
 
 * Sat Aug 14 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.2-1mdv
-- update to 2.6.35.2
+- update to 2.6.35.2 (CVE-2010-2240)
 - add patches:
     * DP01: add Lenovo IdeaPad ACPI Laptop Extras support
     * DS50: merge samsung-backlight with samsung-laptop that got merged upstream
