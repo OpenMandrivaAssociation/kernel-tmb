@@ -13,7 +13,7 @@
 %define kstable		3
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Aug 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.3-2mdv
+- rebase patch:
+    * CK01: fixes missing change to mm/swapfile.c causing an oops
+- add patches:
+    * AX01, AX02: fixes 2.6.35.2 regression: Kernel panic or instant
+                  reboot on udev modules loading (intel-agp, i915)
+                  (kbz #16612)
+    * FS20: NFS: Fix an Oops in the NFSv4 atomic open code
+    * FS21: NFS: fix the return value of nfs_file_fsync()
+
 * Fri Aug 20 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.3-1mdv
 - update to 2.6.35.3
     * drop merged patch: AA01
