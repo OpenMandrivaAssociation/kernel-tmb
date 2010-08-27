@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		3
+%define kstable		4
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug 26 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.4-1mdv
+- update to 2.6.35.4 (CVE-2010-2803)
+  * drop merged patches:
+      AX01, FS20
+
 * Sat Aug 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.3-2mdv
 - rebase patch:
     * CK01: fixes missing change to mm/swapfile.c causing an oops
