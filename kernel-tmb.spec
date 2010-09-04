@@ -13,7 +13,7 @@
 %define kstable		4
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,29 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Sep  4 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.4-2mdv
+- add patches:
+    * AX10: x86, tsc, sched: Recompute cyc2ns_offset's during resume
+            from sleep states
+    * DA60: libata-sff: remove harmful BUG_ON from ata_bmdma_qc_issue
+    * DA61: sata_mv: fix broken DSM/TRIM support (v2)
+    * DA62: pata_cmd64x: revert commit d62f5576 ("pata_cmd64x: fix
+            handling of address setup timings"), as it introduced a
+            divide by zero fault.
+    * DH01: hwmon: (k8temp) Differentiate between AM2 and ASB1
+    * DS20: ALSA: HDA: Add another Sony VAIO quirk for ALC269
+    * DS21: ALSA: HDA: Use model=auto for LG R510
+    * DS22: ALSA: HDA: Rename iMic to Int Mic on Lenovo NB0763 so
+            PulseAudio does not ignore it.
+    * FD01: direct-io: move aio_complete into ->end_io
+    * FE01: ext4: move aio completion after unwritten extent conversion
+    * FX01: xfs: fix untrusted inode number lookup
+    * FX02: xfs: ensure we mark all inodes in a freed cluster XFS_ISTALE
+    * FX03: xfs: move aio completion after unwritten extent conversion
+    * MM10: writeback: write_cache_pages doesn't terminate at nr_to_write <= 0
+            (fixes a regression and improves writeback ~3 times on big files)
+    * NI01: netfilter: fix CONFIG_COMPAT support
+
 * Fri Aug 26 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.4-1mdv
 - update to 2.6.35.4 (CVE-2010-2803)
   * drop merged patches:
