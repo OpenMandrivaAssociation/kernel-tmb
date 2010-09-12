@@ -13,7 +13,7 @@
 %define kstable		4
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Sep 12 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.4-3mdv
+- add patches:
+    * DS40, DS41: Staging: Add initial release of brcm80211,
+                  the new Broadcom 802.11n wireless LAN driver.
+- update defconfigs:
+    * desktop586: support  32 cpus and 4GB RAM
+    * desktop:    support  64 cpus
+    * laptop:     support  32 cpus
+    * server:     support 128 cpus
+- clean config scripts
+
 * Sat Sep  4 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.4-2mdv
 - add patches:
     * AX10: x86, tsc, sched: Recompute cyc2ns_offset's during resume
