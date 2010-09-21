@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		4
+%define kstable		5
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Sep 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.5-1mdv
+- update to 2.6.35.5 (CVE-2010-3081, CVE-2010-3301)
+- drop merged patches:
+    * AX10, DA60, DA61, DA62, DH01, DS20, DS21, DS22
+    * FD01, FE01, FX01, FX02, FX03, MM10, NI01
+- rediff patch: CK01
+
 * Sun Sep 12 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.4-3mdv
 - add patches:
     * DS40, DS41: Staging: Add initial release of brcm80211,
