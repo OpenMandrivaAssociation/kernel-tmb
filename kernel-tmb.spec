@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		5
+%define kstable		6
 
 # this is the releaseversion
 %define kbuild		1
@@ -1072,6 +1072,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Sep 27 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.6-1mdv
+- update to 2.6.35.6 (CVE-2010-2960)
+
 * Tue Sep 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.5-1mdv
 - update to 2.6.35.5 (CVE-2010-3081, CVE-2010-3301)
 - drop merged patches:
