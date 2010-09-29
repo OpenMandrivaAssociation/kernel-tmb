@@ -3,14 +3,14 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	35
+%define sublevel	36
 
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		0
+%define kpatch		rc6
 %define kgit		0
-%define kstable		6
+%define kstable		0
 
 # this is the releaseversion
 %define kbuild		1
@@ -671,7 +671,7 @@ SaveDevel() {
 	cp -fR drivers/acpi/acpica/*.h $TempDevelRoot/drivers/acpi/acpica/
 
 	for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 microblaze mips m32r m68k \
-		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 score sparc v850 xtensa; do
+		 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 score sparc tile v850 xtensa; do
 		rm -rf $TempDevelRoot/arch/$i
 	done
 
@@ -952,7 +952,7 @@ chmod -R a+rX %{target_source}
 # we remove all the source files that we don't ship
 # first architecture files
 for i in alpha arm arm26 avr32 blackfin cris frv h8300 ia64 microblaze mips m32r m68k \
-	 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 score sparc v850 xtensa; do
+	 m68knommu mn10300 parisc powerpc ppc s390 sh sh64 score sparc tile v850 xtensa; do
 	rm -rf %{target_source}/arch/$i
 done
 
@@ -1072,6 +1072,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Sep 29 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-rc6-1mdv
+- update to 2.6.36-rc6
+- drop merged patches:
+    * AX02, DI01, DP01, DP02, DP03, FN01, FU02, FU03
+- disable patches:
+    * CK01-CK04: Con Kolivas -ck1 patchset (broken)
+- update patches:
+    * DM20-DM23: dm-crypt multicore scalability
+    * FU01: unionfs 2.5.6
+    * KP01: TuxOnIce 3.2-rc2
+- rediff patches
+    * MB02: 3rdparty merge
+    * NI11: netfilter IFWLOG
+    * NI16: netfilter PSD
+- rediff source2 and source6
+- add patch:
+    * FS09: revert squashfs support for now in favour of lzma
+- remove tile arch from source/devel rpms
+- disable dazukofs, reiser4, unionfs and ndiswrapper for now (broken)
+- update defconfigs
+
 * Mon Sep 27 2010 Thomas Backlund <tmb@mandriva.org> 2.6.35.6-1mdv
 - update to 2.6.35.6 (CVE-2010-2960)
 
