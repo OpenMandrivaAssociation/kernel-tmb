@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1072,6 +1072,13 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Oct  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-rc6-2mdv
+- add patches:
+    * AA01: 2.6.36-rc6-git2
+    * FU02: unionfs buildfix for 2.6.36
+    * MB15: ndiswrapper buildfix for 2.6.36
+- re-enable unionfs and ndiswrapper build
+
 * Wed Sep 29 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-rc6-1mdv
 - update to 2.6.36-rc6
 - drop merged patches:
@@ -1088,7 +1095,7 @@ rm -rf %{buildroot}
     * NI16: netfilter PSD
 - rediff source2 and source6
 - add patch:
-    * FS09: revert squashfs support for now in favour of lzma
+    * FS09: revert squashfs lzo support for now in favour of lzma
 - remove tile arch from source/devel rpms
 - disable dazukofs, reiser4, unionfs and ndiswrapper for now (broken)
 - update defconfigs
