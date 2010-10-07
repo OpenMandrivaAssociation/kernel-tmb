@@ -8,12 +8,12 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc6
+%define kpatch		rc7
 %define kgit		0
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -213,7 +213,7 @@ Use these kernels at your own risk !!
 ### Global Requires/Provides
 %define requires1 	mkinitrd >= 6.0.92-12mnb
 %define requires2 	bootloader-utils >= 1.12-1
-%define requires3 	sysfsutils >= 1.3.0-1 module-init-tools >= 3.2-0.pre8.2
+%define requires3 	sysfsutils >= 1.3.0-1 module-init-tools >= 3.6-12
 %define requires4	kernel-firmware >= 20100217-1mnb2
 
 %define kprovides 	%{kname} = %{kverrel}, kernel = %{tar_ver}, drbd-api = 88
@@ -1072,14 +1072,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Sat Oct  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-rc6-2mdv
+* Thu Oct  7 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-0.rc7.1mdv
+- update to 2.6.36-rc7
+- drop merged patches:
+    * AA01
+- add patches:
+    * BE01: elevator: fix oops on early call to elevator_change() (upstream git)
+    * DG01: drm: don't drop handle reference on unload (upstream git)
+            drm/ttm: Fix two race conditions + fix busy codepaths (upstream git)
+    * DI01: several input fixes from upstream git maybe ending up in 2.6.36 final
+    * DM30: several media fixes from upstream git maybe ending up in 2.6.36 final
+    * FX01: xfs: properly account for reclaimed inodes (upstream git)
+    * KR01: rcu: move check from rcu_dereference_bh to rcu_read_lock_bh_held (upstream git)
+
+* Sat Oct  2 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-0.rc6.2mdv
 - add patches:
     * AA01: 2.6.36-rc6-git2
     * FU02: unionfs buildfix for 2.6.36
     * MB15: ndiswrapper buildfix for 2.6.36
 - re-enable unionfs and ndiswrapper build
 
-* Wed Sep 29 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-rc6-1mdv
+* Wed Sep 29 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-0.rc6.1mdv
 - update to 2.6.36-rc6
 - drop merged patches:
     * AX02, DI01, DP01, DP02, DP03, FN01, FU02, FU03
