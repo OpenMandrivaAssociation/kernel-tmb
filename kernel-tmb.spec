@@ -9,7 +9,7 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc8
-%define kgit		0
+%define kgit		1
 %define kstable		0
 
 # this is the releaseversion
@@ -1072,8 +1072,8 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Fri Oct 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-0.rc8.1mdv
-- update to 2.6.36-rc8
+* Fri Oct 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-0.rc8.1.1mdv
+- update to 2.6.36-rc8-git1
 - drop merged patches:
     * BE01, DG01, DI01, DM30, FX01
 - add patch:
