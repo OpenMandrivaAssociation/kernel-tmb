@@ -8,7 +8,7 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc7
+%define kpatch		rc8
 %define kgit		0
 %define kstable		0
 
@@ -1072,6 +1072,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Oct 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-0.rc8.1mdv
+- update to 2.6.36-rc8
+- drop merged patches:
+    * BE01, DG01, DI01, DM30, FX01
+- add patch:
+    * DS05: alsa: patch_sigmatel: fix master playback volume mute
+            (patch by Clemens Ladisch, requested by Colin Guthrie)
+
 * Thu Oct  7 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-0.rc7.1mdv
 - update to 2.6.36-rc7
 - drop merged patches:
