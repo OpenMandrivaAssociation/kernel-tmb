@@ -8,8 +8,8 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc8
-%define kgit		1
+%define kpatch		0
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
@@ -514,6 +514,7 @@ Version: 	%{kversion}
 Release: 	%{rpmrel}
 Summary: 	Various documentation bits found in the %{kname} source
 Group: 		Books/Computer books
+Buildarch:	noarch
 
 %description -n %{kname}-doc
 This package contains documentation files from the %{kname} source.
@@ -1072,6 +1073,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Oct 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-1mdv
+- update to 2.6.36 final
+- update patch:
+    * DM20: dm-crypt: scale to multiple cpus v3
+    * DS05: ALSA: HDA: Sigmatel: work around incorrect master muting
+            (patch by Clemens Ladisch, requested by Colin Guthrie)
+    * FS10: make squashfs lzma support coexist with lzo
+- drop patches:
+    * DM21-DM23: (merged in DM20)
+    * FS09: revert of squashfs lzo support (not needed anymore)
+- make doc subpackage noarch
+
 * Fri Oct 15 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-0.rc8.1.1mdv
 - update to 2.6.36-rc8-git1
 - drop merged patches:
