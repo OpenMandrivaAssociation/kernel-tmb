@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1073,6 +1073,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Oct 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-2mdv
+- add patches:
+    * AM01: microblaze: fix build with make 3.82
+    * BC01: cfq: improve fsync performance for small files
+    * DS06: ALSA: hda - Fix wrong TLV mute bit for STAC/IDT codecs
+            (Patch by Takashi Iwai, requested by Colin Guthrie)
+    * DS07: ALSA: tlv - Define numbers in sound/tlv.h (Takashi Iwai)
+- update patches:
+    * CK01: Con Kolivas -ck1 patchset including BFS v357
+
 * Thu Oct 21 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-1mdv
 - update to 2.6.36 final
 - update patch:
