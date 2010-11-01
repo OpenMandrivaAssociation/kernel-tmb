@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1073,6 +1073,26 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon  Nov  1 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-3mdv
+- update patch:
+    * KP01: TuxOnIce 3.2-rc2 for 2.6.36 final
+- add patches:
+    * DC01: agp tree from 2.6.37-rc1
+    * DC10: changes from 2.6.37-rc1 needed for updated agp tree
+    * DG01: gpu tree from 2.6.37-rc1
+    * DG10: changes from 2.6.37-rc1 needed for updated gpu tree
+    * DS01: Alsa tree from 2.6.37-rc1
+- add firewire (JuJu) fixes from upstream (Clemens Ladisch):
+    * DF01: firewire: ohci: fix buffer overflow in AR split packet handling
+    * DF02: firewire: ohci: fix race in AR split packet handling
+    * DF03: firewire: ohci: avoid reallocation of AR buffers
+    * DF04: firewire: ohci: fix race when reading count in AR descriptor
+- add kbuild patch:
+    * KB01: kbuild: do not remove a.out, kvm.h and kvm_para.h on headers_install_all
+            (Kirill A. Shutemov, LKML)
+- drop merged patches:
+    * DS05-DS07
+
 * Sat Oct 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-2mdv
 - add patches:
     * AM01: microblaze: fix build with make 3.82
