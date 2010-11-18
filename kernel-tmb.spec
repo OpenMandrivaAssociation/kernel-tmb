@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		3
+%define kbuild		4
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1073,6 +1073,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Nov 18 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-4mdv
+- add patches:
+    * CK02: bfs357 worker_fix triggering BUG_ON with wireless
+    * DC02: update agp tree to 2.6.37-rc2 level
+    * DG02: update gpu tree to 2.6.37-rc2 level
+    * DS02: update Alsa tree to 2.6.37-rc2 level
+    * FB01: btrfs tree from 2.6.37-rc1
+    * FB02: btrfs: close_bdev_exclusive() should use the same @flags as
+            the matching open_bdev_exclusive() (Tejun Heo, LKML)
+- update patches:
+    * FU01: unionfs 2.5.7
+- drop patches:
+    * FU02: unionfs buildfix (not needed anymore)
+
 * Mon  Nov  1 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-3mdv
 - update patch:
     * KP01: TuxOnIce 3.2-rc2 for 2.6.36 final
