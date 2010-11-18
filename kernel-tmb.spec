@@ -1084,8 +1084,6 @@ rm -rf %{buildroot}
             the matching open_bdev_exclusive() (Tejun Heo, LKML)
 - update patches:
     * FU01: unionfs 2.5.7
-- drop patches:
-    * FU02: unionfs buildfix (not needed anymore)
 
 * Mon  Nov  1 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-3mdv
 - update patch:
