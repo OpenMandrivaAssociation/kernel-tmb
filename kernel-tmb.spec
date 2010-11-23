@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		1
 
 # this is the releaseversion
-%define kbuild		4
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -446,7 +446,7 @@ processor mode, use the "nosmp" boot parameter.
 %package -n %{kname}-source-%{buildrel}
 Version: 	%{fakever}
 Release: 	%{fakerel}
-Requires: 	glibc-devel, ncurses-devel, make, gcc, perl
+Requires: 	glibc-devel, ncurses-devel, make, gcc, perl, diffutils
 Summary: 	The Linux source code for %{kname}-%{buildrel}
 Group: 		Development/Kernel
 Autoreqprov: 	no
@@ -1073,6 +1073,24 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Nov 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36.1-1mdv
+- make kernel-source require diffutils as it uses both diff and cmp
+  during build (mdv #61719)
+- update to 2.6.31.1
+- add patch:
+    * DG03: update gpu tree to 2.6.37-rc3 level
+    * DI01: add intel_idle fixes (Len Brown, LKML)
+    * FE01: ext4: fix NULL pointer dereference in print_daily_error_info()
+    * KS01: sched, cgroup: Fixup broken cgroup movement (Peter Zijlstra, LKML)
+- update patch:
+    * FR01: reiser4 for 2.6.36
+- drop patch:
+  * AA01
+
+* Sat Nov 20 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-5mdv
+- add patch:
+    * AA01: 2.6.36.1-rc1
+
 * Thu Nov 18 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36-4mdv
 - add patches:
     * CK02: bfs357 worker_fix triggering BUG_ON with wireless
