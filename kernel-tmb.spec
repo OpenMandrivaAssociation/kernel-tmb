@@ -13,7 +13,7 @@
 %define kstable		1
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1073,11 +1073,51 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Nov 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36.1-2mdv
+- add patches:
+    * BL01: block: Ensure physical block size is unsigned int
+    * BL02: block: fix accounting bug on cross partition merges
+    * BL03: block: Fix race during disk initialization
+    * BL04: block: limit vec count in bio_kmalloc() and bio_alloc_map_data()
+    * BL05: block: take care not to overflow when calculating total iov length
+    * BL06: block: check for proper length of iov entries in blk_rq_map_user_iov()
+    * DS04: Alsa fixes queued for 2.6.37-rc4
+    * DV01: viafb: fix i2c_transfer error handling
+    * FN01: NFSv4: Don't call nfs4_reclaim_complete() on receiving
+            NFS4ERR_STALE_CLIENTID
+    * FN02: NFSv4: Don't call nfs4_state_mark_reclaim_reboot()
+            from error handlers
+    * FN03: NFSv4: Fix open recovery
+    * FN04: NFS: Don't SIGBUS if nfs_vm_page_mkwrite races with
+            a cache invalidation
+    * NI40: irda: Fix parameter extraction stack overflow
+    * NI41: irda: Fix heap memory corruption in iriap.c
+    * NM01: mac80211: minstrel_ht A-MPDU fix
+    * NM02: mac80211: fix possible null-pointer de-reference
+    * NM03: mac80211: fix channel assumption for association done work
+    * NM04: mac80211: fix offchannel assumption upon association
+    * NM05: mac80211: Fix signal strength average initialization for CQM events
+    * NM06: mac80211: reset connection idle when going offchannel
+    * NM07: mac80211: add helper for reseting the connection monitor
+    * NM08: mac80211: make the beacon monitor available externally
+    * NM09: mac80211: send last 3/5 probe requests as unicast
+    * NM10: mac80211: disable beacon monitor while going offchannel
+    * NM11: mac80211: use correct station flags lock
+    * NM12: mac80211: clear txflags for ps-filtered frames
+    * NM13: mac80211: reset probe send counter upon connection timer reset
+    * NM14: mac80211: Fix ibss station got expired immediately
+    * NM15: mac80211: don't sanitize invalid rates
+    * NM16: mac80211: delete AddBA response timer
+    * NW01: cfg80211: fix BSS double-unlinking
+    * NW02: cfg80211: fix locking
+    * NW03: cfg80211: fix regression on processing country IEs
+
+
 * Tue Nov 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36.1-1mdv
 - make kernel-source require diffutils as it uses both diff and cmp
   during build (mdv #61719)
 - update to 2.6.31.1
-- add patch:
+- add patches:
     * DG03: update gpu tree to 2.6.37-rc3 level
     * DI01: add intel_idle fixes (Len Brown, LKML)
     * FE01: ext4: fix NULL pointer dereference in print_daily_error_info()
