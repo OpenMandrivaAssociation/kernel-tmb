@@ -3,17 +3,17 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	36
+%define sublevel	37
 
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		0
-%define kgit		0
-%define kstable		1
+%define kpatch		rc3
+%define kgit		2
+%define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -160,9 +160,6 @@ Source2: 	disable-mrproper-prepare-scripts-configs-in-devel-rpms.patch
 
 Source4: 	README.kernel-%{ktag}-sources
 Source5: 	README.Mandriva_Linux_%{ktag}
-
-# This is for keeping asm-offsets.h and bounds.h in -devel rpms
-Source6: 	kbuild-really-dont-remove-bounds-asm-offsets-headers.patch
 
 Source100: 	linux-%{patch_ver}.tar.xz
 Source101: 	linux-%{patch_ver}.tar.xz.asc
@@ -679,8 +676,6 @@ SaveDevel() {
 	%ifnarch %{ix86} x86_64
 		rm -rf $TempDevelRoot/arch/x86
 	%endif
-	# disable removal of asm-offsets.h and bounds.h
-	patch -p1 -d $TempDevelRoot -i %{SOURCE6}
 
 	# Clean the scripts tree, and make sure everything is ok (sanity check)
 	# running prepare+scripts (tree was already "prepared" in build)
@@ -753,6 +748,7 @@ $DevelRoot/usr
 $DevelRoot/virt
 $DevelRoot/.config
 $DevelRoot/Kbuild
+$DevelRoot/Kconfig
 $DevelRoot/Makefile
 $DevelRoot/Module.symvers
 %doc README.Mandriva_Linux_%{ktag}
@@ -1055,6 +1051,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/COPYING
 %{_kerneldir}/CREDITS
 %{_kerneldir}/Kbuild
+%{_kerneldir}/Kconfig
 %{_kerneldir}/MAINTAINERS
 %{_kerneldir}/Makefile
 %{_kerneldir}/README
@@ -1073,6 +1070,27 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Nov 25 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc3.2.1mdv
+- update to 2.6.377-rc3-git2
+- drop merged patches:
+    * AM01, BC01, BL01-BL06, DC01, DC02, DC10, DF01-DF04, DG01-DG03, DG10
+    * DI01, DS01, DS02, DS04, DS40, DS41, DV01, FB01, FE01, FN01-FN04
+    * KR01, KS01, NI40, NI41, NM01-NM16, NW01-NW03, Source6
+- update patches:
+    * FU01: unionfs 2.5.7 for 2.6.37-rc1
+    * KP01: TuxOnIce 3.2-rc2 for 2.6.37-rc3
+- rediff patches:
+    * CK01, Source2
+- add patches:
+    * CK03: BFS buildfix for 2.6.37
+    * CK04: revert kernel/stop_machine.c to 2.6.36 level (needed for BFS)
+    * DM14: dm-raid45 buildfix for 2.6.37
+    * FR02: reiser4 buildfix for 2.6.37
+    * MC94: vloopback buildfix for 2.6.37
+    * NI13: netfilter IFWLOG buildfix for 2.6.37
+    * SE01: easycap buildfix for 2.6.37
+- update defconfigs
+
 * Tue Nov 23 2010 Thomas Backlund <tmb@mandriva.org> 2.6.36.1-2mdv
 - add patches:
     * BL01: block: Ensure physical block size is unsigned int
