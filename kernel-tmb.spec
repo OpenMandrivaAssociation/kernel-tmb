@@ -8,8 +8,8 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc3
-%define kgit		2
+%define kpatch		rc4
+%define kgit		0
 %define kstable		0
 
 # this is the releaseversion
@@ -1070,6 +1070,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Nov 30 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc4.1mdv
+- update to 2.6.37-rc4
+- update patches:
+    * DM20: dm-crypt: scale to multiple CPUs v5
+    * NI30: ipset 4.4 (herton, main kernel)
+- drop patch:
+    * NI31: ipset buildfix (merged)
+
 * Thu Nov 25 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc3.2.1mdv
 - update to 2.6.377-rc3-git2
 - drop merged patches:
