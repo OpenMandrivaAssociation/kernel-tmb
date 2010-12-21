@@ -8,7 +8,7 @@
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
-%define kpatch		rc6
+%define kpatch		rc7
 %define kgit		0
 %define kstable		0
 
@@ -1070,6 +1070,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Dec 22 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc7.1mdv
+- update to 2.6.37-rc7
+- add patch:
+    * CK05: adapt BFS for calc_global_load change
+
 * Thu Dec 16 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc6.1mdv
 - update to 2.6.37-rc6
 
