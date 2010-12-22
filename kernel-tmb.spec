@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1070,6 +1070,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Dec 22 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc7.2mdv
+- add patch:
+    * DG01: gpu fixes from upstream, queued for 2.6.37 final
+- update patch:
+    * KP01: TuxOnIce 3.2-rc2+ for 2.6.37-rc7
+
 * Wed Dec 22 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc7.1mdv
 - update to 2.6.37-rc7
 - add patch:
