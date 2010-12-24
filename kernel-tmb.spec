@@ -9,11 +9,11 @@
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		rc7
-%define kgit		0
+%define kgit		2
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		3
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1070,6 +1070,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Dec 24 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc7.2.3mdv
+- update to 2.6.37-rc7-git2
+- drop patch:
+    * DG01 (merged)
+- update patches:
+    * FR01: reiser4 support
+    * FR02: reiser4 buildfix for 2.6.37
+- add patch:
+    * FR03: reiser4: fix entd_flush usage
+
 * Wed Dec 22 2010 Thomas Backlund <tmb@mandriva.org> 2.6.37-0.rc7.2mdv
 - add patch:
     * DG01: gpu fixes from upstream, queued for 2.6.37 final
