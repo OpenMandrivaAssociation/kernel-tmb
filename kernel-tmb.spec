@@ -13,7 +13,7 @@
 %define kstable		0
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1070,6 +1070,16 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jan  6 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37-2mdv
+- add patch:
+    * DV01: Fix Oops/race condition in Framebuffer with plymouthd
+            (alissy/herton, main kernel)
+- update patch:
+    * CK01: Con Kolivas ck patchset including BFS v363
+- drop patches:
+    * CK02, CK03, CK05 (merged)
+    * CK04 (not needed anymore)
+
 * Wed Jan  5 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37-1mdv
 - update to 2.6.37 final
 - make backport to 2010.1 possible
