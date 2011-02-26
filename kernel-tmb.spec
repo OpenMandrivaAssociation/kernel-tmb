@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		0
+%define kstable		2
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1070,6 +1070,21 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Jan 26 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37.2-1mdv
+- update to 2.6.37.2
+- rediff patch:
+    * CK01: Con Kolivas -ck1 patchset including BFS
+- add patches:
+    * CK02: adapt BFS for sched changes introduced in 2.6.37.1
+    * AX01, FS01-FS03, LD01-LD02: XZ support for kernel, modules,
+      initrd and squashfs (from upstream 2.6.38-rc1)
+    * NI01: tcp: fix inet_twsk_deschedule() locking
+- update patches:
+    * DV01, DV02: framebuffer deadlock and oops fixes (Herton, main kernel)
+    * KP01: TuxOnIce 3.2rc2
+- drop patch:
+    * DV10: squashfs lzma support (obsoleted by XZ support)
+
 * Thu Jan  6 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37-2mdv
 - add patch:
     * DV01: Fix Oops/race condition in Framebuffer with plymouthd
