@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		2
+%define kstable		4
 
 # this is the releaseversion
 %define kbuild		1
@@ -159,7 +159,6 @@ NoSource: 0
 Source2: 	disable-mrproper-prepare-scripts-configs-in-devel-rpms.patch
 
 Source4: 	README.kernel-%{ktag}-sources
-Source5: 	README.Mandriva_Linux_%{ktag}
 
 Source100: 	linux-%{patch_ver}.tar.xz
 Source101: 	linux-%{patch_ver}.tar.xz.asc
@@ -751,7 +750,6 @@ $DevelRoot/Kbuild
 $DevelRoot/Kconfig
 $DevelRoot/Makefile
 $DevelRoot/Module.symvers
-%doc README.Mandriva_Linux_%{ktag}
 %doc README.kernel-%{ktag}-sources
 EOF
 
@@ -794,7 +792,6 @@ cat > $kernel_files <<EOF
 %dir %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/
 %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/kernel
 %{_modulesdir}/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}/modules.*
-%doc README.Mandriva_Linux_%{ktag}
 %doc README.kernel-%{ktag}-sources
 EOF
 
@@ -926,7 +923,6 @@ CreateKernel server
 ###
 %install
 install -m 644 %{SOURCE4}  .
-install -m 644 %{SOURCE5}  .
 
 cd %src_dir
 
@@ -1056,7 +1052,6 @@ rm -rf %{buildroot}
 %{_kerneldir}/Makefile
 %{_kerneldir}/README
 %{_kerneldir}/REPORTING-BUGS
-%doc README.Mandriva_Linux_%{ktag}
 %doc README.kernel-%{ktag}-sources
 
 %files -n %{kname}-source-latest
@@ -1070,6 +1065,19 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Mar 20 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37.4-1mdv
+- update to 2.6.37.4 (CVE-2011-1013, CVE-2011-1019, CVE-2011-1076)
+- drop merged patch:
+    * NI01
+- add patches:
+    * AX10: x86, quirk: Fix SB600 revision check
+    * DA01: ahci: AHCI mode SATA patch for Intel DH89xxCC DeviceIDs
+    * DA02: ahci: AHCI mode SATA patch for Intel Patsburg SATA RAID controller
+    * DA03: ahci: recognize Marvell 88se9125 PCIe SATA 6.0 Gb/s controller
+    * DG01: drm: Hold the mode mutex whilst probing for sysfs status
+    * DG02: drm/i915: Fix calculation of backlight value in combined mode
+- drop S5, not needed anymore as we ship unprepared kernel-source
+
 * Sat Jan 26 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37.2-1mdv
 - update to 2.6.37.2
 - rediff patch:
