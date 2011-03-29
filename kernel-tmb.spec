@@ -3,14 +3,14 @@
 #
 %define kernelversion	2
 %define patchlevel	6
-%define sublevel	37
+%define sublevel	38
 
 # kernel Makefile extraversion is substituted by
 # kpatch/kgit/kstable wich are either 0 (empty), rc (kpatch),
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		4
+%define kstable		2
 
 # this is the releaseversion
 %define kbuild		1
@@ -729,6 +729,7 @@ $DevelRoot/include/rdma
 $DevelRoot/include/rxrpc
 $DevelRoot/include/scsi
 $DevelRoot/include/sound
+$DevelRoot/include/target
 $DevelRoot/include/trace
 $DevelRoot/include/video
 $DevelRoot/include/xen
@@ -1027,6 +1028,7 @@ rm -rf %{buildroot}
 %{_kerneldir}/include/rxrpc
 %{_kerneldir}/include/scsi
 %{_kerneldir}/include/sound
+%{_kerneldir}/include/target
 %{_kerneldir}/include/trace
 %{_kerneldir}/include/video
 %{_kerneldir}/include/xen
@@ -1065,7 +1067,38 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Sun Mar 20 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37.4-1mdv
+* Tue Mar 29 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.2-1.mga1
+- update to 2.6.38.2
+- drop merged patches:
+    * AX01, AX10, FS01-FS03, LD01-LD02 (xz support)
+    * CK02 (-ck1 patchset buildfix)
+    * DA01-DA03 (ahci ids)
+    * DG01-DG02 (gpu fixes)
+    * DM10-DM14 (dm-raid45, replaced by new dm-raid target)
+    * DM20 (dm-crypt multicore support)
+    * DP06 (samsung-laptop buildfix)
+    * KB01 (headers_install_all export fix)
+    * SE01 (staging fix)
+- rediff patches:
+    * AI01 (Toshiba Equium A60 fix)
+    * DV01-DV02 (framebuffer oops and deadlock fixes)
+    * MB02 (3rdparty merge)
+- update patches:
+    * CK01: Con Kolivas -ck1 patchset including BFS v363
+    * DP05: update samsung-laptop to the one being merged in
+            2.6.39 (replaces old samsung-backlight)
+    * FR01-FR02: reiser4 support
+    * FU01-FU03: unionfs 2.5.8
+    * KP01: TuxOnIce
+    * S2: disable mrproper on -devel rpms
+- add patches:
+    * DA20: acpi video blacklist (needed for shuttle-wmi)
+    * DG10: drm/i915: Fix pipelined fencing
+    * DP10: shuttle-wmi support
+    * MB16: ndiswrapper buildfix
+- update defconfigs and filelists
+
+* Sun Mar 20 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37.4-1.mga1
 - update to 2.6.37.4 (CVE-2011-1013, CVE-2011-1019, CVE-2011-1076)
 - drop merged patch:
     * NI01
@@ -1078,7 +1111,7 @@ rm -rf %{buildroot}
     * DG02: drm/i915: Fix calculation of backlight value in combined mode
 - drop S5, not needed anymore as we ship unprepared kernel-source
 
-* Sat Jan 26 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37.2-1mdv
+* Sat Jan 26 2011 Thomas Backlund <tmb@mandriva.org> 2.6.37.2-1.mga1
 - update to 2.6.37.2
 - rediff patch:
     * CK01: Con Kolivas -ck1 patchset including BFS
