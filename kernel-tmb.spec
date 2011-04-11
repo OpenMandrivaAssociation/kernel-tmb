@@ -13,7 +13,7 @@
 %define kstable		2
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1067,6 +1067,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Apr 11 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.2-2.mga1
+- add -stable queue patches (31 fixes)
+- update patches:
+    * CK01: Con Kolivas -ck3 patchset including bfs 0.400
+    * FR01: reiser4 for 2.6.38 final
+- drop patches:
+    * FR02: reiser4 buildfix (merged)
+
 * Tue Mar 29 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.2-1.mga1
 - update to 2.6.38.2
 - drop merged patches:
