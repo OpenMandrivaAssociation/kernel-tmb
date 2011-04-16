@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		2
+%define kstable		3
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1067,6 +1067,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Apr 16 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.3-1.mga1
+- update to 2.6.38.3
+- drop merged patches
+
 * Mon Apr 11 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.2-2.mga1
 - add -stable queue patches (31 fixes)
 - update patches:
