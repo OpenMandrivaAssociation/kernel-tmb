@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		3
+%define kstable		4
 
 # this is the releaseversion
 %define kbuild		1
@@ -1067,6 +1067,22 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Apr 24 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.4-1.mga1
+- update to 2.6.38.4
+- update patches:
+    * DG10: drm/i915: Fix tiling corruption from pipelined fencing
+    * NI30, NI31: ipset 6.4
+- add patches:
+    * DA60, DA61: ide/ahci/raid support for Intel Panther Point
+    * DF01: add old ieee1394 aliases to new firewire stack
+    * DG11: drm: Retry i2c transfer of EDID block after failure
+    * DG12: drm/i915/dp: Sanity check eDP existence
+    * DG13: drm/i915: Restore missing command flush before interrupt on BLT ring
+    * DG14: drm/i915: Avoid unmapping pages from a NULL address space
+    * DG15: drm/i915: Enable GPU semaphores by default
+    * DM01: add dm-raid45 aliases to the new dm-raid target
+    * DP15: intel_ips: fix monitor thread to use TASK_INTERRUPTIBLE
+
 * Sat Apr 16 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.3-1.mga1
 - update to 2.6.38.3
 - drop merged patches
