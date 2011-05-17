@@ -535,6 +535,14 @@ cd %src_dir
 %define debug --no-debug
 %endif
 
+# enable xz module compression on 2011.0
+%if %{mdkversion} >= 201100
+sed -i  's/^CONFIG_MODULE_COMPRESS_GZIP=y/# CONFIG_MODULE_COMPRESS_GZIP is not set/' \
+        %{patches_dir}/configs/*.config
+sed -i  's/^# CONFIG_MODULE_COMPRESS_XZ is not set/CONFIG_MODULE_COMPRESS_XZ=y/' \
+        %{patches_dir}/configs/*.config
+%endif
+
 %{patches_dir}/scripts/create_configs %debug --user_cpu="%{_arch}"
 
 # make sure the kernel has the sublevel we know it has...
