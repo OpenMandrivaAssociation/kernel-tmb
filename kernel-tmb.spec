@@ -10,7 +10,7 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		4
+%define kstable		6
 
 # this is the releaseversion
 %define kbuild		1
@@ -134,7 +134,7 @@
 #
 # SRC RPM description
 #
-Summary: 	Linux kernel built for Mandriva with modifications by %{ktag}
+Summary: 	Linux kernel built for %vendor with modifications by %{ktag}
 Name:		%{kname}
 Version: 	%{kversion}
 Release: 	%{rpmrel}
@@ -142,7 +142,7 @@ License: 	GPLv2
 Group: 	 	System/Kernel and hardware
 ExclusiveArch: 	%{ix86} x86_64
 ExclusiveOS: 	Linux
-URL: 		http://wiki.mandriva.com/en/Docs/Howto/Mandriva_Kernels#kernel-tmb
+URL: 		http://www.kernel.org
 
 ####################################################################
 #
@@ -193,18 +193,9 @@ Source10: 	ftp://ftp.kernel.org/pub/linux/kernel/v%{kernelversion}.%{patchlevel}
 # Defines for the things that are needed for all the kernels
 #
 %define common_description_kernel The kernel package contains the Linux kernel (vmlinuz), the core of your \
-Mandriva Linux operating system.  The kernel handles the basic functions \
+%vendor Linux operating system.  The kernel handles the basic functions \
 of the operating system:  memory allocation, process allocation, device \
 input and output, etc.
-
-%define common_description_info For instructions for update, see:	\
-http://www.mandriva.com/en/security/kernelupdate			\
-									\
-The %{ktag} kernels is an experimental kernel based on the kernel.org	\
-kernels with added patches. Some of them may/will never end up in	\
-the main kernels due to their experimental nature. Some refer to	\
-this kernel as a 'hackkernel' ...					\
-Use these kernels at your own risk !!
 
 ### Global Requires/Provides
 %define requires1 	mkinitrd >= 6.0.92-12
@@ -221,8 +212,6 @@ BuildRequires: 		gcc >= 4.0.1-5 module-init-tools >= 3.2-0.pre8.2
 
 %description
 %common_description_kernel
-
-%common_description_info
 
 
 # mkflavour() name flavour processor
@@ -243,8 +232,6 @@ Group:		System/Kernel and hardware		\
 %description -n %{kname}-%{1}-%{buildrel}		\
 %common_description_kernel %{expand:%{info_%(echo %{1})}} \
 							\
-%common_description_info				\
-							\
 %if %build_devel					\
 %package -n	%{kname}-%{1}-devel-%{buildrel}		\
 Version:	%{fakever}				\
@@ -262,8 +249,6 @@ This package contains the kernel-devel files that should be enough to build \
 							\
 If you want to build your own kernel, you need to install the full \
 %{kname}-source-%{buildrel} rpm.			\
-							\
-%common_description_info				\
 %endif							\
 							\
 %package -n %{kname}-%{1}-latest			\
@@ -280,8 +265,6 @@ Conflicts:	arch(x86_64)				\
 This package is a virtual rpm that aims to make sure you always have the \
 latest %{kname}-%{1} installed...			\
 							\
-%common_description_info				\
-							\
 %if %build_devel					\
 %package -n %{kname}-%{1}-devel-latest			\
 Version:	%{kversion}				\
@@ -296,8 +279,6 @@ Conflicts:	arch(x86_64)				\
 %description -n %{kname}-%{1}-devel-latest		\
 This package is a virtual rpm that aims to make sure you always have the \
 latest %{kname}-%{1}-devel installed...			\
-							\
-%common_description_info				\
 %endif							\
 							\
 %post -n %{kname}-%{1}-%{buildrel} -f kernel_files.%{1}-post \
@@ -459,7 +440,6 @@ build your own custom kernel that is better tuned to your particular hardware.
 If you only want the files needed to build 3rdparty (nVidia, Ati, dkms-*,...)
 drivers against, install the *-devel-* rpm that is matching your kernel.
 
-%common_description_info
 
 %post -n %{kname}-source-%{buildrel}
 for i in /lib/modules/%{kversion}-%{ktag}-*-%{buildrpmrel}; do
@@ -497,8 +477,6 @@ Conflicts:	arch(x86_64)
 %description -n %{kname}-source-latest
 This package is a virtual rpm that aims to make sure you always have the
 latest %{kname}-source installed...
-
-%common_description_info
 %endif
 
 #
@@ -518,8 +496,6 @@ Various bits of information about the Linux kernel and the device drivers
 shipped with it are documented in these files. You also might want install
 this package if you need a reference to the options that can be passed to
 Linux kernel modules at load time.
-
-%common_description_info
 %endif
 
 #
@@ -859,6 +835,7 @@ EOF
 ### Create kernel Postun script on the fly
 cat > $kernel_files-postun <<EOF
 /sbin/kernel_remove_initrd %{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel}
+rm -rf /lib/modules/%{kversion}-%{ktag}-$kernel_flavour-%{buildrpmrel} > /dev/null
 EOF
 }
 
@@ -1067,6 +1044,40 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu May 12 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.6-1.mga1
+- update to 2.6.38.6
+- drop merged patches:
+    * AX01
+- add patches:
+    * DG20: drm/radeon/kms: add pci id to acer travelmate quirk for 5730
+    * DG21: drm/radeon/kms: fix gart setup on fusion parts (v2) backport
+    * DG22: drm/i915/dp: Be paranoid in case we disable a DP before it is attached
+    * DG23: drm/i915/lvds: Only act on lid notify when the device is on
+    * DG24: drm/i915: Release object along create user fb error path
+    * DP30: revert: "dell-laptop: Toggle the unsupported hardware killswitch"
+            as it causes regressions on existing hw (reported by Colin Guthrie)
+    * SM02: add support for compressing modules with xz
+- clean /lib/modules tree on uninstall
+- disable ACPI_PROCFS_POWER as its obsoleted by the sysfs interface
+- drop hardcoded vendor references from summarys and descriptions (#1161)
+- drop warnings about being experimental kernel
+
+* Wed May  5 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.5-1.mga1
+- update to 2.6.38.5
+- add patches:
+    * AX01: x86, AMD: K8 Rev.A-E processors are subject to erratum 400
+    * AX05: x86, 32bit: raise default vmalloc area to 192MB (Anssi, #904)
+    * DN15: r8169: add support for RTL8105E
+    * DN16: r8169: be verbose when unable to load firmware
+    * DN20: disable powersaving on rt2800 as it is broken (noted by rtp)
+    * DP06-DP08: samsung-laptop: add support for N230, R410P
+    * DP20-DP26: hp-wmi: add support for rfkill on HP Mini 5102 (Anssi)
+- update patches:
+    * FU01: unionfs 2.5.9
+- drop patches:
+    * FU03: unionfs oops fix (obsolete)
+- enable DEBUG_RODATA and DEBUG_SET_MODULE_RONX (tv)
+
 * Sun Apr 24 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.4-1.mga1
 - update to 2.6.38.4
 - update patches:
