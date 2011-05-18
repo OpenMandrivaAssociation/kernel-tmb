@@ -13,7 +13,7 @@
 %define kstable		6
 
 # this is the releaseversion
-%define kbuild		1
+%define kbuild		2
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -97,6 +97,9 @@
 # Build server (i686 / 64GB)/x86_64
 %define build_server		1
 
+# compress modules with xz
+%define build_modxz		0
+
 # End of user definitions
 %{?_without_desktop586: %global build_desktop586 0}
 %{?_without_desktop: %global build_desktop 0}
@@ -107,6 +110,7 @@
 %{?_without_source: %global build_source 0}
 %{?_without_devel: %global build_devel 0}
 %{?_without_debug: %global build_debug 0}
+%{?_without_modxz: %global build_modxz 0}
 
 %{?_with_desktop586: %global build_desktop586 1}
 %{?_with_desktop: %global build_desktop 1}
@@ -117,6 +121,7 @@
 %{?_with_source: %global build_source 1}
 %{?_with_devel: %global build_devel 1}
 %{?_with_debug: %global build_debug 1}
+%{?_with_modxz: %global build_modxz 1}
 
 # For the .nosrc.rpm
 %define build_nosrc 	0
@@ -535,8 +540,8 @@ cd %src_dir
 %define debug --no-debug
 %endif
 
-# enable xz module compression on 2011.0
-%if %{mdkversion} >= 201100
+# enable xz module compression
+%if %build_modxz
 sed -i  's/^CONFIG_MODULE_COMPRESS_GZIP=y/# CONFIG_MODULE_COMPRESS_GZIP is not set/' \
         %{patches_dir}/configs/*.config
 sed -i  's/^# CONFIG_MODULE_COMPRESS_XZ is not set/CONFIG_MODULE_COMPRESS_XZ=y/' \
@@ -1052,7 +1057,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed May 18 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.6-2.mga1
+- disable xz module compression again as not all tools/utils can cope
+  with it (can be enabled with '--with modxz' buildtime flag)
+
 * Thu May 12 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.6-1.mga1
+- enable xz module compression on 2011.0
 - update to 2.6.38.6
 - drop merged patches:
     * AX01
