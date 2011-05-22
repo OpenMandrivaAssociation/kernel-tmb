@@ -10,10 +10,10 @@
 # git (kgit, only the number after "git"), or stable release (kstable)
 %define kpatch		0
 %define kgit		0
-%define kstable		6
+%define kstable		7
 
 # this is the releaseversion
-%define kbuild		2
+%define kbuild		1
 
 %define ktag 		tmb
 %define kname 		kernel-%{ktag}
@@ -1057,6 +1057,18 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun May 22 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.7-1.mga1
+- update to 2.6.38.7 (CVE-2011-1770, CVE-2011-1776, CVE-2011-1927)
+- drop merged patches:
+    * DG20-DG24
+- update patches:
+    * FU01, FU03: rollback unionfs to a working 2.5.8
+- add patches:
+    * AA01: block: rescan partitions on invalidated devices on -ENOMEDIA too
+    * DN17: r8169: add a new chip for RTL8105
+    * DN18: r8169: add a new chip for RTL8168DP
+    * DN19: r8169: add support for RTL8168E/RTL8111E
+
 * Wed May 18 2011 Thomas Backlund <tmb@mandriva.org> 2.6.38.6-2.mga1
 - disable xz module compression again as not all tools/utils can cope
   with it (can be enabled with '--with modxz' buildtime flag)
