@@ -1,0 +1,5 @@
+disable-mrproper-prepare-scripts-configs-in-devel-rpms.patch
+kernel-tmb.patchlist
+linux-2.6.38.tar.bz2
+linux-2.6.38.tar.bz2.sign
+README.kernel-tmb-sources
