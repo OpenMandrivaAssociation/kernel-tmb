@@ -524,7 +524,7 @@ cd %src_dir
 %patch1 -p1
 %endif
 
-%{patches_dir}/scripts/apply_patches
+%{patches_dir}/scripts/autopatch -p1
 
 
 # PATCH END
