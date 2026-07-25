@@ -21,17 +21,17 @@
 %define rpmtag		%distsuffix
 %if %kpatch
 %if %kgit
-%define rpmrel		%mkrel 0.%{kpatch}.%{kgit}.%{kbuild}
+%define rpmrel		0.%{kpatch.1}.%{kgit}.%{kbuild}
 %else
-%define rpmrel		%mkrel 0.%{kpatch}.%{kbuild}
+%define rpmrel		0.%{kpatch.1}.%{kbuild}
 %endif
 %else
-%define rpmrel		%mkrel %{kbuild}
+%define rpmrel		%{kbuild.1}
 %endif
 
 # theese two never change, they are used to fool rpm/urpmi/smart
 %define fakever		1
-%define fakerel		%mkrel 1
+%define fakerel		2
 
 # When we are using a pre/rc patch, the tarball is a sublevel -1
 %if %kpatch
@@ -262,7 +262,7 @@ Release:	%{rpmrel}				\
 Summary:	Virtual rpm for latest %{kname}-%{1}	\
 Group:		System/Kernel and hardware		\
 Requires:	%{kname}-%{1}-%{buildrel}		\
-Obsoletes:	%{kname}-%{1}-smp-latest <= 2.6.22-0.rc5.%{expand:%mkrel 1} \
+Obsoletes:	%{kname}-%{1}-smp-latest <= 2.6.22-0.rc5.%{expand:2} \
 %ifarch %{ix86}						\
 Conflicts:	arch(x86_64)				\
 %endif							\
@@ -277,7 +277,7 @@ Release:	%{rpmrel}				\
 Summary:	Virtual rpm for latest %{kname}-%{1}-devel \
 Group:		Development/Kernel			\
 Requires:	%{kname}-%{1}-devel-%{buildrel}		\
-Obsoletes:	%{kname}-%{1}-smp-devel-latest <= 2.6.22-0.rc5.%{expand:%mkrel 1} \
+Obsoletes:	%{kname}-%{1}-smp-devel-latest <= 2.6.22-0.rc5.%{expand:2} \
 %ifarch %{ix86}						\
 Conflicts:	arch(x86_64)				\
 %endif							\
